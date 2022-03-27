@@ -1,0 +1,4 @@
+# 可视化代码
+# input[0]: 博弈问题的棋盘
+
+return input[0].find(target.concept_id == 'whose next').'value'

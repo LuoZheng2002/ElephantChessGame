@@ -1,0 +1,18 @@
+# 可视化代码
+# input[0]: 博弈问题的棋盘
+# input[1]: 目标队伍的id
+
+# reg[0]: 敌方队伍id
+if input[1] == 'red_team':
+    reg[0] = 'black_team'
+else:
+    reg[0] = 'red_team'
+
+# reg[1]: 棋盘中的棋子数组
+reg[1] = input[0].find(target.concept_id == 'pieces')
+
+# 我们定义只要吃掉敌方的将就算自己赢，不管自己的将有没有被吃掉（理论上是没有），否则就算自己输（理论上自己的将已经被吃掉了）
+if reg[1].exist(target.'piece_owner' == reg[0] and target.'piece_name' == '将'):
+    return False
+else:
+    return True

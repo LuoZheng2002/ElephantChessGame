@@ -1,0 +1,57 @@
+# 可视化代码
+# input[0]: 棋盘
+# input[1]: 要走的队伍的id
+assert input[1] == input[0].find(target.concept_id == 'whose_turn').'value'
+reg[0] &= input[0].find(target.concept_id == 'pieces')  # 找到棋盘中的棋子数组对象，并以引用的形式存储到reg[0]中
+request reg[1], reg[2] s.t.{
+    reg[1].concept_id == 'integer' and  # 需要的两个变量的类型为“整数”
+    reg[2].concept_id == 'integer' and
+    'greater than or equal to'(reg[1], '0') and 'less than or equal to'(reg[1], '8') and  # 框定边界
+    'greater than or equal to'(reg[2], '0') and 'less than or equal to'(reg[2], '9') and
+    reg[0].exist(target.'position'[0] == reg[1] and target.'position'[1] == reg[2]) == True  # 目标位置上应有棋子
+    and  # 目标位置上的棋子是己方的
+    reg[0].find(target.'position'[0] == reg[1] and target.'position'[1] == reg[2]).'piece_owner' == input[1]
+}
+# 选中棋子。这里取引用，之后改reg[3]棋盘也会改
+reg[3] &= reg[0].find(target.'position'[0] == reg[1] and target.'position'[1] == reg[2])
+if reg[3].'piece_name' == '车':
+    request reg[4], reg[5] s.t.{
+        reg[4].concept_id == 'integer' and
+        reg[5].concept_id == 'integer' and
+        'greater than or equal to'(reg[4], '0') and 'less than or equal to'(reg[4], '8') and
+        'greater than or equal to'(reg[5], '0') and 'less than or equal to'(reg[5], '9') and
+        # “横冲直撞”的实现：
+        # 首先reg[4]与reg[1]，reg[5]与reg[2]有且仅有一组相等。
+        # 其次不等的一组的中间不能有己方和敌方的棋子。
+        ((reg[4] == reg[1] and reg[5] != reg[2]
+                and reg[0].exist(target.'position'[0] == reg[1]
+                    and 'greater than'(target.'position'[1], 'min'(reg[5], reg[2]))
+                    and 'less than'(target.'position'[1], 'max'(reg[5], reg[2]))) == False
+            or
+        (reg[5] == reg[2] and reg[4] != reg[1])
+                and reg[0].exist(target.'position'[1] == reg[2]
+                    and 'greater than'(target.'position'[0], 'min'(reg[4], reg[1]))
+                    and 'less than'(target.'position'[0], 'max'(reg[4], reg[1]))) == False)
+        and  # （reg[4], reg[5])处不能是己方棋子。
+        reg[0].exist(target.'piece_owner' == input[1]
+                     and target.'position'[0] == reg[4]
+                     and target.'position'[1] == reg[5]) == False
+    }
+elif reg[3].'piece_name' == '马':
+    ...
+elif ...
+    ...
+# 如果之前有敌方棋子在(reg[4], reg[5])位置上，就把它吃掉
+if reg[0].exist(target.'piece_owner' != input[1]
+                and target.'position'[0] == reg[4]
+                and target.'position'[1] == reg[5]):
+    reg[0].remove(target.'piece_owner' != input[1]
+                and target.'position'[0] == reg[4]
+                and target.'position'[1] == reg[5])
+# 把选中的棋子移到指定的位置。因为reg[3]是棋盘中选中的棋子的引用，因此可以直接修改reg[3]的元素来修改棋盘
+reg[3].'position'[0] = reg[4]
+reg[4].'position'[1] = reg[5]
+if input[1] == 'reds turn':
+    input[0].find(target.concept_id == 'whose_turn').value = 'blacks turn'
+else:
+    input[0].find(target.concept_id == 'whose_turn').value = 'reds turn'

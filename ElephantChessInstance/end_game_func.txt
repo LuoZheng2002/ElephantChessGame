@@ -1,0 +1,9 @@
+# 可视化代码
+# input[0]: 博弈问题的棋盘
+
+reg[0] = input[0].find(target.concept_id == 'pieces')
+if reg[0].exist(target.'piece_owner' == 'red_team' and target.'piece_name' == '将')
+        and reg[0].exist(target.'piece_owner' == 'black_team' and target.'piece_name' == '将'):
+    return False
+else:
+    return True
