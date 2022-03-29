@@ -6,6 +6,7 @@ from exception import AGIException
 
 number_to_letter = {0: 'i', 1: 'j', 2: 'k', 3: 'l', 4: 'm', 5: 'n', 6: 'o', 7: 'p', 8: 'q', 9: 'r',
                     10: 's', 11: 't', 12: 'u', 13: 'v', 14: 'w', 15: 'x', 16: 'y', 17: 'z'}
+letter_to_number = dict([(i, j) for (j, i) in number_to_letter.items()])
 
 
 def iter_to_str(iter_id: int) -> str:
