@@ -4,7 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="" />
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="basic ideas done">
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_getter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/runtime_memory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/numeral_code.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_function_ids.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/reserved_keywords.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/debug.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exception.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/instance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/bytecode_format.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/concept_instance_struct.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/structures.py" beforeDir="false" afterPath="$PROJECT_DIR$/Game/structures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +41,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
       <filtered-out-file-type name="LOCAL_BRANCH" />
@@ -26,6 +53,9 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="26u232TwV99YgH9xjvNgG2oQJC2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -33,16 +63,39 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\CodeDriver" />
+      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\IDs" />
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\Game" />
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ElephantChessInstance" />
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff" />
-      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\Elephant_Chess_Instance" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="concept_ids" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Game2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\luo20\anaconda3\envs\Game2\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ExternalAGIStuff/IDs" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Game2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -64,6 +117,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="reserved_keywords" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Game2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\luo20\anaconda3\envs\Game2\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ExternalAGIStuff" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\IDs\reserved_keywords.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.concept_ids" />
+      <item itemvalue="Python.reserved_keywords" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -74,6 +153,30 @@
       <option name="presentableId" value="Default" />
       <updated>1648258948069</updated>
     </task>
+    <task id="LOCAL-00001" summary="basic ideas done">
+      <created>1648349075081</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1648349075082</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="basic ideas done" />
+    <option name="LAST_COMMIT_MESSAGE" value="basic ideas done" />
   </component>
 </project>

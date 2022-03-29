@@ -5,7 +5,7 @@ def natural_number_object(number: int):
     value = list()
     str_number = str(number)
     for digit in str_number:
-        value.append(AGIObject(int(digit)+100, None))
+        value.append(AGIObject(int(digit)+100, dict()))
     return AGIObject(cid_of['natural_number'], {cid_of['value']: AGIList(value)})
 
 
