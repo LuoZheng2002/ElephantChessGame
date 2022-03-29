@@ -47,7 +47,7 @@ def to_integer(natural_number: AGIObject) -> int:
         elif digit_id == cid_of['9']:
             integer_str += '9'
         else:
-            raise AGIException('Unexpected thing as digit.')
+            raise AGIException('Unexpected thing as digit.', special_name='thing', special_str=str(cid_reverse[digit_id]))
     return int(integer_str)
 
 

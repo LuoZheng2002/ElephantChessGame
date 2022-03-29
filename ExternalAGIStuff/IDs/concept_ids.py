@@ -59,6 +59,7 @@ concepts = [
     'func::logic_not',
     'func::is_natural_number_single_digit',
     'func::compare_single_digit_natural_numbers',
+    'func::sum',
     # 动态代码
     'func::digit_to_natural_number',
     'func::compare_natural_numbers',
@@ -67,6 +68,7 @@ concepts = [
     'func::less_than',
     'func::greater_than_or_equal_to',
     'func::less_than_or_equal_to',
+    'func::test_code',
     # 回合制博弈问题相关概念
     'tb_game::game',
     'tb_game::chessboard',

@@ -1,3 +1,4 @@
+debug_on_all = False
 debug_on = {
     'if': False,
     'for_loop_hint': False,
@@ -11,6 +12,6 @@ debug_on = {
 
 
 def dout(token: str, message: str):
-    global debug_on
-    if debug_on[token]:
+    global debug_on, debug_on_all
+    if debug_on_all and debug_on[token]:
         print(message)

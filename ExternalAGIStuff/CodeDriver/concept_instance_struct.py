@@ -31,8 +31,6 @@ class AGIList:
             self.forward += [[None] * (index - len(self.forward))]
             self.forward.append(value)
         else:
-            if self.forward[index] is not None:
-                raise AGIException(19)
             self.forward[index] = value
         self.update()
 

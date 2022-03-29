@@ -109,7 +109,98 @@ compare_natural_numbers_code = [
     [r['return'], [r['concept_instance'], cid_of['math_equal']]]
 ]
 
+greater_than_code = [
+    [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
+                                           [
+                                               [r['input'], obj(0)],
+                                               [r['input'], obj(1)]
+                                           ]]],
+    [r['if'], [r['call'], cid_of['func::compare_concepts'],
+               [
+                   [r['reg'], obj(0), []],
+                   [r['concept_instance'], cid_of['greater_than']]
+               ]],
+     [
+         [r['return'], [r['concept_instance'], cid_of['True']]]
+     ],
+     [],
+     [
+         [r['return'], [r['concept_instance'], cid_of['False']]]
+     ]]
+]
 
-greater_code = [
+less_than_code = [
+    [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
+                                           [
+                                               [r['input'], obj(0)],
+                                               [r['input'], obj(1)]
+                                           ]]],
+    [r['if'], [r['call'], cid_of['func::compare_concepts'],
+               [
+                   [r['reg'], obj(0), []],
+                   [r['concept_instance'], cid_of['less_than']]
+               ]],
+     [
+         [r['return'], [r['concept_instance'], cid_of['True']]]
+     ],
+     [],
+     [
+         [r['return'], [r['concept_instance'], cid_of['False']]]
+     ]]
+]
 
+greater_than_or_equal_to_code = [
+    [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
+                                           [
+                                               [r['input'], obj(0)],
+                                               [r['input'], obj(1)]
+                                           ]]],
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['reg'], obj(0), []],
+                        [r['concept_instance'], cid_of['greater_than']]
+                    ]],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['reg'], obj(0), []],
+                        [r['concept_instance'], cid_of['math_equal']]
+                    ]],
+               ]],
+     [
+         [r['return'], [r['concept_instance'], cid_of['True']]]
+     ],
+     [],
+     [
+         [r['return'], [r['concept_instance'], cid_of['False']]]
+     ]]
+]
+
+less_than_or_equal_to_code = [
+    [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
+                                           [
+                                               [r['input'], obj(0)],
+                                               [r['input'], obj(1)]
+                                           ]]],
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['reg'], obj(0), []],
+                        [r['concept_instance'], cid_of['less_than']]
+                    ]],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['reg'], obj(0), []],
+                        [r['concept_instance'], cid_of['math_equal']]
+                    ]],
+               ]],
+     [
+         [r['return'], [r['concept_instance'], cid_of['True']]]
+     ],
+     [],
+     [
+         [r['return'], [r['concept_instance'], cid_of['False']]]
+     ]]
 ]

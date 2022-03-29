@@ -134,7 +134,7 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
     # return value: {value_type:None/'break'/'return', value:None/None/[return value]}
     return_value = {'value_type': None, 'value': None}
     head = line[0]
-    if head == r['assign']:  # format: [assign, expr, expr]
+    if head == r['assign'] or head == r['assign_as_reference']:  # format: [assign, expr, expr]
         lhs_expr = line[1]
         rhs_expr = line[2]
         # because taking an element from a container and modifying it
@@ -147,6 +147,8 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
         head_of_lhs = lhs_expr[0]
         reg_id = None  # only for head_of_lhs == r['reg']
         child_index = None  # only for head_of_lhs == r['reg']
+        if head == r['assign_as_reference'] and head_of_lhs != r['reg']:
+            raise AGIException('head_of_lhs must be reg when using assign as reference.')
         if head_of_lhs == r['reg']:  # format: [reg, index of reg, [expr1, expr2, ...]]
             # modifying register itself, so no need for the tricks above
             reg_id = to_integer(lhs_expr[1])
@@ -187,7 +189,10 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
         rhs = solve_expression(rhs_expr, rsc_mng)
         # assign rhs to lhs:
         if lhs[1] is None:  # lhs[2] is None too, means that lhs[0] is register object
-            rsc_mng.set_reg_value(reg_id, child_index, deepcopy(rhs))
+            if head == r['assign']:
+                rsc_mng.set_reg_value(reg_id, child_index, deepcopy(rhs))
+            else:
+                rsc_mng.set_reg_value(reg_id, child_index, rhs)
             debug_string = 'reg' + str(reg_id)
             if child_index:
                 debug_string += '<'
@@ -201,13 +206,22 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
             # if lhs[1] == r['at'] or lhs[1] == r['at_reverse'], then lhs[0] must be an AGIList
             # because lhs[0] is the product of calling get_agi_list when target is an AGIObject
             if lhs[1] == r['at']:
-                lhs[0].set_forward(lhs[2], deepcopy(rhs))
+                if head == r['assign']:
+                    lhs[0].set_forward(lhs[2], deepcopy(rhs))
+                else:
+                    lhs[0].set_forward(lhs[2], rhs)
             elif lhs[1] == r['at_reverse']:
-                lhs[0].set_reverse(lhs[2], deepcopy(rhs))
+                if head == r['assign']:
+                    lhs[0].set_reverse(lhs[2], deepcopy(rhs))
+                else:
+                    lhs[0].set_reverse(lhs[2], rhs)
             else:  # lhs[1] == r['get_member']
                 if type(lhs[0]) != AGIObject and type(lhs[0]) != dict:
                     raise AGIException('Can only call "get_member" towards an AGIObject or a dict.')
-                lhs[0][lhs[2]] = deepcopy(rhs)
+                if head == r['assign']:
+                    lhs[0][lhs[2]] = deepcopy(rhs)
+                else:
+                    lhs[0][lhs[2]] = rhs
     elif head == r['return']:
         result = solve_expression(line[1], rsc_mng)
         return_value = {'value_type': 'return', 'value': result}
@@ -314,6 +328,10 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
                     elif else_return_value['value_type'] == 'return':
                         return_value = else_return_value
                         break
+    elif head == r['assert']:
+        target = line[1]
+        if solve_expression(target, rsc_mng).concept_id == cid_of['False']:
+            raise AGIException('Assertion Failed in Dynamic Code!')
     else:
         raise AGIException('Unexpected word at the beginning of a line.')
     return return_value

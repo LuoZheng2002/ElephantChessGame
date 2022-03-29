@@ -1,7 +1,7 @@
 from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
 from ExternalAGIStuff.IDs.concept_ids import cid_of
 from exception import AGIException
-
+from ExternalAGIStuff.IDs.to_object import to_integer, obj
 
 def compare_concepts(params: list) -> AGIObject:
     if len(params) != 2:
@@ -121,3 +121,18 @@ def compare_single_digit_natural_numbers(params: list) -> AGIObject:
         return AGIObject(cid_of['math_equal'], dict())
     else:
         return AGIObject(cid_of['greater_than'], dict())
+
+
+def sum_func(params: list) -> AGIObject:
+    if len(params) != 2:
+        raise AGIException('This function should receive 2 params.')
+    param1 = params[0]
+    param2 = params[1]
+    if type(param1) != AGIObject or type(param2) != AGIObject:
+        raise AGIException('Parameters should be AGIObjects.')
+    if param1.concept_id != cid_of['natural_number'] or param2.concept_id != cid_of['natural_number']:
+        raise AGIException('Parameters should be natural numbers.')
+    number1 = to_integer(param1)
+    number2 = to_integer(param2)
+    return obj(number1+number2)
+
