@@ -6,9 +6,25 @@ from ExternalAGIStuff.IDs.reserved_keywords import r
 from ExternalAGIStuff.CodeDriver.concept_instance_creator import create_concept_instance
 from ExternalAGIStuff.CodeDriver.code_getter import get_code
 from ExternalAGIStuff.HardcodedFunctions.hardcoded_function_ids import hardcoded_function_linker
-from ExternalAGIStuff.IDs.to_object import obj, to_integer
-from ExternalAGIStuff.IDs.concept_ids import cid_of
+from ExternalAGIStuff.IDs.to_object import obj, to_integer, to_str
+from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from debug import dout
+
+
+process_stack = []
+
+
+class Process:
+    next_stack_count = 0
+
+    def __init__(self, code_id: int, input_params: list):
+        self.code_id = code_id
+        self.input_params = input_params
+        self.stack_count = Process.next_stack_count
+        Process.next_stack_count += 1
+
+    def __del__(self):
+        Process.next_stack_count -= 1
 
 
 class CodeIterator:
@@ -172,6 +188,15 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
         # assign rhs to lhs:
         if lhs[1] is None:  # lhs[2] is None too, means that lhs[0] is register object
             rsc_mng.set_reg_value(reg_id, child_index, deepcopy(rhs))
+            debug_string = 'reg' + str(reg_id)
+            if child_index:
+                debug_string += '<'
+                for i in child_index:
+                    debug_string += str(i) + ','
+                debug_string = debug_string[: len(debug_string) - 1]
+                debug_string += '>'
+            debug_string += '\'s value is set to \'' + to_str(rhs) + '\''
+            dout('register', debug_string)
         else:
             # if lhs[1] == r['at'] or lhs[1] == r['at_reverse'], then lhs[0] must be an AGIList
             # because lhs[0] is the product of calling get_agi_list when target is an AGIObject
@@ -298,6 +323,12 @@ def run_code(code_id, input_params: list) -> AGIObject or None:
     if code_id in hardcoded_function_linker.keys():
         return hardcoded_function_linker[code_id](input_params)
     # local resource manager creation
+    global process_stack
+    process_stack.append(Process(code_id, input_params))
+    debug_string = '\nEnter process (stack count = ' + str(process_stack[-1].stack_count) + '): ' + '\'' + cid_reverse[code_id] + '\'!\n' + 'Input params are:\n'
+    for param in input_params:
+        debug_string += '\'' + to_str(param) + '\' '
+    dout('process', debug_string)
     rsc_mng = ResourceManager(input_params)
     method_code = get_code(code_id)
     # CodeIterator creation
@@ -307,6 +338,9 @@ def run_code(code_id, input_params: list) -> AGIObject or None:
         ci.get_next_line()
         line_return_value = process_line(ci.current_line, rsc_mng, tuple())
         if line_return_value['value_type'] == 'return':
+            dout('process', 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[process_stack[-1].code_id] + '\'!')
+            dout('return', 'Return value is: \'' + to_str(line_return_value['value']) + '\'!\n')
+            process_stack.pop()
             return line_return_value['value']
         elif line_return_value['value_type'] == 'break':
             raise AGIException('Try to break without being in a for or while loop.')

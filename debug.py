@@ -3,7 +3,10 @@ debug_on = {
     'for_loop_hint': False,
     'iterator_value': False,
     'for_end_value': False,
-    'size': False
+    'size': False,
+    'process': True,
+    'return': True,
+    'register': True
 }
 
 

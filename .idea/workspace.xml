@@ -4,29 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="basic ideas done">
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_getter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/runtime_memory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/numeral_code.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_function_ids.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/reserved_keywords.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debug.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/exception.py" afterDir="false" />
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="natural number comparison done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/instance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/bytecode_format.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/concept_instance_struct.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/structures.py" beforeDir="false" afterPath="$PROJECT_DIR$/Game/structures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/numeral_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/numeral_code.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.py" beforeDir="false" afterPath="$PROJECT_DIR$/debug.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -160,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648349075082</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="natural number comparison done">
+      <created>1648530403678</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1648530403678</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -177,6 +167,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="basic ideas done" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic ideas done" />
+    <MESSAGE value="natural number comparison done" />
+    <option name="LAST_COMMIT_MESSAGE" value="natural number comparison done" />
   </component>
 </project>

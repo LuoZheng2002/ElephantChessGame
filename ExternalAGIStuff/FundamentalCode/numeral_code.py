@@ -108,3 +108,8 @@ compare_natural_numbers_code = [
      ],
     [r['return'], [r['concept_instance'], cid_of['math_equal']]]
 ]
+
+
+greater_code = [
+
+]

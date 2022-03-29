@@ -1,5 +1,5 @@
 from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject, AGIList
-from ExternalAGIStuff.IDs.concept_ids import cid_of
+from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from exception import AGIException
 
 
@@ -49,3 +49,11 @@ def to_integer(natural_number: AGIObject) -> int:
         else:
             raise AGIException('Unexpected thing as digit.')
     return int(integer_str)
+
+
+def to_str(thing: AGIObject):
+    if thing.concept_id == cid_of['natural_number']:
+        if thing.attributes[cid_of['content']] is None:
+            return 'empty_natural_number'
+        return str(to_integer(thing))
+    return cid_reverse[thing.concept_id]
