@@ -8,7 +8,8 @@ code_dict = {
     cid_of['func::less_than']: less_than_code,
     cid_of['func::greater_than_or_equal_to']: greater_than_or_equal_to_code,
     cid_of['func::less_than_or_equal_to']: less_than_or_equal_to_code,
-    cid_of['func::test_code']: test_code2
+    cid_of['func::math_equal']: math_equal_code,
+    cid_of['func::test_code']: test_code4
 }
 
 

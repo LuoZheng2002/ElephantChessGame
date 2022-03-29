@@ -57,3 +57,7 @@ def to_str(thing: AGIObject):
             return 'empty_natural_number'
         return str(to_integer(thing))
     return cid_reverse[thing.concept_id]
+
+
+def translate_input(str_input) -> AGIObject:
+    return obj(int(str_input))

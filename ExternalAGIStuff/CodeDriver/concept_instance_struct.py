@@ -63,3 +63,11 @@ class AGIList:
     def get_list(self) -> list:
         return self.value
 
+    def append(self, element):
+        self.forward.append(element)
+        self.update()
+
+    def remove(self, index):
+        self.forward.pop(index)
+        self.update()
+

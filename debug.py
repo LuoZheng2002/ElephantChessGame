@@ -7,7 +7,7 @@ debug_on = {
     'size': False,
     'process': True,
     'return': True,
-    'register': True
+    'register': False
 }
 
 

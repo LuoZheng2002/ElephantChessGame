@@ -1,7 +1,8 @@
 from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
-from ExternalAGIStuff.IDs.concept_ids import cid_of
+from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from exception import AGIException
 from ExternalAGIStuff.IDs.to_object import to_integer, obj
+
 
 def compare_concepts(params: list) -> AGIObject:
     if len(params) != 2:
@@ -9,7 +10,7 @@ def compare_concepts(params: list) -> AGIObject:
     param1 = params[0]
     param2 = params[1]
     if type(param1) != AGIObject or type(param2) != AGIObject:
-        raise AGIException('Parameters should be AGIObjects.')
+        raise AGIException('Parameters should be AGIObjects.', special_name='type', special_str=str(cid_reverse[param2.concept_id]))
     if param1.concept_id == param2.concept_id:
         return AGIObject(cid_of['True'], dict())
     else:

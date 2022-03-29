@@ -19,7 +19,6 @@ reserved_keywords = [
     'concept_instance',
     'size',
     'get_member',
-    'get_concept_id',
     'at',
     'at_reverse',
     'find',
@@ -36,3 +35,5 @@ def generate_reserved_keywords(keywords):
 
 
 r = generate_reserved_keywords(reserved_keywords)
+
+rr = dict([(i, j) for (j, i) in r.items()])

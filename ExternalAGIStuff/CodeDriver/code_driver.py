@@ -6,10 +6,9 @@ from ExternalAGIStuff.IDs.reserved_keywords import r
 from ExternalAGIStuff.CodeDriver.concept_instance_creator import create_concept_instance
 from ExternalAGIStuff.CodeDriver.code_getter import get_code
 from ExternalAGIStuff.HardcodedFunctions.hardcoded_function_ids import hardcoded_function_linker
-from ExternalAGIStuff.IDs.to_object import obj, to_integer, to_str
+from ExternalAGIStuff.IDs.to_object import obj, to_integer, to_str, translate_input
 from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from debug import dout
-
 
 process_stack = []
 
@@ -56,11 +55,11 @@ def get_agi_list(agi_object: AGIObject) -> AGIList:
 
 def solve_expression(expr: list,
                      rsc_mng: ResourceManager,
-                     ) -> AGIObject or AGIList:
+                     target=None) -> AGIObject or AGIList:
     if type(expr) != list or len(expr) == 0:
         raise AGIException('An expression can\'t be of zero size.', special_name='expr', special_str=str(expr))
     # constexpr:
-    if len(expr) == 1:
+    if len(expr) == 1 and type(expr[0]) != int:
         return expr[0]
     head = expr[0]
     if head == r['input']:
@@ -70,7 +69,7 @@ def solve_expression(expr: list,
         # format: [reg, index_of_reg, [expr1, expr2, ...]]
         child_index = []
         for i in expr[2]:
-            child_index.append(solve_expression(i, rsc_mng))
+            child_index.append(solve_expression(i, rsc_mng, target))
         child_index = tuple(child_index)
         return rsc_mng.get_reg_value(to_integer(expr[1]), child_index)
     elif head == r['iterator']:
@@ -81,7 +80,7 @@ def solve_expression(expr: list,
         code_id = expr[1]
         input_params = []
         for i in expr[2]:
-            input_params.append(solve_expression(i, rsc_mng))
+            input_params.append(solve_expression(i, rsc_mng, target))
         result = run_code(code_id, input_params)
         assert type(result) == AGIObject
         return result
@@ -91,8 +90,7 @@ def solve_expression(expr: list,
         return create_concept_instance(type_id)
     elif head == r['size']:
         # size, expr
-        result = solve_expression(expr[1], rsc_mng)
-        size = None
+        result = solve_expression(expr[1], rsc_mng, target)
         if type(result) == AGIObject:
             size = get_agi_list(result).size()
         else:
@@ -102,30 +100,57 @@ def solve_expression(expr: list,
         return obj(size)
     elif head == r['at'] or head == r['at_reverse']:
         # at/at_reverse, target, index
-        target = solve_expression(expr[1], rsc_mng)
-        index = solve_expression(expr[2], rsc_mng)
-        if type(target) == AGIObject:
+        target_expr = solve_expression(expr[1], rsc_mng, target)
+        index = solve_expression(expr[2], rsc_mng, target)
+        if type(target_expr) == AGIObject:
             if head == r['at']:
-                return get_agi_list(target).get_element(index)
+                return get_agi_list(target_expr).get_element(index)
             else:  # head == r['at_reverse']
-                return get_agi_list(target).get_element_reverse(index)
+                return get_agi_list(target_expr).get_element_reverse(index)
         else:
-            if type(target) != AGIList:
+            if type(target_expr) != AGIList:
                 raise AGIException('target is supposed to be AGIList or AGIObject',
-                                   special_name='type of target', special_str=str(type(target)))
+                                   special_name='type of target', special_str=str(type(target_expr)))
             if head == r['at']:
-                return target.get_element(index)
+                return target_expr.get_element(index)
             else:  # head == r['at_reverse']
-                return target.get_element_reverse(index)
+                return target_expr.get_element_reverse(index)
     elif head == r['get_member']:
         # get_member target member_name
-        target = solve_expression(expr[1], rsc_mng)
+        target_expr = solve_expression(expr[1], rsc_mng, target)
         member_name = expr[2]
-        if type(target) == AGIObject:
-            return target.attributes[member_name]
+        if type(target_expr) == AGIObject:
+            return target_expr.attributes[member_name]
         else:
-            assert type(target) == dict
-            return target[member_name]
+            assert type(target_expr) == dict
+            return target_expr[member_name]
+    elif head == r['target']:
+        if target is None:
+            raise AGIException('Target not specified.')
+        return target
+    elif head == r['find'] or head == r['exist']:
+        # find target_expr, constraints_expr
+        target_expr = expr[1]
+        constraints_expr = expr[2]
+        target_obj = solve_expression(target_expr, rsc_mng)
+        assert type(target_obj) == AGIObject or AGIList
+        if type(target_obj) == AGIObject:
+            target_obj = get_agi_list(target_obj)
+        for i in range(target_obj.size()):
+            constraints_result = solve_expression(constraints_expr, rsc_mng, target_obj.get_element(i))
+            if type(constraints_result) != AGIObject or (
+                    constraints_result.concept_id != cid_of['True'] and
+                    constraints_result.concept_id != cid_of['False']):
+                raise AGIException('Constraints_result should be true or false.')
+            if constraints_result.concept_id == cid_of['True']:
+                if head == r['find']:
+                    return target_obj.get_element(i)
+                else:
+                    return obj(True)
+        if head == r['find']:
+            raise AGIException('Dynamic Code Exception: No elements found.')
+        else:
+            return obj(False)
     else:
         raise AGIException('Unexpected word at the beginning of an expression.')
 
@@ -165,22 +190,22 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
             rsc_mng.create_reg(reg_id, scope_info, child_index)
         elif head_of_lhs == r['at'] or head_of_lhs == r['at_reverse']:
             # at, [expr], [expr]
-            target = solve_expression(lhs_expr[1], rsc_mng)
-            if type(target) == AGIObject:
-                lhs[0] = get_agi_list(target)
+            target_expr = solve_expression(lhs_expr[1], rsc_mng)
+            if type(target_expr) == AGIObject:
+                lhs[0] = get_agi_list(target_expr)
             else:
-                assert type(target) == AGIList
-                lhs[0] = target
+                assert type(target_expr) == AGIList
+                lhs[0] = target_expr
             lhs[1] = head_of_lhs  # 'at' or 'at_reverse'
             lhs[2] = to_integer(solve_expression(lhs_expr[2], rsc_mng))
         elif head_of_lhs == r['get_member']:
             # get_member, [expr], constexpr
-            target = solve_expression(lhs_expr[1], rsc_mng)
-            if type(target) == AGIObject:
-                lhs[0] = target.attributes
+            target_expr = solve_expression(lhs_expr[1], rsc_mng)
+            if type(target_expr) == AGIObject:
+                lhs[0] = target_expr.attributes
             else:
-                assert type(target) == dict
-                lhs[0] = target
+                assert type(target_expr) == dict
+                lhs[0] = target_expr
             lhs[1] = head_of_lhs
             lhs[2] = lhs_expr[2]
         else:
@@ -329,9 +354,55 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
                         return_value = else_return_value
                         break
     elif head == r['assert']:
-        target = line[1]
-        if solve_expression(target, rsc_mng).concept_id == cid_of['False']:
+        target_expr = line[1]
+        if solve_expression(target_expr, rsc_mng).concept_id == cid_of['False']:
             raise AGIException('Assertion Failed in Dynamic Code!')
+    elif head == r['append']:
+        # append, array, element
+        target_expr = solve_expression(line[1], rsc_mng)
+        element = deepcopy(solve_expression(line[2], rsc_mng))
+        if type(target_expr) == AGIList:
+            target_expr.append(element)
+        elif type(target_expr) == AGIObject:
+            get_agi_list(target_expr).append(element)
+    elif head == r['remove']:
+        # remove, array, expr
+        target_expr = solve_expression(line[1], rsc_mng)
+        constraints_expr = line[2]
+        assert type(target_expr) == AGIObject or type(target_expr) == AGIList
+        if type(target_expr) == AGIObject:
+            target_expr = get_agi_list(target_expr)
+        go_on = True
+        while go_on:
+            found = False
+            for i in range(target_expr.size()):
+                result = solve_expression(constraints_expr, rsc_mng, target_expr.get_element(i))
+                if type(result) != AGIObject or (
+                        result.concept_id != cid_of['True'] and result.concept_id != cid_of['False']):
+                    raise AGIException('The result should be true or false.')
+                if result.concept_id == cid_of['True']:
+                    target_expr.remove(i)
+                    found = True
+                    break
+            if not found:
+                go_on = False
+    elif head == r['request']:
+        # request [obj(1), obj(2)], constraints_expr
+        registers = line[1]
+        constraints_expr = line[2]
+        for register in registers:
+            reg_id = to_integer(register)
+            if not rsc_mng.has_reg(reg_id, tuple()):
+                rsc_mng.create_reg(reg_id, tuple(), tuple())
+            str_input = input('The freaking dynamic code asks you to fill in reg' + str(reg_id) + '!\n')
+            input_obj = translate_input(str_input)
+            rsc_mng.set_reg_value(reg_id, tuple(), input_obj)
+        constraints_test = solve_expression(constraints_expr, rsc_mng)
+        if type(constraints_test) != AGIObject or (
+                constraints_test.concept_id != cid_of['True'] and constraints_test.concept_id != cid_of['False']):
+            raise AGIException('Constraints test result should be true or false.')
+        if constraints_test.concept_id == cid_of['False']:
+            raise AGIException('Your inputs don\'t satisfy the constraints!')
     else:
         raise AGIException('Unexpected word at the beginning of a line.')
     return return_value
@@ -343,7 +414,8 @@ def run_code(code_id, input_params: list) -> AGIObject or None:
     # local resource manager creation
     global process_stack
     process_stack.append(Process(code_id, input_params))
-    debug_string = '\nEnter process (stack count = ' + str(process_stack[-1].stack_count) + '): ' + '\'' + cid_reverse[code_id] + '\'!\n' + 'Input params are:\n'
+    debug_string = '\nEnter process (stack count = ' + str(process_stack[-1].stack_count) + '): ' + '\'' + cid_reverse[
+        code_id] + '\'!\n' + 'Input params are:\n'
     for param in input_params:
         debug_string += '\'' + to_str(param) + '\' '
     dout('process', debug_string)
@@ -356,7 +428,8 @@ def run_code(code_id, input_params: list) -> AGIObject or None:
         ci.get_next_line()
         line_return_value = process_line(ci.current_line, rsc_mng, tuple())
         if line_return_value['value_type'] == 'return':
-            dout('process', 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[process_stack[-1].code_id] + '\'!')
+            dout('process', 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[
+                process_stack[-1].code_id] + '\'!')
             dout('return', 'Return value is: \'' + to_str(line_return_value['value']) + '\'!\n')
             process_stack.pop()
             return line_return_value['value']

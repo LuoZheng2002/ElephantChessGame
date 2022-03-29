@@ -204,3 +204,23 @@ less_than_or_equal_to_code = [
          [r['return'], [r['concept_instance'], cid_of['False']]]
      ]]
 ]
+
+math_equal_code = [
+    [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
+                                           [
+                                               [r['input'], obj(0)],
+                                               [r['input'], obj(1)]
+                                           ]]],
+    [r['if'], [r['call'], cid_of['func::compare_concepts'],
+               [
+                   [r['reg'], obj(0), []],
+                   [r['concept_instance'], cid_of['math_equal']]
+               ]],
+     [
+         [r['return'], [r['concept_instance'], cid_of['True']]]
+     ],
+     [],
+     [
+         [r['return'], [r['concept_instance'], cid_of['False']]]
+     ]]
+]
