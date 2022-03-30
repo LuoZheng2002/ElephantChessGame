@@ -197,12 +197,14 @@ def visualize_code(code: list, indentation_count=0) -> list:
         elif head == r['request']:
             array_of_reg_ids = line[1]
             constraints_expr = expr_to_str(line[2])
+            provided_lines = line[3]
             line_str = 'request '
             assert array_of_reg_ids
             for reg_id in array_of_reg_ids:
                 line_str += 'reg' + str(to_integer(reg_id)) + ', '
-            line_str += 's.t.{' + constraints_expr + '}'
+            line_str += 's.t.{' + constraints_expr + '}, provided:'
             result.append(add_indentation(line_str, indentation_count))
+            result += visualize_code(provided_lines, indentation_count + 1)
         else:
             raise AGIException('Unexpected head of line.')
     return result

@@ -1,8 +1,9 @@
 # 可视化代码
 # input[0]: 棋盘
 # input[1]: 要走的队伍的id
-assert input[1] == input[0].find(target.concept_id == 'whose_turn').'value'
-reg[0] &= input[0].find(target.concept_id == 'pieces')  # 找到棋盘中的棋子数组对象，并以引用的形式存储到reg[0]中
+'''
+assert input[1] == input[0].find(target == 'xq::whose_turn').'content'
+reg[0] &= input[0].find(target == 'xq::pieces')  # 找到棋盘中的棋子数组对象，并以引用的形式存储到reg[0]中
 request reg[1], reg[2] s.t.{
     reg[1].concept_id == 'integer' and  # 需要的两个变量的类型为“整数”
     reg[2].concept_id == 'integer' and
@@ -11,7 +12,9 @@ request reg[1], reg[2] s.t.{
     reg[0].exist(target.'position'[0] == reg[1] and target.'position'[1] == reg[2]) == True  # 目标位置上应有棋子
     and  # 目标位置上的棋子是己方的
     reg[0].find(target.'position'[0] == reg[1] and target.'position'[1] == reg[2]).'piece_owner' == input[1]
-}
+} provided:
+    ...
+    ...
 # 选中棋子。这里取引用，之后改reg[3]棋盘也会改
 reg[3] &= reg[0].find(target.'position'[0] == reg[1] and target.'position'[1] == reg[2])
 if reg[3].'piece_name' == '车':

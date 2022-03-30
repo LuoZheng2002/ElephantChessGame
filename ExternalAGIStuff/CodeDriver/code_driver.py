@@ -387,9 +387,10 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
             if not found:
                 go_on = False
     elif head == r['request']:
-        # request [obj(1), obj(2)], constraints_expr
+        # request [obj(1), obj(2)], constraints_expr lines
         registers = line[1]
         constraints_expr = line[2]
+        provided_lines = line[3]
         for register in registers:
             reg_id = to_integer(register)
             if not rsc_mng.has_reg(reg_id, tuple()):
@@ -397,6 +398,9 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
             str_input = input('The freaking dynamic code asks you to fill in reg' + str(reg_id) + '!\n')
             input_obj = translate_input(str_input)
             rsc_mng.set_reg_value(reg_id, tuple(), input_obj)
+        for provided_line in provided_lines:
+            return_value = process_line(provided_line, rsc_mng, scope_info)
+            assert return_value['value_type'] is None and return_value['value'] is None
         constraints_test = solve_expression(constraints_expr, rsc_mng)
         if type(constraints_test) != AGIObject or (
                 constraints_test.concept_id != cid_of['True'] and constraints_test.concept_id != cid_of['False']):
@@ -408,19 +412,27 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
     return return_value
 
 
-def run_code(code_id, input_params: list) -> AGIObject or None:
+def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
     if code_id in hardcoded_function_linker.keys():
         return hardcoded_function_linker[code_id](input_params)
     # local resource manager creation
     global process_stack
     process_stack.append(Process(code_id, input_params))
-    debug_string = '\nEnter process (stack count = ' + str(process_stack[-1].stack_count) + '): ' + '\'' + cid_reverse[
-        code_id] + '\'!\n' + 'Input params are:\n'
+    if code_id is not None:
+        debug_string = '\nEnter process (stack count = ' + str(process_stack[-1].stack_count) + '): ' + '\'' + \
+                       cid_reverse[
+                           code_id] + '\'!\n' + 'Input params are:\n'
+    else:
+        debug_string = '\nEnter process (stack count = ' + str(process_stack[-1].stack_count) + '): ' + '\'' + \
+                       'Unknown' + '\'!\n' + 'Input params are:\n'
     for param in input_params:
         debug_string += '\'' + to_str(param) + '\' '
     dout('process', debug_string)
     rsc_mng = ResourceManager(input_params)
-    method_code = get_code(code_id)
+    if code is None:
+        method_code = get_code(code_id)
+    else:
+        method_code = code
     # CodeIterator creation
     ci = CodeIterator(method_code)
     # start processing
@@ -428,8 +440,12 @@ def run_code(code_id, input_params: list) -> AGIObject or None:
         ci.get_next_line()
         line_return_value = process_line(ci.current_line, rsc_mng, tuple())
         if line_return_value['value_type'] == 'return':
-            dout('process', 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[
-                process_stack[-1].code_id] + '\'!')
+            if code_id is not None:
+                dout('process', 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[
+                    process_stack[-1].code_id] + '\'!')
+            else:
+                dout('process',
+                     'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + 'Unknown' + '\'!')
             dout('return', 'Return value is: \'' + to_str(line_return_value['value']) + '\'!\n')
             process_stack.pop()
             return line_return_value['value']

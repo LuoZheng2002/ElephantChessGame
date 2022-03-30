@@ -1,7 +1,9 @@
 from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
 from ExternalAGIStuff.IDs.concept_ids import cid_of
 concept_attributes_dict = {
-    cid_of['natural_number']: (cid_of['content'],)
+    cid_of['natural_number']: (cid_of['content'],),
+    cid_of['xq::chessboard']: (cid_of['xq::pieces'], cid_of['xq::whose_turn']),
+    cid_of['xq::piece']: (cid_of['xq::piece_owner'], cid_of['xq::piece_name'], cid_of['xq::position']),
 }
 
 

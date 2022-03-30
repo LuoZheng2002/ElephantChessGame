@@ -4,13 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="code driver completed and visualization added">
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_code.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_python.py" afterDir="false" />
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="code editor added">
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/operation_func.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization/test_structure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization/translate_AGIObject.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/formatted_code.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/visualized_code.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/note.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/instance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/operation_func.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/operation_func.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_browser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_code.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/structures.py" beforeDir="false" afterPath="$PROJECT_DIR$/Game/structures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_python.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_python.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +64,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization/test_structure.py" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -57,7 +75,7 @@
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ElephantChessInstance" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.test_structure">
     <configuration name="concept_ids" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Game2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -121,7 +139,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+    <configuration name="test_generate" type="PythonConfigurationType" factoryName="Python">
       <module name="Game2" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -133,7 +151,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\CodeVisualization\test_generate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -163,10 +181,76 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_run" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Game2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\luo20\anaconda3\envs\Game2\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_structure" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Game2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\luo20\anaconda3\envs\Game2\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization/test_structure.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_visualization" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Game2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\luo20\anaconda3\envs\Game2\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Python.test_visualization" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.test_python" />
-      <item itemvalue="Python.test" />
+      <item itemvalue="Python.test_structure" />
+      <item itemvalue="Python.test_generate" />
+      <item itemvalue="Python.test_run" />
       <item itemvalue="Python.concept_ids" />
       <item itemvalue="Python.reserved_keywords" />
     </list>
@@ -215,7 +299,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648562052101</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="code editor added">
+      <created>1648572111758</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1648572111758</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -236,6 +327,7 @@
     <MESSAGE value="bug fixed, debug done" />
     <MESSAGE value="assert and assign_as_reference done" />
     <MESSAGE value="code driver completed and visualization added" />
-    <option name="LAST_COMMIT_MESSAGE" value="code driver completed and visualization added" />
+    <MESSAGE value="code editor added" />
+    <option name="LAST_COMMIT_MESSAGE" value="code editor added" />
   </component>
 </project>

@@ -1,2 +1,3 @@
-a = '0001112222333'
-print(a.find('3'))
+from ExternalAGIStuff.CodeVisualization.code_editor import find_middle
+from ExternalAGIStuff.CodeVisualization.StructureVisualization.translate_AGIObject import translate_AGIList
+

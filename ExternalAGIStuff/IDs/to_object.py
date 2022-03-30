@@ -3,7 +3,7 @@ from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from exception import AGIException
 
 
-def obj(target: int or bool) -> AGIObject:
+def obj(target: int or bool or str) -> AGIObject:
     if type(target) == int:
         number_str = str(target)
         object_list = []
@@ -15,6 +15,9 @@ def obj(target: int or bool) -> AGIObject:
             return AGIObject(cid_of['True'], dict())
         else:
             return AGIObject(cid_of['False'], dict())
+    elif type(target) == str:
+        assert target in cid_of.keys()
+        return AGIObject(cid_of[target], dict())
 
 
 def to_integer(natural_number: AGIObject) -> int:
