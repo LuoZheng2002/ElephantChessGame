@@ -4,31 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="code editor added">
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/operation_func.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization/test_structure.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/StructureVisualization/translate_AGIObject.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/formatted_code.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/visualized_code.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/note.txt" afterDir="false" />
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="code editor done, AGIObject translator done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/instance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/operation_func.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/operation_func.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_browser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_code.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/structures.py" beforeDir="false" afterPath="$PROJECT_DIR$/Game/structures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_python.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_python.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -306,7 +283,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648572111758</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="code editor done, AGIObject translator done">
+      <created>1648636811941</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1648636811941</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -328,6 +312,7 @@
     <MESSAGE value="assert and assign_as_reference done" />
     <MESSAGE value="code driver completed and visualization added" />
     <MESSAGE value="code editor added" />
-    <option name="LAST_COMMIT_MESSAGE" value="code editor added" />
+    <MESSAGE value="code editor done, AGIObject translator done" />
+    <option name="LAST_COMMIT_MESSAGE" value="code editor done, AGIObject translator done" />
   </component>
 </project>
