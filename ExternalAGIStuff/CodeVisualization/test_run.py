@@ -6,7 +6,7 @@ from ExternalAGIStuff.IDs.concept_ids import cid_reverse
 from ExternalAGIStuff.CodeVisualization.formatted_code import *
 from ElephantChessInstance.instance import xq_chessboard
 from ExternalAGIStuff.FundamentalCode.batch_code import *
-from ExternalAGIStuff.CodeVisualization.operation_func_f import operation_func_f
+from ElephantChessInstance.FormattedCode.operation_func_f import operation_func_f
 from exception import AGIException
 try:
     result = run_code(None, [xq_chessboard, obj('xq::red_team')], operation_func_f)

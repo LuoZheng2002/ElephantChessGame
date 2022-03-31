@@ -47,7 +47,9 @@ def find_middle(target_str: str, sub_str: str, target_bracket=1) -> int:
                 bracket_count += 1
             elif target_str_copy[i] == ')':
                 bracket_count -= 1
-        assert bracket_count >= target_bracket
+        if not bracket_count >= target_bracket:
+            print(target_str)
+            assert False
         if bracket_count > target_bracket:
             target_list_copy = list(target_str_copy)
             for j in range(len(sub_str)):
@@ -66,6 +68,14 @@ def generate_expression(string_expr: str) -> str:
         if find_middle(string_expr, ' + ') != -1:
             middle_pos = find_middle(string_expr, ' + ')
             func_name = 'func::sum'
+            # print('whole: ' + string_expr)
+            # print('left: ' + string_expr[1: middle_pos])
+            # print('right: ' + string_expr[middle_pos + 3: -1])
+            left_expr = generate_expression(string_expr[1: middle_pos])
+            right_expr = generate_expression(string_expr[middle_pos + 3: -1])
+        elif find_middle(string_expr, ' - ') != -1:
+            middle_pos = find_middle(string_expr, ' - ')
+            func_name = 'func::difference'
             left_expr = generate_expression(string_expr[1: middle_pos])
             right_expr = generate_expression(string_expr[middle_pos + 3: -1])
         elif find_middle(string_expr, ' and ') != -1:
@@ -79,6 +89,7 @@ def generate_expression(string_expr: str) -> str:
             left_expr = generate_expression(string_expr[1: middle_pos])
             right_expr = generate_expression(string_expr[middle_pos + 4: -1])
         else:
+            print(string_expr)
             assert False
         result_str = "[r['call'], cid_of['" + func_name + "'],\n[\n" + left_expr + ',\n' + right_expr + '\n]\n]'
         return result_str

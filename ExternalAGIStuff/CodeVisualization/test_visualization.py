@@ -8,7 +8,7 @@ from ExternalAGIStuff.CodeVisualization.formatted_code import *
 from ElephantChessInstance.FormattedCode.operation_func_f import operation_func_f
 from generate_code import fixes
 try:
-    code_result = visualize_code(fixes)
+    code_result = visualize_code(operation_func_f)
     for i in code_result:
         print(i)
 except AGIException as e:

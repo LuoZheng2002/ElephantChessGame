@@ -12,6 +12,8 @@ def compare_concepts(params: list) -> AGIObject:
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.', special_name='type',
                            special_str=str(cid_reverse[param2.concept_id]))
+    if param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
+        return obj('Fail')
     if param1.concept_id == param2.concept_id:
         return AGIObject(cid_of['True'], dict())
     else:
@@ -28,12 +30,12 @@ def logic_and(params: list) -> AGIObject:
     if (param1.concept_id != cid_of['True'] and param1.concept_id != cid_of['False'] and param1.concept_id != cid_of[
         'Failed']) or \
             (param2.concept_id != cid_of['True'] and param2.concept_id != cid_of['False'] and param2.concept_id !=
-             cid_of['Failed']):
+             cid_of['Fail']):
         raise AGIException('Invalid parameters in logic_and function.')
     if param1.concept_id == cid_of['False'] or param2.concept_id == cid_of['False']:
         return AGIObject(cid_of['False'], dict())
-    elif param1.concept_id == cid_of['Failed'] or param2.concept_id == cid_of['Failed']:
-        return AGIObject(cid_of['Failed'], dict())
+    elif param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
+        return AGIObject(cid_of['Fail'], dict())
     else:
         return AGIObject(cid_of['True'], dict())
 
@@ -48,12 +50,12 @@ def logic_or(params: list) -> AGIObject:
     if (param1.concept_id != cid_of['True'] and param1.concept_id != cid_of['False'] and param1.concept_id != cid_of[
         'Failed']) or \
             (param2.concept_id != cid_of['True'] and param2.concept_id != cid_of['False'] and param2.concept_id !=
-             cid_of['Failed']):
+             cid_of['Fail']):
         raise AGIException('Invalid parameters in logic_and function.')
     if param1.concept_id == cid_of['True'] or param2.concept_id == cid_of['True']:
         return AGIObject(cid_of['True'], dict())
-    elif param1.concept_id == cid_of['Failed'] or param2.concept_id == cid_of['Failed']:
-        return AGIObject(cid_of['Failed'], dict())
+    elif param1.concept_id == cid_of['Failed'] or param2.concept_id == cid_of['Fail']:
+        return AGIObject(cid_of['Fail'], dict())
     else:
         return AGIObject(cid_of['False'], dict())
 
@@ -66,10 +68,10 @@ def logic_not(params: list) -> AGIObject:
         print(param)
         raise AGIException('Parameters should be AGIObjects.')
     if param.concept_id != cid_of['True'] and param.concept_id != cid_of['False']\
-            and param.concept_id != cid_of['Failed']:
+            and param.concept_id != cid_of['Fail']:
         raise AGIException('Invalid parameter in logic_not function.')
-    if param.concept_id == cid_of['Failed']:
-        return AGIObject(cid_of['Failed'], dict())
+    if param.concept_id == cid_of['Fail']:
+        return AGIObject(cid_of['Fail'], dict())
     elif param.concept_id == cid_of['True']:
         return AGIObject(cid_of['False'], dict())
     else:
@@ -82,6 +84,8 @@ def is_natural_number_single_digit(params: list) -> AGIObject:
     param = params[0]
     if type(param) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
+    if param.concept_id == cid_of['Fail']:
+        return obj('Fail')
     if param.concept_id != cid_of['natural_number']:
         raise AGIException('Parameter should be natural number.')
     if param.attributes[cid_of['content']].size() == 1:
@@ -98,6 +102,8 @@ def compare_single_digit_natural_numbers(params: list) -> AGIObject:
     param2 = params[1]
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
+    if param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
+        return obj('Fail')
     if param1.concept_id != cid_of['natural_number'] or param2.concept_id != cid_of['natural_number']:
         raise AGIException('Parameters should be natural numbers.')
     if param1.attributes[cid_of['content']].size() != 1 or param2.attributes[cid_of['content']].size() != 1:
@@ -144,6 +150,8 @@ def sum_func(params: list) -> AGIObject:
     param2 = params[1]
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
+    if param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
+        return obj('Fail')
     if param1.concept_id != cid_of['natural_number'] or param2.concept_id != cid_of['natural_number']:
         raise AGIException('Parameters should be natural numbers.')
     number1 = to_integer(param1)
@@ -158,6 +166,8 @@ def difference_func(params: list) -> AGIObject:
     param2 = params[1]
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
+    if param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
+        return obj('Fail')
     if param1.concept_id != cid_of['natural_number'] or param2.concept_id != cid_of['natural_number']:
         raise AGIException('Parameters should be natural numbers.')
     number1 = to_integer(param1)

@@ -63,6 +63,7 @@ concepts = [
     'func::is_natural_number_single_digit',
     'func::compare_single_digit_natural_numbers',
     'func::sum',
+    'func::difference',
     # 动态代码
     'func::digit_to_natural_number',
     'func::compare_natural_numbers',
