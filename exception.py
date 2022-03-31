@@ -9,7 +9,8 @@ class AGIException(BaseException):
                  raw_expression=None,
                  current_line=None,
                  special_name=None,
-                 special_str=None):
+                 special_str=None,
+                 trace_back=True):
         self.error_name = error_name
         self.current_process = current_process
         self.current_method = current_method
@@ -18,6 +19,7 @@ class AGIException(BaseException):
         self.current_line = current_line
         self.special_name = special_name
         self.special_str = special_str
+        self.trace_back = trace_back
 
     def show(self):
         print('\n################################')
@@ -36,4 +38,5 @@ class AGIException(BaseException):
         if self.special_name is not None:
             print('[' + self.special_name + ']: ' + self.special_str)
         print('################################\n')
-        traceback.print_exc()
+        if self.trace_back:
+            traceback.print_exc()

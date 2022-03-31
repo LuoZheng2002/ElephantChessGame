@@ -5,49 +5,11 @@ from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
 from ExternalAGIStuff.CodeVisualization.code_browser import letter_to_number
 from exception import AGIException
 fixes = [
-[r['if'], [r['call'], cid_of['func::compare_concepts'],
+[r['assign'], [r['reg'], obj(0), []], [obj(12233344444)]], 
+[r['return'], [r['count'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_concepts'],
 [
-[r['input'], obj(0)],
-[r['concept_instance'], cid_of['Fail']]
+[r['target']],
+[r['concept_instance'], cid_of['4']]
 ]
-],
-[
-[r['return'], [r['concept_instance'], cid_of['Fail']]]
-],
-[],
-[]
-], 
-[r['for'], obj(0), [r['size'], [r['input'], obj(0)]],
-[
-[r['if'], [r['call'], cid_of['func::compare_concepts'],
-[
-[r['at'], [r['input'], obj(0)], [r['iterator'], obj(0)]],
-[r['concept_instance'], cid_of['True']]
-]
-],
-[
-[r['return'], [r['concept_instance'], cid_of['True']]]
-],
-[],
-[]
-]
-]
-], 
-[r['for'], obj(1), [r['size'], [r['input'], obj(0)]],
-[
-[r['if'], [r['call'], cid_of['func::compare_concepts'],
-[
-[r['at'], [r['input'], obj(0)], [r['iterator'], obj(1)]],
-[r['concept_instance'], cid_of['Fail']]
-]
-],
-[
-[r['return'], [r['concept_instance'], cid_of['Fail']]]
-],
-[],
-[]
-]
-]
-], 
-[r['return'], [r['concept_instance'], cid_of['False']]]
+]]]
 ]

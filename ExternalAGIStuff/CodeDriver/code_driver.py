@@ -8,8 +8,9 @@ from ExternalAGIStuff.CodeDriver.code_getter import get_code
 from ExternalAGIStuff.HardcodedFunctions.hardcoded_function_ids import hardcoded_function_linker
 from ExternalAGIStuff.IDs.to_object import obj, to_integer, to_str, translate_input
 from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
-from debug import dout
-
+from ExternalAGIStuff.CodeVisualization.code_browser import visualize_line
+from debug import dout, debug_on, debug_on_all
+from ExternalAGIStuff.CodeVisualization.StructureVisualization.translate_AGIObject import translate_AGIObject
 process_stack = []
 
 
@@ -69,9 +70,16 @@ def solve_expression(expr: list,
         # format: [reg, index_of_reg, [expr1, expr2, ...]]
         child_index = []
         for i in expr[2]:
-            child_index.append(solve_expression(i, rsc_mng, target))
+            child_index.append(to_integer(solve_expression(i, rsc_mng, target)))
         child_index = tuple(child_index)
-        return rsc_mng.get_reg_value(to_integer(expr[1]), child_index)
+        # if to_integer(expr[1]) == 9:
+        #     print('reg9:')
+        #     print(translate_AGIObject(rsc_mng.get_reg_value(to_integer(expr[1]), child_index)))
+        try:
+            return rsc_mng.get_reg_value(to_integer(expr[1]), child_index)
+        except AGIException as e:
+            print(cid_reverse[process_stack[-1].code_id])
+            raise e
     elif head == r['iterator']:
         # format: [iterator, index_of_iterator]
         return obj(rsc_mng.get_iterator_value(to_integer(expr[1])))
@@ -103,6 +111,8 @@ def solve_expression(expr: list,
         target_expr = solve_expression(expr[1], rsc_mng, target)
         index = to_integer(solve_expression(expr[2], rsc_mng, target))
         if type(target_expr) == AGIObject:
+            if target_expr.concept_id == cid_of['Fail']:
+                return obj('Fail')
             if head == r['at']:
                 return get_agi_list(target_expr).get_element(index)
             else:  # head == r['at_reverse']
@@ -118,6 +128,8 @@ def solve_expression(expr: list,
     elif head == r['get_member']:
         # get_member target member_name
         target_expr = solve_expression(expr[1], rsc_mng, target)
+        if target_expr.concept_id == cid_of['Fail']:
+            return obj('Fail')
         member_name = expr[2]
         if type(target_expr) == AGIObject:
             return target_expr.attributes[member_name]
@@ -140,23 +152,49 @@ def solve_expression(expr: list,
             constraints_result = solve_expression(constraints_expr, rsc_mng, target_obj.get_element(i))
             if type(constraints_result) != AGIObject or (
                     constraints_result.concept_id != cid_of['True'] and
-                    constraints_result.concept_id != cid_of['False']):
-                raise AGIException('Constraints_result should be true or false.')
+                    constraints_result.concept_id != cid_of['False'] and
+                    constraints_result.concept_id != cid_of['Fail']):
+                raise AGIException('Constraints_result should be true or false or fail.')
             if constraints_result.concept_id == cid_of['True']:
                 if head == r['find']:
                     return target_obj.get_element(i)
                 else:
                     return obj(True)
         if head == r['find']:
-            raise AGIException('Dynamic Code Exception: No elements found.')
+            dout('warning', 'Warning: A find process failed!')
+            return obj('Fail')
         else:
             return obj(False)
+    elif head == r['count']:
+        # count target_expr, constraints_expr
+        target_expr = expr[1]
+        constraints_expr = expr[2]
+        target_obj = solve_expression(target_expr, rsc_mng)
+        assert type(target_obj) == AGIObject or AGIList
+        if type(target_obj) == AGIObject:
+            target_obj = get_agi_list(target_obj)
+        count = 0
+        for i in range(target_obj.size()):
+            constraints_result = solve_expression(constraints_expr, rsc_mng, target_obj.get_element(i))
+            if type(constraints_result) != AGIObject or (
+                    constraints_result.concept_id != cid_of['True'] and
+                    constraints_result.concept_id != cid_of['False'] and
+                    constraints_result.concept_id != cid_of['Fail']):
+                raise AGIException('Constraints_result should be true or false or fail.')
+            if constraints_result.concept_id == cid_of['True']:
+                count += 1
+        return obj(count)
     else:
         raise AGIException('Unexpected word at the beginning of an expression.')
 
 
 def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
     # return value: {value_type:None/'break'/'return', value:None/None/[return value]}
+    global process_stack
+    if debug_on_all and debug_on['line'] and len(process_stack) == 1:
+        visualized = visualize_line(line)
+        for i in visualized:
+            print(i)
     return_value = {'value_type': None, 'value': None}
     head = line[0]
     # print(rr[head])
@@ -183,7 +221,7 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
             # get child_index
             child_index = []
             for expr in child_expressions:
-                child_index.append(solve_expression(expr, rsc_mng))
+                child_index.append(to_integer(solve_expression(expr, rsc_mng)))
             child_index = tuple(child_index)
             # assert target register hasn't been created
             # because normally we don't want an existing register to be rewritten
@@ -411,7 +449,7 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
                 constraints_test.concept_id != cid_of['True'] and constraints_test.concept_id != cid_of['False']):
             raise AGIException('Constraints test result should be true or false.')
         if constraints_test.concept_id == cid_of['False']:
-            raise AGIException('Your inputs don\'t satisfy the constraints!')
+            raise AGIException('Your inputs don\'t satisfy the constraints!', trace_back=False)
     else:
         raise AGIException('Unexpected word at the beginning of a line.')
     return return_value
@@ -419,7 +457,11 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
 
 def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
     if code_id in hardcoded_function_linker.keys():
-        return hardcoded_function_linker[code_id](input_params)
+        try:
+            return hardcoded_function_linker[code_id](input_params)
+        except AGIException as e:
+            print([cid_reverse[i.concept_id] for i in input_params])
+            raise e
     # local resource manager creation
     global process_stack
     process_stack.append(Process(code_id, input_params))

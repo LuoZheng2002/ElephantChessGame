@@ -105,6 +105,7 @@ class ResourceManager:
                 if child_index not in register.value:
                     print(self.registers[0].value)
                     print('child_index: ' + str(child_index))
+                    print('reg_id: ' + str(reg_id))
                     raise AGIException('Register child not found.', special_name='reg3', special_str=str(self.registers[2].value))
                 if register.value[child_index] is None:
                     raise AGIException('Register child has value None.')

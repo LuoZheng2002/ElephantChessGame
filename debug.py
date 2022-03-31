@@ -5,9 +5,11 @@ debug_on = {
     'iterator_value': False,
     'for_end_value': False,
     'size': False,
-    'process': True,
-    'return': True,
-    'register': False
+    'process': False,
+    'return': False,
+    'register': False,
+    'line': True,
+    'warning': True
 }
 
 

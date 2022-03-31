@@ -31,30 +31,24 @@ batch_logic_and = [
      ],
     [r['for'], obj(0), [r['size'], [r['input'], obj(0)]],
      [
-         [r['if'], [r['call'], cid_of['func::compare_concepts'],
+         [r['if'], [r['call'], cid_of['func::logic_or'],
                     [
-                        [r['at'], [r['input'], obj(0)], [r['iterator'], obj(0)]],
-                        [r['concept_instance'], cid_of['False']]
+                        [r['call'], cid_of['func::compare_concepts'],
+                         [
+                             [r['at'], [r['input'], obj(0)], [r['iterator'], obj(0)]],
+                             [r['concept_instance'], cid_of['False']]
+                         ]
+                         ],
+                        [r['call'], cid_of['func::compare_concepts'],
+                         [
+                             [r['at'], [r['input'], obj(0)], [r['iterator'], obj(0)]],
+                             [r['concept_instance'], cid_of['Fail']]
+                         ]
+                         ]
                     ]
                     ],
           [
               [r['return'], [r['concept_instance'], cid_of['False']]]
-          ],
-          [],
-          []
-          ]
-     ]
-     ],
-    [r['for'], obj(1), [r['size'], [r['input'], obj(0)]],
-     [
-         [r['if'], [r['call'], cid_of['func::compare_concepts'],
-                    [
-                        [r['at'], [r['input'], obj(0)], [r['iterator'], obj(1)]],
-                        [r['concept_instance'], cid_of['Fail']]
-                    ]
-                    ],
-          [
-              [r['return'], [r['concept_instance'], cid_of['Fail']]]
           ],
           [],
           []
@@ -87,22 +81,6 @@ batch_logic_or = [
                     ],
           [
               [r['return'], [r['concept_instance'], cid_of['True']]]
-          ],
-          [],
-          []
-          ]
-     ]
-     ],
-    [r['for'], obj(1), [r['size'], [r['input'], obj(0)]],
-     [
-         [r['if'], [r['call'], cid_of['func::compare_concepts'],
-                    [
-                        [r['at'], [r['input'], obj(0)], [r['iterator'], obj(1)]],
-                        [r['concept_instance'], cid_of['Fail']]
-                    ]
-                    ],
-          [
-              [r['return'], [r['concept_instance'], cid_of['Fail']]]
           ],
           [],
           []

@@ -160,11 +160,22 @@ def generate_expression(string_expr: str) -> str:
     if string_expr.find('.exist(') != -1 and\
             string_expr.find(' ', 0, string_expr.find('.exist(')) == -1 and\
             string_expr.find('.exist(') == rightest_naked_dot(string_expr):
-        assert string_expr[-1] == ')'
+        if not string_expr[-1] == ')':
+            print('string_expr: ' + string_expr)
+            assert False
         dot_pos = string_expr.find('.exist(')
         target_expr = generate_expression(string_expr[: dot_pos])
         constraints_expr = generate_expression(string_expr[dot_pos + 7: -1])
         result_str = "[r['exist'], " + target_expr + ', ' + constraints_expr + ']'
+        return result_str
+    if string_expr.find('.count(') != -1 and\
+            string_expr.find(' ', 0, string_expr.find('.count(')) == -1 and\
+            string_expr.find('.count(') == rightest_naked_dot(string_expr):
+        assert string_expr[-1] == ')'
+        dot_pos = string_expr.find('.count(')
+        target_expr = generate_expression(string_expr[: dot_pos])
+        constraints_expr = generate_expression(string_expr[dot_pos + 7: -1])
+        result_str = "[r['count'], " + target_expr + ', ' + constraints_expr + ']'
         return result_str
     if string_expr.find('not ') == 0:
         target_expr = generate_expression(string_expr[4:])
@@ -192,14 +203,6 @@ def generate_expression(string_expr: str) -> str:
             result_str += param + ',\n'
         result_str = result_str[:-2] + '\n]\n]'
         return result_str
-    if string_expr.find('\'') == 0 and string_expr.find('\'', 1) == len(string_expr) - 1:
-        assert string_expr[1:-1] in cid_of.keys()
-        result_str = "[r['concept_instance'], cid_of['" + string_expr[1:-1] + "']]"
-        return result_str
-    if string_expr[-5:] == '.size' and string_expr.find(' ') == -1:
-        target_expr = generate_expression(string_expr[:-5])
-        result_str = "[r['size'], " + target_expr + ']'
-        return result_str
     if string_expr[-1] == ']':
         open_bracket_pos = string_expr.find('[')
         if string_expr[open_bracket_pos + 1] == '!':
@@ -213,6 +216,14 @@ def generate_expression(string_expr: str) -> str:
             result_str = "[r['at_reverse'], " + target_expr + ', ' + index + ']'
         else:
             result_str = "[r['at'], " + target_expr + ', ' + index + ']'
+        return result_str
+    if string_expr.find('\'') == 0 and string_expr.find('\'', 1) == len(string_expr) - 1:
+        assert string_expr[1:-1] in cid_of.keys()
+        result_str = "[r['concept_instance'], cid_of['" + string_expr[1:-1] + "']]"
+        return result_str
+    if string_expr[-5:] == '.size' and string_expr.find(' ') == -1:
+        target_expr = generate_expression(string_expr[:-5])
+        result_str = "[r['size'], " + target_expr + ']'
         return result_str
     if find_middle(string_expr, '.\'', 0) != -1 and find_middle(string_expr, '.\'', 0) == rightest_naked_dot(string_expr):
         # print(string_expr)
@@ -316,9 +327,7 @@ def generate_code(string_code: list) -> str:
 
     while current_line_index < len(string_code):
         current_line = get_current_line(string_code, current_line_index, indentation_count)
-        while current_line.find('    ') == 0:
-            current_line = current_line[4:]
-
+        print(current_line)
         if current_line.find(' = ') != -1 or current_line.find(' &= ') != -1:
             if current_line.find(' = ') != -1:
                 assign_pos = current_line.find(' = ')

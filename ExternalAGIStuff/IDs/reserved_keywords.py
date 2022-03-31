@@ -1,29 +1,30 @@
 reserved_keywords = [
     # 语句头
-    'assign',
-    'assign_as_reference',
-    'return',
-    'assert',
-    'for',
-    'while',
-    'break',
-    'if',
-    'append',
-    'remove',
-    'request',
+    'assign',  # 0
+    'assign_as_reference',  # 1
+    'return',  # 2
+    'assert',  # 3
+    'for',  # 4
+    'while',  # 5
+    'break',  # 6
+    'if',  # 7
+    'append',  # 8
+    'remove',  # 9
+    'request',  # 10
     # 表达式头
-    'input',
-    'reg',
-    'iterator',
-    'call',
-    'concept_instance',
-    'size',
-    'get_member',
-    'at',
-    'at_reverse',
-    'find',
-    'exist',
-    'target'
+    'input',  # 11
+    'reg',  # 12
+    'iterator',  # 13
+    'call',  # 14
+    'concept_instance',  # 15
+    'size',  # 16
+    'get_member',  # 17
+    'at',  # 18
+    'at_reverse',  # 19
+    'find',  # 20
+    'exist',  # 21
+    'count',
+    'target'  # 22
 ]
 
 

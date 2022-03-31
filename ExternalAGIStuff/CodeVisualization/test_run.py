@@ -7,9 +7,10 @@ from ExternalAGIStuff.CodeVisualization.formatted_code import *
 from ElephantChessInstance.instance import xq_chessboard
 from ExternalAGIStuff.FundamentalCode.batch_code import *
 from ElephantChessInstance.FormattedCode.operation_func_f import operation_func_f
+from generate_code import fixes
 from exception import AGIException
 try:
-    result = run_code(None, [xq_chessboard, obj('xq::red_team')], operation_func_f)
+    result = run_code(None, [], fixes)
     print(to_str(result))
 except AGIException as e:
     e.show()

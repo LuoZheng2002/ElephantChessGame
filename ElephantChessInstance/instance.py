@@ -21,7 +21,37 @@ def piece_object(owner: str, name: str, position: list) -> AGIObject:
 
 pieces_list = [
     piece_object('xq::red_team', 'xq::Che', [0, 0]),
-    piece_object('xq::red_team', 'xq::Ma', [1, 0])
+    piece_object('xq::red_team', 'xq::Ma', [1, 0]),
+    piece_object('xq::red_team', 'xq::Xiang', [2, 0]),
+    piece_object('xq::red_team', 'xq::Shi', [3, 0]),
+    piece_object('xq::red_team', 'xq::Jiang', [4, 0]),
+    piece_object('xq::red_team', 'xq::Shi', [5, 0]),
+    piece_object('xq::red_team', 'xq::Xiang', [6, 0]),
+    piece_object('xq::red_team', 'xq::Ma', [7, 0]),
+    piece_object('xq::red_team', 'xq::Che', [8, 0]),
+    piece_object('xq::red_team', 'xq::Pao', [1, 2]),
+    piece_object('xq::red_team', 'xq::Pao', [7, 2]),
+    piece_object('xq::red_team', 'xq::Bing', [0, 3]),
+    piece_object('xq::red_team', 'xq::Bing', [2, 3]),
+    piece_object('xq::red_team', 'xq::Bing', [4, 3]),
+    piece_object('xq::red_team', 'xq::Bing', [6, 3]),
+    piece_object('xq::red_team', 'xq::Bing', [8, 3]),
+    piece_object('xq::black_team', 'xq::Che', [0, 9]),
+    piece_object('xq::black_team', 'xq::Ma', [1, 9]),
+    piece_object('xq::black_team', 'xq::Xiang', [2, 9]),
+    piece_object('xq::black_team', 'xq::Shi', [3, 9]),
+    piece_object('xq::black_team', 'xq::Jiang', [4, 9]),
+    piece_object('xq::black_team', 'xq::Shi', [5, 9]),
+    piece_object('xq::black_team', 'xq::Xiang', [6, 9]),
+    piece_object('xq::black_team', 'xq::Ma', [7, 9]),
+    piece_object('xq::black_team', 'xq::Che', [8, 9]),
+    piece_object('xq::black_team', 'xq::Pao', [1, 7]),
+    piece_object('xq::black_team', 'xq::Pao', [7, 7]),
+    piece_object('xq::black_team', 'xq::Bing', [0, 6]),
+    piece_object('xq::black_team', 'xq::Bing', [2, 6]),
+    piece_object('xq::black_team', 'xq::Bing', [4, 6]),
+    piece_object('xq::black_team', 'xq::Bing', [6, 6]),
+    piece_object('xq::black_team', 'xq::Bing', [8, 6]),
 ]
 pieces = AGIList(pieces_list)
 whose_turn = AGIObject(cid_of['xq::red_team'], dict())

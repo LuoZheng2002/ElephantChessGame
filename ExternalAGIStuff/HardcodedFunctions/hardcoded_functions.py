@@ -12,8 +12,6 @@ def compare_concepts(params: list) -> AGIObject:
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.', special_name='type',
                            special_str=str(cid_reverse[param2.concept_id]))
-    if param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
-        return obj('Fail')
     if param1.concept_id == param2.concept_id:
         return AGIObject(cid_of['True'], dict())
     else:
@@ -28,7 +26,7 @@ def logic_and(params: list) -> AGIObject:
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
     if (param1.concept_id != cid_of['True'] and param1.concept_id != cid_of['False'] and param1.concept_id != cid_of[
-        'Failed']) or \
+        'Fail']) or \
             (param2.concept_id != cid_of['True'] and param2.concept_id != cid_of['False'] and param2.concept_id !=
              cid_of['Fail']):
         raise AGIException('Invalid parameters in logic_and function.')
@@ -48,13 +46,13 @@ def logic_or(params: list) -> AGIObject:
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
     if (param1.concept_id != cid_of['True'] and param1.concept_id != cid_of['False'] and param1.concept_id != cid_of[
-        'Failed']) or \
+        'Fail']) or \
             (param2.concept_id != cid_of['True'] and param2.concept_id != cid_of['False'] and param2.concept_id !=
              cid_of['Fail']):
         raise AGIException('Invalid parameters in logic_and function.')
     if param1.concept_id == cid_of['True'] or param2.concept_id == cid_of['True']:
         return AGIObject(cid_of['True'], dict())
-    elif param1.concept_id == cid_of['Failed'] or param2.concept_id == cid_of['Fail']:
+    elif param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
         return AGIObject(cid_of['Fail'], dict())
     else:
         return AGIObject(cid_of['False'], dict())
@@ -173,5 +171,5 @@ def difference_func(params: list) -> AGIObject:
     number1 = to_integer(param1)
     number2 = to_integer(param2)
     if number1 - number2 < 0:
-        return AGIObject(cid_of['Failed'], dict())
+        return AGIObject(cid_of['Fail'], dict())
     return obj(number1 - number2)

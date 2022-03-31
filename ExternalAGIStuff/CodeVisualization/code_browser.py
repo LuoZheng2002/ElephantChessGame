@@ -116,6 +116,10 @@ def expr_to_str(expr: list) -> str:
         target_expr = expr_to_str(expr[1])
         constraints_expr = expr_to_str(expr[2])
         return target_expr + '.exist(' + constraints_expr + ')'
+    elif head == r['count']:
+        target_expr = expr_to_str(expr[1])
+        constraints_expr = expr_to_str(expr[2])
+        return target_expr + '.count(' + constraints_expr + ')'
     elif head == r['target']:
         return 'target'
     else:
@@ -129,84 +133,89 @@ def add_indentation(line_str, indentation_count) -> str:
     result += line_str
     return result
 
+def visualize_line(line: list, indentation_count=0):
+    result = []
+    head = line[0]
+    if head == r['assign']:
+        expr_str1 = expr_to_str(line[1])
+        expr_str2 = expr_to_str(line[2])
+        line_str = expr_str1 + ' = ' + expr_str2
+        result.append(add_indentation(line_str, indentation_count))
+    elif head == r['assign_as_reference']:
+        expr_str1 = expr_to_str(line[1])
+        expr_str2 = expr_to_str(line[2])
+        line_str = expr_str1 + ' &= ' + expr_str2
+        result.append(add_indentation(line_str, indentation_count))
+    elif head == r['return']:
+        expr_str = expr_to_str(line[1])
+        line_str = 'return ' + expr_str
+        result.append(add_indentation(line_str, indentation_count))
+    elif head == r['assert']:
+        expr_str = expr_to_str(line[1])
+        line_str = 'assert ' + expr_str
+        result.append(add_indentation(line_str, indentation_count))
+    elif head == r['for']:
+        iter_id = to_integer(line[1])
+        end_value = expr_to_str(line[2])
+        for_lines = line[3]
+        line_str = 'for ' + iter_to_str(iter_id) + ' in range(' + end_value + '):'
+        result.append(add_indentation(line_str, indentation_count))
+        result += visualize_code(for_lines, indentation_count + 1)
+    elif head == r['while']:
+        judging_expr = expr_to_str(line[1])
+        while_lines = line[2]
+        line_str = 'while ' + judging_expr + ':'
+        result.append(add_indentation(line_str, indentation_count))
+        result += visualize_code(while_lines, indentation_count + 1)
+    elif head == r['break']:
+        line_str = 'break'
+        result.append(add_indentation(line_str, indentation_count))
+    elif head == r['if']:
+        judging_expr = expr_to_str(line[1])
+        if_lines = line[2]
+        elif_blocks = line[3]
+        else_lines = line[4]
+        line_str = 'if ' + judging_expr + ':'
+        result.append(add_indentation(line_str, indentation_count))
+        result += visualize_code(if_lines, indentation_count + 1)
+        for elif_block in elif_blocks:
+            elif_judging_expr = expr_to_str(elif_block[0])
+            elif_lines = elif_block[1]
+            elif_line_str = 'elif ' + elif_judging_expr + ':'
+            result.append(add_indentation(elif_line_str, indentation_count))
+            result += visualize_code(elif_lines, indentation_count + 1)
+        if else_lines:
+            result.append(add_indentation('else:', indentation_count))
+            result += visualize_code(else_lines, indentation_count + 1)
+    elif head == r['append']:
+        target_expr = expr_to_str(line[1])
+        element = expr_to_str(line[2])
+        line_str = target_expr + '.append(' + element + ')'
+        result.append(add_indentation(line_str, indentation_count))
+    elif head == r['remove']:
+        target_expr = expr_to_str(line[1])
+        element = expr_to_str(line[2])
+        line_str = target_expr + '.remove(' + element + ')'
+        result.append(add_indentation(line_str, indentation_count))
+    elif head == r['request']:
+        array_of_reg_ids = line[1]
+        constraints_expr = expr_to_str(line[2])
+        provided_lines = line[3]
+        line_str = 'request '
+        assert array_of_reg_ids
+        for reg_id in array_of_reg_ids:
+            line_str += 'reg' + str(to_integer(reg_id)) + ', '
+        line_str += 's.t.{' + constraints_expr + '}, provided:'
+        result.append(add_indentation(line_str, indentation_count))
+        result += visualize_code(provided_lines, indentation_count + 1)
+    else:
+        raise AGIException('Unexpected head of line.')
+    return result
+
 
 def visualize_code(code: list, indentation_count=0) -> list:
     result = list()
     for line in code:
-        head = line[0]
-        if head == r['assign']:
-            expr_str1 = expr_to_str(line[1])
-            expr_str2 = expr_to_str(line[2])
-            line_str = expr_str1 + ' = ' + expr_str2
-            result.append(add_indentation(line_str, indentation_count))
-        elif head == r['assign_as_reference']:
-            expr_str1 = expr_to_str(line[1])
-            expr_str2 = expr_to_str(line[2])
-            line_str = expr_str1 + ' &= ' + expr_str2
-            result.append(add_indentation(line_str, indentation_count))
-        elif head == r['return']:
-            expr_str = expr_to_str(line[1])
-            line_str = 'return ' + expr_str
-            result.append(add_indentation(line_str, indentation_count))
-        elif head == r['assert']:
-            expr_str = expr_to_str(line[1])
-            line_str = 'assert ' + expr_str
-            result.append(add_indentation(line_str, indentation_count))
-        elif head == r['for']:
-            iter_id = to_integer(line[1])
-            end_value = expr_to_str(line[2])
-            for_lines = line[3]
-            line_str = 'for ' + iter_to_str(iter_id) + ' in range(' + end_value + '):'
-            result.append(add_indentation(line_str, indentation_count))
-            result += visualize_code(for_lines, indentation_count + 1)
-        elif head == r['while']:
-            judging_expr = expr_to_str(line[1])
-            while_lines = line[2]
-            line_str = 'while ' + judging_expr + ':'
-            result.append(add_indentation(line_str, indentation_count))
-            result += visualize_code(while_lines, indentation_count + 1)
-        elif head == r['break']:
-            line_str = 'break'
-            result.append(add_indentation(line_str, indentation_count))
-        elif head == r['if']:
-            judging_expr = expr_to_str(line[1])
-            if_lines = line[2]
-            elif_blocks = line[3]
-            else_lines = line[4]
-            line_str = 'if ' + judging_expr + ':'
-            result.append(add_indentation(line_str, indentation_count))
-            result += visualize_code(if_lines, indentation_count + 1)
-            for elif_block in elif_blocks:
-                elif_judging_expr = expr_to_str(elif_block[0])
-                elif_lines = elif_block[1]
-                elif_line_str = 'elif ' + elif_judging_expr + ':'
-                result.append(add_indentation(elif_line_str, indentation_count))
-                result += visualize_code(elif_lines, indentation_count + 1)
-            if else_lines:
-                result.append(add_indentation('else:', indentation_count))
-                result += visualize_code(else_lines, indentation_count + 1)
-        elif head == r['append']:
-            target_expr = expr_to_str(line[1])
-            element = expr_to_str(line[2])
-            line_str = target_expr + '.append(' + element + ')'
-            result.append(add_indentation(line_str, indentation_count))
-        elif head == r['remove']:
-            target_expr = expr_to_str(line[1])
-            element = expr_to_str(line[2])
-            line_str = target_expr + '.remove(' + element + ')'
-            result.append(add_indentation(line_str, indentation_count))
-        elif head == r['request']:
-            array_of_reg_ids = line[1]
-            constraints_expr = expr_to_str(line[2])
-            provided_lines = line[3]
-            line_str = 'request '
-            assert array_of_reg_ids
-            for reg_id in array_of_reg_ids:
-                line_str += 'reg' + str(to_integer(reg_id)) + ', '
-            line_str += 's.t.{' + constraints_expr + '}, provided:'
-            result.append(add_indentation(line_str, indentation_count))
-            result += visualize_code(provided_lines, indentation_count + 1)
-        else:
-            raise AGIException('Unexpected head of line.')
+        result += visualize_line(line, indentation_count)
     return result
 
