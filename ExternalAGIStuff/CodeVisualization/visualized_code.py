@@ -1,5 +1,11 @@
 visualized_code1 = '''
-request reg0, reg1, reg2, s.t.{((reg0 + reg1) === 5 and (reg1 + reg2) === 6)}, provided:
-    assert True
-return ((reg0 + reg1) + reg2)
+if input0 == 'Fail':
+    return 'Fail'
+for i in range(input0.size):
+    if input0[i] == True:
+        return True
+for j in range(input0.size):
+    if input0[j] == Fail:
+        return Fail
+return False
 '''

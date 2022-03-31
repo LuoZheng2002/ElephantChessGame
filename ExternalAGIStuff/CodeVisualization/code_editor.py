@@ -6,6 +6,23 @@ from ExternalAGIStuff.CodeVisualization.code_browser import letter_to_number
 from exception import AGIException
 
 
+def rightest_naked_dot(string_code: str) -> int:
+    string_code_copy = string_code
+    rightest_naked = -1
+    while string_code_copy.find('.', rightest_naked + 1) != -1:
+        position = string_code_copy.find('.', rightest_naked + 1)
+        bracket_count = 0
+        for i in range(position):
+            if string_code_copy[i] == '(':
+                bracket_count += 1
+            elif string_code_copy[i] == ')':
+                bracket_count -= 1
+        if bracket_count == 0:
+            rightest_naked = position
+        string_code_copy = string_code_copy.replace('.', '@', 1)
+    return rightest_naked
+
+
 def slice_code(string_code: str) -> list:
     result = list()
     string_code_copy = string_code
@@ -14,13 +31,13 @@ def slice_code(string_code: str) -> list:
     while string_code_copy.find('\n') != -1:
         return_pos = string_code_copy.find('\n')
         result.append(string_code_copy[:return_pos])
-        string_code_copy = string_code_copy[return_pos+1:]
+        string_code_copy = string_code_copy[return_pos + 1:]
     if string_code_copy != '':
         result.append(string_code_copy)
     return result
 
 
-def find_middle(target_str: str, sub_str: str) -> int:
+def find_middle(target_str: str, sub_str: str, target_bracket=1) -> int:
     target_str_copy = target_str
     while target_str_copy.find(sub_str) != -1:
         pos = target_str_copy.find(sub_str)
@@ -30,8 +47,8 @@ def find_middle(target_str: str, sub_str: str) -> int:
                 bracket_count += 1
             elif target_str_copy[i] == ')':
                 bracket_count -= 1
-        assert bracket_count >= 1
-        if bracket_count > 1:
+        assert bracket_count >= target_bracket
+        if bracket_count > target_bracket:
             target_list_copy = list(target_str_copy)
             for j in range(len(sub_str)):
                 target_list_copy[pos + j] = '@'
@@ -50,12 +67,12 @@ def generate_expression(string_expr: str) -> str:
             middle_pos = find_middle(string_expr, ' + ')
             func_name = 'func::sum'
             left_expr = generate_expression(string_expr[1: middle_pos])
-            right_expr = generate_expression(string_expr[middle_pos+3: -1])
+            right_expr = generate_expression(string_expr[middle_pos + 3: -1])
         elif find_middle(string_expr, ' and ') != -1:
             middle_pos = find_middle(string_expr, ' and ')
             func_name = 'func::logic_and'
             left_expr = generate_expression(string_expr[1: middle_pos])
-            right_expr = generate_expression(string_expr[middle_pos+5: -1])
+            right_expr = generate_expression(string_expr[middle_pos + 5: -1])
         elif find_middle(string_expr, ' or ') != -1:
             middle_pos = find_middle(string_expr, ' or ')
             func_name = 'func::logic_or'
@@ -65,51 +82,140 @@ def generate_expression(string_expr: str) -> str:
             assert False
         result_str = "[r['call'], cid_of['" + func_name + "'],\n[\n" + left_expr + ',\n' + right_expr + '\n]\n]'
         return result_str
-    if string_expr.find('not ') == 0:
-        target_expr = generate_expression(string_expr[4:])
-        result_str = "[r['call'], cid_of['func::logic_not'], \n[\n" + target_expr + '\n]\n]'
-        return result_str
-    if string_expr.find(' == ') != -1 \
-            or string_expr.find(' === ') != -1 \
-            or string_expr.find(' > ') != -1 \
-            or string_expr.find(' < ') != -1 \
-            or string_expr.find(' >= ') != -1 \
-            or string_expr.find(' <= ') != -1:
+    if find_middle(string_expr, ' == ', 0) != -1 \
+            or find_middle(string_expr, ' === ', 0) != -1 \
+            or find_middle(string_expr, ' > ', 0) != -1 \
+            or find_middle(string_expr, ' < ', 0) != -1 \
+            or find_middle(string_expr, ' >= ', 0) != -1 \
+            or find_middle(string_expr, ' <= ', 0) != -1:
         func_name, left_expr, right_expr = None, None, None
-        if string_expr.find(' == ') != -1:
-            middle_pos = string_expr.find(' == ')
+        if find_middle(string_expr, ' == ', 0) != -1:
+            # print(string_expr)
+            middle_pos = find_middle(string_expr, ' == ', 0)
             func_name = 'func::compare_concepts'
+            # print(string_expr[:middle_pos])
+            # print(string_expr[middle_pos + 4:])
             left_expr = generate_expression(string_expr[:middle_pos])
             right_expr = generate_expression(string_expr[middle_pos + 4:])
-        elif string_expr.find(' === ') != -1:
-            middle_pos = string_expr.find(' === ')
+        elif find_middle(string_expr, ' === ', 0) != -1:
+            middle_pos = find_middle(string_expr, ' === ', 0)
             func_name = 'func::math_equal'
             left_expr = generate_expression(string_expr[: middle_pos])
             right_expr = generate_expression(string_expr[middle_pos + 5:])
-        elif string_expr.find(' > ') != -1:
-            middle_pos = string_expr.find(' > ')
+        elif find_middle(string_expr, ' > ', 0) != -1:
+            middle_pos = find_middle(string_expr, ' > ', 0)
             func_name = 'func::greater_than'
             left_expr = generate_expression(string_expr[: middle_pos])
             right_expr = generate_expression(string_expr[middle_pos + 3:])
-        elif string_expr.find(' < ') != -1:
-            middle_pos = string_expr.find(' < ')
+        elif find_middle(string_expr, ' < ', 0) != -1:
+            middle_pos = find_middle(string_expr, ' < ', 0)
             func_name = 'func::less_than'
             left_expr = generate_expression(string_expr[: middle_pos])
             right_expr = generate_expression(string_expr[middle_pos + 3:])
-        elif string_expr.find(' >= ') != -1:
-            middle_pos = string_expr.find(' >= ')
+        elif find_middle(string_expr, ' >= ', 0) != -1:
+            middle_pos = find_middle(string_expr, ' >= ', 0)
             func_name = 'func::greater_than_or_equal_to'
             left_expr = generate_expression(string_expr[: middle_pos])
             right_expr = generate_expression(string_expr[middle_pos + 4:])
-        elif string_expr.find(' <= ') != -1:
-            middle_pos = string_expr.find(' <= ')
+        elif find_middle(string_expr, ' <= ', 0) != -1:
+            middle_pos = find_middle(string_expr, ' <= ', 0)
             func_name = 'func::less_than_or_equal_to'
             left_expr = generate_expression(string_expr[: middle_pos])
             right_expr = generate_expression(string_expr[middle_pos + 4:])
         result_str = "[r['call'], cid_of['" + func_name + "'],\n[\n" + left_expr + ',\n' + right_expr + '\n]\n]'
         return result_str
+    if find_middle(string_expr, ' != ', 0) != -1:
+        middle_pos = find_middle(string_expr, ' != ', 0)
+        left_expr = generate_expression(string_expr[: middle_pos])
+        right_expr = generate_expression(string_expr[middle_pos + 4:])
+        result_str = "[r['call'], cid_of['func::logic_not'], \n[\n[r['call'], cid_of['func::compare_concepts'],\n[\n" \
+                     + left_expr + ',\n' + right_expr + "\n]\n]\n]]"
+        return result_str
+    if find_middle(string_expr, ' =!= ', 0) != -1:
+        middle_pos = find_middle(string_expr, ' =!= ', 0)
+        left_expr = generate_expression(string_expr[: middle_pos])
+        right_expr = generate_expression(string_expr[middle_pos + 5:])
+        result_str = "[r['call'], cid_of['func::logic_not'], \n[\n[r['call'], cid_of['func::math_equal'],\n[\n" \
+                     + left_expr + ',\n' + right_expr + "\n]\n]\n]]"
+        return result_str
+    if string_expr.find('.find(') != -1 and\
+            string_expr.find(' ', 0, string_expr.find('.find(')) == -1 and\
+            string_expr.find('.find(') == rightest_naked_dot(string_expr):
+        dot_pos = string_expr.find('.find(')
+        target_expr = generate_expression(string_expr[: dot_pos])
+        constraints_expr = generate_expression(string_expr[dot_pos + 6: -1])
+        result_str = "[r['find'], " + target_expr + ', ' + constraints_expr + ']'
+        return result_str
+    if string_expr.find('.exist(') != -1 and\
+            string_expr.find(' ', 0, string_expr.find('.exist(')) == -1 and\
+            string_expr.find('.exist(') == rightest_naked_dot(string_expr):
+        assert string_expr[-1] == ')'
+        dot_pos = string_expr.find('.exist(')
+        target_expr = generate_expression(string_expr[: dot_pos])
+        constraints_expr = generate_expression(string_expr[dot_pos + 7: -1])
+        result_str = "[r['exist'], " + target_expr + ', ' + constraints_expr + ']'
+        return result_str
+    if string_expr.find('not ') == 0:
+        target_expr = generate_expression(string_expr[4:])
+        result_str = "[r['call'], cid_of['func::logic_not'], \n[\n" + target_expr + '\n]\n]'
+        return result_str
     if string_expr.find('input') == 0 and string_expr[5:].isdigit():
         return "[r['input'], obj(" + string_expr[5:] + ')]'
+    if string_expr.find('\'') == 0 and string_expr.find('\'', 1) != len(string_expr) - 1 \
+            and string_expr[string_expr.find('\'', 1) + 1] == '(':
+        assert string_expr[-1] == ')'
+        end_quotation_pos = string_expr.find('\'', 1)
+        function_name = string_expr[1: end_quotation_pos]
+        if function_name not in cid_of.keys():
+            print(function_name)
+            assert False
+        string_expr_copy = string_expr[end_quotation_pos + 2:]
+        params = list()
+        while string_expr_copy.find(', ') != -1:
+            comma_pos = string_expr_copy.find(', ')
+            params.append(generate_expression(string_expr_copy[:comma_pos]))
+            string_expr_copy = string_expr_copy[comma_pos + 2:]
+        params.append(generate_expression(string_expr_copy[:-1]))
+        result_str = "[r['call'], cid_of['" + function_name + "'],\n[\n"
+        for param in params:
+            result_str += param + ',\n'
+        result_str = result_str[:-2] + '\n]\n]'
+        return result_str
+    if string_expr.find('\'') == 0 and string_expr.find('\'', 1) == len(string_expr) - 1:
+        assert string_expr[1:-1] in cid_of.keys()
+        result_str = "[r['concept_instance'], cid_of['" + string_expr[1:-1] + "']]"
+        return result_str
+    if string_expr[-5:] == '.size' and string_expr.find(' ') == -1:
+        target_expr = generate_expression(string_expr[:-5])
+        result_str = "[r['size'], " + target_expr + ']'
+        return result_str
+    if string_expr[-1] == ']':
+        open_bracket_pos = string_expr.find('[')
+        if string_expr[open_bracket_pos + 1] == '!':
+            is_reverse = True
+            index = string_expr[open_bracket_pos + 2: -1]
+        else:
+            is_reverse = False
+            index = generate_expression(string_expr[open_bracket_pos + 1: -1])
+        target_expr = generate_expression(string_expr[: open_bracket_pos])
+        if is_reverse:
+            result_str = "[r['at_reverse'], " + target_expr + ', ' + index + ']'
+        else:
+            result_str = "[r['at'], " + target_expr + ', ' + index + ']'
+        return result_str
+    if find_middle(string_expr, '.\'', 0) != -1 and find_middle(string_expr, '.\'', 0) == rightest_naked_dot(string_expr):
+        # print(string_expr)
+        assert string_expr[-1] == '\''
+        dot_pos = find_middle(string_expr, '.\'', 0)
+        # print(string_expr[:dot_pos])
+        # print(string_expr[dot_pos + 2:-1])
+        target_expr = generate_expression(string_expr[:dot_pos])
+        member = string_expr[dot_pos + 2:-1]
+        if member not in cid_of.keys():
+            print(member)
+            assert False
+        result_str = "[r['get_member'], " + target_expr + ", cid_of['" + member + "']]"
+        return result_str
     if string_expr.find('reg') == 0 and string_expr.find(' ') == -1:
         if string_expr.find('<') != -1:
             assert string_expr[-1] == '>'
@@ -143,75 +249,13 @@ def generate_expression(string_expr: str) -> str:
         else:
             result_str = "[r['iterator'], obj(" + string_expr[4:] + ')]'
         return result_str
-    if string_expr.find('\'') == 0 and string_expr.find('\'', 1) != len(string_expr) - 1 \
-            and string_expr[string_expr.find('\'', 1) + 1] == '(':
-        assert string_expr[-1] == ')'
-        end_quotation_pos = string_expr.find('\'', 1)
-        function_name = string_expr[1: end_quotation_pos]
-        assert function_name in cid_of.keys()
-        string_expr_copy = string_expr[end_quotation_pos + 2:]
-        params = list()
-        while string_expr_copy.find(', ') != -1:
-            comma_pos = string_expr_copy.find(', ')
-            params.append(generate_expression(string_expr_copy[:comma_pos]))
-            string_expr_copy = string_expr_copy[comma_pos + 2:]
-        params.append(generate_expression(string_expr_copy[:-1]))
-        result_str = "[r['call'], cid_of['" + function_name + "'],\n[\n"
-        for param in params:
-            result_str += param + ',\n'
-        result_str = result_str[:-2] + '\n]\n]'
-        return result_str
-    if string_expr.find('\'') == 0 and string_expr.find('\'', 1) == len(string_expr) - 1:
-        assert string_expr[1:-1] in cid_of.keys()
-        result_str = "[r['concept_instance'], cid_of['" + string_expr[1:-1] + "']]"
-        return result_str
-    if string_expr[-5:] == '.size' and string_expr.find(' ') == -1:
-        target_expr = generate_expression(string_expr[:-5])
-        result_str = "[r['size'], " + target_expr + ']'
-        return result_str
-    if string_expr.find('.\'') != -1:
-        assert string_expr[-1] == '\''
-        dot_pos = string_expr.find('.\'')
-        target_expr = generate_expression(string_expr[:dot_pos])
-        member = string_expr[dot_pos + 2:-1]
-        assert member in cid_of.keys()
-        result_str = "[r['get_member'], " + target_expr + ", cid_of['" + member + "']]"
-        return result_str
-    if string_expr[-1] == ']':
-        open_bracket_pos = string_expr.find('[')
-        if string_expr[open_bracket_pos + 1] == '!':
-            is_reverse = True
-            index = string_expr[open_bracket_pos + 2: -1]
-        else:
-            is_reverse = False
-            index = generate_expression(string_expr[open_bracket_pos + 1: -1])
-        target_expr = generate_expression(string_expr[: open_bracket_pos])
-        if is_reverse:
-            result_str = "[r['at_reverse'], " + target_expr + ', ' + index + ']'
-        else:
-            result_str = "[r['at'], " + target_expr + ', ' + index + ']'
-        return result_str
-    if string_expr.find('.find(') != -1:
-        assert string_expr[-1] == ')'
-        dot_pos = string_expr.find('.find(')
-        target_expr = generate_expression(string_expr[: dot_pos])
-        constraints_expr = generate_expression(string_expr[dot_pos + 6: -1])
-        result_str = "[r['find'], " + target_expr + ', ' + constraints_expr + ']'
-        return result_str
-    if string_expr.find('.exist(') != -1:
-        assert string_expr[-1] == ')'
-        dot_pos = string_expr.find('.exist(')
-        target_expr = generate_expression(string_expr[: dot_pos])
-        constraints_expr = generate_expression(string_expr[dot_pos + 6: -1])
-        result_str = "[r['exist'], " + target_expr + ', ' + constraints_expr + ']'
-        return result_str
     if string_expr == 'target':
         result_str = "[r['target']]"
         return result_str
     if string_expr.isdigit():
         result_str = '[obj(' + string_expr + ')]'
         return result_str
-    if string_expr == 'True' or 'False':
+    if string_expr == 'True' or 'False' or 'Fail':
         result_str = "[r['concept_instance'], cid_of['" + string_expr + "']]"
         return result_str
     return "['Unknown Expression']"
@@ -232,6 +276,22 @@ def get_current_line(string_code, current_index, indentation):
         assert line.find('    ') == 0
         line = line[4:]
     return line
+
+
+def generate_code_file(string_list_code, file_name, func_name):
+    file = open(file_name, 'w')
+    result = '''from ExternalAGIStuff.IDs.reserved_keywords import r
+from ExternalAGIStuff.IDs.to_object import to_integer, to_str, obj
+from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
+from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
+from ExternalAGIStuff.CodeVisualization.code_browser import letter_to_number
+from exception import AGIException
+'''
+    result += func_name + ' = '
+    result += generate_code(slice_code(string_list_code))
+    file.write(result)
+    print('Succeeded!')
+    file.close()
 
 
 def generate_code(string_code: list) -> str:
@@ -334,7 +394,7 @@ def generate_code(string_code: list) -> str:
                 if current_line_index == len(string_code):
                     break
                 current_line = get_current_line(string_code, current_line_index, indentation_count)
-            current_line_code += generate_code(if_lines) + ',\n[\n'
+            current_line_code += generate_code(if_lines) + ',\n['
             if current_line_index != len(string_code):
                 current_line = get_current_line(string_code, current_line_index, indentation_count)
                 has_elif_block = False
@@ -355,7 +415,7 @@ def generate_code(string_code: list) -> str:
                     current_line_code += '[\n' + elif_expr + ',\n' + generate_code(elif_lines) + '\n],\n'
                 if has_elif_block:
                     current_line_code = current_line_code[: -2]
-                current_line_code += '\n],\n'
+                current_line_code += '],\n'
                 has_else = False
                 if current_line_index != len(string_code):
                     current_line = get_current_line(string_code, current_line_index, indentation_count)
@@ -377,12 +437,12 @@ def generate_code(string_code: list) -> str:
                     current_line_code += '[]\n'
                 current_line_code += ']'
             else:
-                current_line_code += '\n],\n[]\n]'
+                current_line_code += '],\n[]\n]'
             result += current_line_code + ', \n'
         elif current_line.find('.append(') != -1:
             append_pos = current_line.find('.append(')
             left_expr = generate_expression(current_line[: append_pos])
-            right_expr = generate_expression(current_line[append_pos + 8, -1])
+            right_expr = generate_expression(current_line[append_pos + 8:-1])
             assert (current_line[-1] == ')')
             current_line_code = "[r['append'], " + left_expr + ', ' + right_expr + ']'
             result += current_line_code + ', \n'
@@ -390,7 +450,7 @@ def generate_code(string_code: list) -> str:
         elif current_line.find('.remove(') != -1:
             append_pos = current_line.find('.remove(')
             left_expr = generate_expression(current_line[: append_pos])
-            right_expr = generate_expression(current_line[append_pos + 8, -1])
+            right_expr = generate_expression(current_line[append_pos + 8:-1])
             assert (current_line[-1] == ')')
             current_line_code = "[r['remove'], " + left_expr + ', ' + right_expr + ']'
             result += current_line_code + ', \n'
@@ -431,7 +491,11 @@ def generate_code(string_code: list) -> str:
                     break
                 current_line = get_current_line(string_code, current_line_index, indentation_count)
             assert provided_lines
-            result += generate_code(provided_lines) + '\n],\n'
+            result += generate_code(provided_lines) + '\n], \n'
+        elif current_line == '':
+            current_line_index += 1
+        else:
+            raise AGIException('Unknown text.')
     assert result[-1] == '\n'
     result = result[:-3]
     result += '\n]'

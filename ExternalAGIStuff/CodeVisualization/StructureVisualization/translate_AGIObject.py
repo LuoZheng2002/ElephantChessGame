@@ -41,7 +41,7 @@ def translate_AGIObject(agi_object: AGIObject, indentation=0, attribute_name=str
         elif agi_object.attributes[i] is None:
             for j in range(indentation + 1):
                 result += '|   '
-            result += cid_reverse[i] + ': None\n'
+            result += "'" + cid_reverse[i] + '\': None\n'
         else:
             print(cid_reverse[agi_object.attributes[i]])
             raise AGIException('Unexpected type.', special_name='type', special_str=str(type(agi_object.attributes[i])))

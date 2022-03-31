@@ -2,7 +2,7 @@ from exception import AGIException
 from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject, AGIList
 from copy import deepcopy
 from ExternalAGIStuff.CodeDriver.runtime_memory import ResourceManager
-from ExternalAGIStuff.IDs.reserved_keywords import r
+from ExternalAGIStuff.IDs.reserved_keywords import r, rr
 from ExternalAGIStuff.CodeDriver.concept_instance_creator import create_concept_instance
 from ExternalAGIStuff.CodeDriver.code_getter import get_code
 from ExternalAGIStuff.HardcodedFunctions.hardcoded_function_ids import hardcoded_function_linker
@@ -74,7 +74,7 @@ def solve_expression(expr: list,
         return rsc_mng.get_reg_value(to_integer(expr[1]), child_index)
     elif head == r['iterator']:
         # format: [iterator, index_of_iterator]
-        return rsc_mng.get_iterator_value(to_integer(expr[1]))
+        return obj(rsc_mng.get_iterator_value(to_integer(expr[1])))
     elif head == r['call']:
         # format: [call, method_id, [expr1, expr2, ...]]
         code_id = expr[1]
@@ -101,7 +101,7 @@ def solve_expression(expr: list,
     elif head == r['at'] or head == r['at_reverse']:
         # at/at_reverse, target, index
         target_expr = solve_expression(expr[1], rsc_mng, target)
-        index = solve_expression(expr[2], rsc_mng, target)
+        index = to_integer(solve_expression(expr[2], rsc_mng, target))
         if type(target_expr) == AGIObject:
             if head == r['at']:
                 return get_agi_list(target_expr).get_element(index)
@@ -159,6 +159,8 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
     # return value: {value_type:None/'break'/'return', value:None/None/[return value]}
     return_value = {'value_type': None, 'value': None}
     head = line[0]
+    # print(rr[head])
+    # print(line)
     if head == r['assign'] or head == r['assign_as_reference']:  # format: [assign, expr, expr]
         lhs_expr = line[1]
         rhs_expr = line[2]
@@ -225,7 +227,10 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
                     debug_string += str(i) + ','
                 debug_string = debug_string[: len(debug_string) - 1]
                 debug_string += '>'
-            debug_string += '\'s value is set to \'' + to_str(rhs) + '\''
+            if type(rhs) == AGIObject:
+                debug_string += '\'s value is set to \'' + to_str(rhs) + '\''
+            else:
+                debug_string += '\'s value is set to \'an AGIList\''
             dout('register', debug_string)
         else:
             # if lhs[1] == r['at'] or lhs[1] == r['at_reverse'], then lhs[0] must be an AGIList

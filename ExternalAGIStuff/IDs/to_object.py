@@ -22,7 +22,7 @@ def obj(target: int or bool or str) -> AGIObject:
 
 def to_integer(natural_number: AGIObject) -> int:
     if type(natural_number) != AGIObject:
-        raise AGIException('Expect AGIObject')
+        raise AGIException('Expect AGIObject', special_name='type', special_str=str(type(natural_number)))
     if natural_number.concept_id != cid_of['natural_number']:
         raise AGIException('Expect natural number')
     integer_str = str()

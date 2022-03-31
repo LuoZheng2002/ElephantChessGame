@@ -98,7 +98,7 @@ def expr_to_str(expr: list) -> str:
         return target_expr + '.size'
     elif head == r['get_member']:
         target_expr = expr_to_str(expr[1])
-        member_name = to_integer(expr[2])
+        member_name = expr[2]
         return target_expr + '.\'' + cid_reverse[member_name] + '\''
     elif head == r['at']:
         target_expr = expr_to_str(expr[1])
@@ -183,6 +183,7 @@ def visualize_code(code: list, indentation_count=0) -> list:
                 result.append(add_indentation(elif_line_str, indentation_count))
                 result += visualize_code(elif_lines, indentation_count + 1)
             if else_lines:
+                result.append(add_indentation('else:', indentation_count))
                 result += visualize_code(else_lines, indentation_count + 1)
         elif head == r['append']:
             target_expr = expr_to_str(line[1])

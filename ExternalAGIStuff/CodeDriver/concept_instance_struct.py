@@ -3,9 +3,12 @@ from exception import AGIException
 
 
 class AGIObject:
-    def __init__(self, concept_id: int, attributes: dict):
+    def __init__(self, concept_id: int, attributes=None):
         self.concept_id = concept_id
-        self.attributes = attributes
+        if attributes is not None:
+            self.attributes = attributes
+        else:
+            self.attributes = dict()
 
 
 class AGIList:

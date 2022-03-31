@@ -20,11 +20,11 @@ def piece_object(owner: str, name: str, position: list) -> AGIObject:
 
 
 pieces_list = [
-    piece_object('xq::red_team', 'xq::车', [0, 0]),
-    piece_object('xq::red_team', 'xq::马', [1, 0])
+    piece_object('xq::red_team', 'xq::Che', [0, 0]),
+    piece_object('xq::red_team', 'xq::Ma', [1, 0])
 ]
 pieces = AGIList(pieces_list)
-whose_turn = AGIObject(cid_of['xq::reds_turn'], dict())
+whose_turn = AGIObject(cid_of['xq::red_team'], dict())
 xq_chessboard = xq_chessboard_object(pieces, whose_turn)
 teams = [
     team_object('xq::red_team',

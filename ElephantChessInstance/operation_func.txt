@@ -7,8 +7,8 @@ reg[0] &= input[0].find(target == 'xq::pieces')  # 找到棋盘中的棋子数�
 request reg[1], reg[2] s.t.{
     reg[1].concept_id == 'integer' and  # 需要的两个变量的类型为“整数”
     reg[2].concept_id == 'integer' and
-    'greater than or equal to'(reg[1], '0') and 'less than or equal to'(reg[1], '8') and  # 框定边界
-    'greater than or equal to'(reg[2], '0') and 'less than or equal to'(reg[2], '9') and
+    'greater than or equal to'(reg[1], '0') and 'less than or equal to'(reg[1], '9') and  # 框定边界
+    'greater than or equal to'(reg[2], '0') and 'less than or equal to'(reg[2], '10') and
     reg[0].exist(target.'position'[0] == reg[1] and target.'position'[1] == reg[2]) == True  # 目标位置上应有棋子
     and  # 目标位置上的棋子是己方的
     reg[0].find(target.'position'[0] == reg[1] and target.'position'[1] == reg[2]).'piece_owner' == input[1]
@@ -29,13 +29,13 @@ if reg[3].'piece_name' == '车':
         ((reg[4] == reg[1] and reg[5] != reg[2]
                 and reg[0].exist(target.'position'[0] == reg[1]
                     and 'greater than'(target.'position'[1], 'min'(reg[5], reg[2]))
-                    and 'less than'(target.'position'[1], 'max'(reg[5], reg[2]))) == False
+                    and 'less than'(target.'position'[1], 'max'(reg[5], reg[2]))) == False)
             or
-        (reg[5] == reg[2] and reg[4] != reg[1])
+        (reg[5] == reg[2] and reg[4] != reg[1]
                 and reg[0].exist(target.'position'[1] == reg[2]
                     and 'greater than'(target.'position'[0], 'min'(reg[4], reg[1]))
-                    and 'less than'(target.'position'[0], 'max'(reg[4], reg[1]))) == False)
-        and  # （reg[4], reg[5])处不能是己方棋子。
+                    and 'less than'(target.'position'[0], 'max'(reg[4], reg[1]))) == False))
+        and  # (reg[4], reg[5])处不能是己方棋子。
         reg[0].exist(target.'piece_owner' == input[1]
                      and target.'position'[0] == reg[4]
                      and target.'position'[1] == reg[5]) == False

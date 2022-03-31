@@ -3,6 +3,18 @@ from ExternalAGIStuff.IDs.concept_ids import cid_of
 from ExternalAGIStuff.IDs.to_object import obj
 
 digit_to_natural_number_code = [
+    [r['if'], [r['call'], cid_of['func::compare_concepts'],
+               [
+                   [r['input'], obj(0)],
+                   [r['concept_instance'], cid_of['Fail']]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
     [r['assign'], [r['reg'], obj(0), []], [r['concept_instance'], cid_of['natural_number']]],
     [r['assign'], [r['at'], [r['reg'], obj(0), []], [obj(0)]], [r['input'], obj(0)]],
     [r['return'], [r['reg'], obj(0), []]]
@@ -27,6 +39,28 @@ digit_to_natural_number_code = [
 #         return 'less_than'
 # return 'math_equal'
 compare_natural_numbers_code = [
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(0)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(1)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
     [r['if'],
      [r['call'], cid_of['func::logic_and'],
       [
@@ -110,6 +144,28 @@ compare_natural_numbers_code = [
 ]
 
 greater_than_code = [
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(0)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(1)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
     [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
                                            [
                                                [r['input'], obj(0)],
@@ -130,6 +186,28 @@ greater_than_code = [
 ]
 
 less_than_code = [
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(0)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(1)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
     [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
                                            [
                                                [r['input'], obj(0)],
@@ -150,6 +228,28 @@ less_than_code = [
 ]
 
 greater_than_or_equal_to_code = [
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(0)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(1)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
     [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
                                            [
                                                [r['input'], obj(0)],
@@ -178,6 +278,28 @@ greater_than_or_equal_to_code = [
 ]
 
 less_than_or_equal_to_code = [
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(0)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(1)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
     [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
                                            [
                                                [r['input'], obj(0)],
@@ -206,6 +328,28 @@ less_than_or_equal_to_code = [
 ]
 
 math_equal_code = [
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(0)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(1)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
     [r['assign'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_natural_numbers'],
                                            [
                                                [r['input'], obj(0)],
@@ -223,4 +367,80 @@ math_equal_code = [
      [
          [r['return'], [r['concept_instance'], cid_of['False']]]
      ]]
+]
+
+max_code = [
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(0)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(1)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
+    [r['if'], [r['call'], cid_of['func::greater_than'],
+               [
+                   [r['input'], obj(0)],
+                   [r['input'], obj(1)]
+               ]
+               ],
+     [
+         [r['return'], [r['input'], obj(0)]]
+     ],
+     [],
+     []
+     ],
+    [r['return'], [r['input'], obj(1)]]
+]
+
+min_code = [
+    [r['if'], [r['call'], cid_of['func::logic_or'],
+               [
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(0)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ],
+                   [r['call'], cid_of['func::compare_concepts'],
+                    [
+                        [r['input'], obj(1)],
+                        [r['concept_instance'], cid_of['Fail']]
+                    ]
+                    ]
+               ]
+               ],
+     [
+         [r['return'], [r['concept_instance'], cid_of['Fail']]]
+     ],
+     [],
+     []
+     ],
+    [r['if'], [r['call'], cid_of['func::less_than'],
+               [
+                   [r['input'], obj(0)],
+                   [r['input'], obj(1)]
+               ]
+               ],
+     [
+         [r['return'], [r['input'], obj(0)]]
+     ],
+     [],
+     []
+     ],
+    [r['return'], [r['input'], obj(1)]]
 ]
