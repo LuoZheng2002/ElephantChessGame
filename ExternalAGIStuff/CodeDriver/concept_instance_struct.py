@@ -20,7 +20,7 @@ class AGIList:
         else:
             self.forward = deepcopy(value)
             self.reverse = []
-            self.value = deepcopy(value)
+            self.value = self.forward
 
     def update(self):
         reverse = deepcopy(self.reverse)
@@ -73,4 +73,3 @@ class AGIList:
     def remove(self, index):
         self.forward.pop(index)
         self.update()
-

@@ -4,25 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="Che, Ma, Xiang completed">
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/chessboard_browser.py" afterDir="false" />
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="All completed!">
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/end_game_benefit_f.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/end_game_func_f.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/who_is_next_func_f.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/end_game_benefit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/end_game_func.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/who_is_next_func.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/code_to_object.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/operation_func_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/operation_func_f.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/operation_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/operation_func.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/instance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/runtime_memory.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/runtime_memory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_browser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/visualized_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/visualized_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/batch_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/batch_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_function_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_function_ids.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/reserved_keywords.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/reserved_keywords.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/debug.py" beforeDir="false" afterPath="$PROJECT_DIR$/debug.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/exception.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_code.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_python.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_python.py" afterDir="false" />
     </list>
@@ -58,6 +54,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -73,7 +70,7 @@
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\IDs" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_generate">
+  <component name="RunManager" selected="Python.test_python">
     <configuration name="concept_ids" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Game2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -354,7 +351,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648700415549</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="All completed!">
+      <created>1648743409020</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1648743409020</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -370,6 +374,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="basic ideas done" />
     <MESSAGE value="natural number comparison done" />
     <MESSAGE value="bug fixed, debug done" />
@@ -380,6 +385,7 @@
     <MESSAGE value="update" />
     <MESSAGE value="checkpoint" />
     <MESSAGE value="Che, Ma, Xiang completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Che, Ma, Xiang completed" />
+    <MESSAGE value="All completed!" />
+    <option name="LAST_COMMIT_MESSAGE" value="All completed!" />
   </component>
 </project>

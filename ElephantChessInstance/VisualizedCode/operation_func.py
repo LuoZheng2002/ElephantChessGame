@@ -184,3 +184,6 @@ else:
     reg0.'xq::whose_turn' = 'xq::red_team'
 return reg0
 '''
+
+b = '''
+'''

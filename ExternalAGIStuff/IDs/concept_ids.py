@@ -25,35 +25,37 @@ concepts = [
     'less_than',
     'math_equal',
     # 可执行代码相关概念
-    'dynamic_code_object',
-    'dc::line',
+    'dynamic_code',
+    'dc::lines',
+    'dc::params',
     'dc::expression',
     # 语句头
-    'head_kw::assign',
-    'head_kw::assign_as_reference',
-    'head_kw::return',
-    'head_kw::assert',
-    'head_kw::for',
-    'head_kw::while',
-    'head_kw::break',
-    'head_kw::if',
-    'head_kw::append',
-    'head_kw::remove',
-    'head_kw::request',
+    'dcr::assign',  #
+    'dcr::assign_as_reference',  #
+    'dcr::return',  #
+    'dcr::assert',  #
+    'dcr::for',  #
+    'dcr::while',  #
+    'dcr::break',  #
+    'dcr::if',  #
+    'dcr::append',  #
+    'dcr::remove',  #
+    'dcr::request',  #
     # 表达式头
-    'expr_kw::input',
-    'expr_kw::reg',
-    'expr_kw::iterator',
-    'expr_kw::call',
-    'expr_kw::concept_instance',
-    'expr_kw::size',
-    'expr_kw::get_member',
-    'expr_kw::get_concept_id',
-    'expr_kw::at',
-    'expr_kw::at_reverse',
-    'expr_kw::find',
-    'expr_kw::exist',
-    'expr_kw::target',
+    'dcr::input',  #
+    'dcr::reg',  #
+    'dcr::iterator',  #
+    'dcr::call',  #
+    'dcr::concept_instance',  #
+    'dcr::size',
+    'dcr::get_member',
+    'dcr::get_concept_id',
+    'dcr::at',
+    'dcr::at_reverse',
+    'dcr::find',
+    'dcr::exist',
+    'dcr::count',
+    'dcr::target',
     # 可执行代码
     # 硬编码代码
     'func::compare_concepts',
