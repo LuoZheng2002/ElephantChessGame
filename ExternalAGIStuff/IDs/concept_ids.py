@@ -27,8 +27,7 @@ concepts = [
     # 可执行代码相关概念
     'dynamic_code',
     'dc::lines',
-    'dc::params',
-    'dc::expression',
+    'dc::sub_block',
     # 语句头
     'dcr::assign',  #
     'dcr::assign_as_reference',  #
@@ -49,13 +48,40 @@ concepts = [
     'dcr::concept_instance',  #
     'dcr::size',
     'dcr::get_member',
-    'dcr::get_concept_id',
     'dcr::at',
     'dcr::at_reverse',
     'dcr::find',
     'dcr::exist',
     'dcr::count',
     'dcr::target',
+    'dcr::constexpr',
+    # 参数名称
+    'dc::left_value',
+    'dc::right_value',
+    'dc::return_value',
+    'dc::assert_expression',
+    'dc::index',
+    'dc::child_indices',
+    'dc::function_name',
+    'dc::function_params',
+    'dc::concept_name',
+    'dc::target_list',
+    'dc::target_object',
+    'dc::member_name',
+    'dc::expression_for_constraint',
+    'dc::expression_for_judging',
+    'dc::iterator_index',
+    'dc::end_value',
+    'dc::for_block',
+    'dc::while_block',
+    'dc::if_block',
+    'dc::elif_modules',
+    'dc::elif_module',
+    'dc::elif_block',
+    'dc::else_block',
+    'dc::element',
+    'dc::requested_registers',
+    'dc::provided_block',
     # 可执行代码
     # 硬编码代码
     'func::compare_concepts',

@@ -4,22 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="All completed!">
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/end_game_benefit_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/end_game_func_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/FormattedCode/who_is_next_func_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/end_game_benefit.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/end_game_func.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/who_is_next_func.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/code_to_object.py" afterDir="false" />
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="checkpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/operation_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/operation_func.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/reserved_keywords.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/reserved_keywords.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/code_to_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/code_to_object.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_python.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_python.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -358,7 +346,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648743409020</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="checkpoint">
+      <created>1648783882703</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1648783882703</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -383,9 +378,9 @@
     <MESSAGE value="code editor added" />
     <MESSAGE value="code editor done, AGIObject translator done" />
     <MESSAGE value="update" />
-    <MESSAGE value="checkpoint" />
     <MESSAGE value="Che, Ma, Xiang completed" />
     <MESSAGE value="All completed!" />
-    <option name="LAST_COMMIT_MESSAGE" value="All completed!" />
+    <MESSAGE value="checkpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="checkpoint" />
   </component>
 </project>
