@@ -173,3 +173,4 @@ def difference_func(params: list) -> AGIObject:
     if number1 - number2 < 0:
         return AGIObject(cid_of['Fail'], dict())
     return obj(number1 - number2)
+

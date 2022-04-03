@@ -4,10 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="checkpoint">
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="code to object done">
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/run_dynamic_code_object.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/FormattedCode/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/VisualizedCode/ThinkFromHowToWin/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/VisualizedCode/ThinkFromHowToWin/find_variable_changing_code.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/VisualizedCode/ThinkFromHowToWin/find_winning_determining_variables.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/VisualizedCode/ThinkFromHowToWin/think_from_how_to_win.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/VisualizedCode/ThinkFromOperations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/VisualizedCode/ThinkFromOperations/think_from_operations.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/VisualizedCode/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/VisualizedCode/general_strategy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/GeneralStrategy/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/operation_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/VisualizedCode/operation_func.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ElephantChessInstance/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElephantChessInstance/instance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/code_to_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/code_to_object.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_python.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_python.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,11 +67,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\FundamentalCode\Visualized" />
+      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\Game\GeneralStrategy\VisualizedCode\ThinkFromOperations" />
+      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\Game\GeneralStrategy\VisualizedCode\ThinkFromHowToWin" />
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\CodeVisualization" />
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ElephantChessInstance\FormattedCode" />
-      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff" />
-      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\CodeDriver" />
-      <recent name="C:\Users\luo20\Desktop\AGI Project\Game2\ExternalAGIStuff\IDs" />
     </key>
   </component>
   <component name="RunManager" selected="Python.test_python">
@@ -353,7 +369,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648783882703</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="code to object done">
+      <created>1648827330108</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1648827330108</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -381,6 +404,7 @@
     <MESSAGE value="Che, Ma, Xiang completed" />
     <MESSAGE value="All completed!" />
     <MESSAGE value="checkpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="checkpoint" />
+    <MESSAGE value="code to object done" />
+    <option name="LAST_COMMIT_MESSAGE" value="code to object done" />
   </component>
 </project>

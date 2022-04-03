@@ -1,5 +1,10 @@
 from Game.structures import *
 from ExternalAGIStuff.IDs.to_object import obj
+from ExternalAGIStuff.code_to_object import code_to_object
+from ElephantChessInstance.FormattedCode.operation_func_f import operation_func_f
+from ElephantChessInstance.FormattedCode.end_game_func_f import end_game_func_f
+from ElephantChessInstance.FormattedCode.end_game_benefit_f import end_game_benefit_f
+from ElephantChessInstance.FormattedCode.who_is_next_func_f import who_is_next_func_f
 
 
 def natural_number_object(number: int):
@@ -65,12 +70,12 @@ teams = [
                 'xq::player_benefit')
 ]
 # to do: operation_func
-operation_func = None
+operation_func = code_to_object(operation_func_f)
 occupations = [occupation_object('xq::player_occupation', operation_func)]
-who_is_next_func = None
+who_is_next_func = code_to_object(who_is_next_func_f)
 rule = rule_object(AGIList(teams), AGIList(occupations), who_is_next_func, obj('xq::red_team'))
-end_game_func = None
-benefit_func = None
+end_game_func = code_to_object(end_game_func_f)
+benefit_func = code_to_object(end_game_benefit_f)
 end_game_benefits = [end_game_benefit('xq::player_benefit', benefit_func)]
 winning_criteria = winning_criteria_object(end_game_func, AGIList(end_game_benefits))
 elephant_chess = game_object(xq_chessboard, rule, winning_criteria)

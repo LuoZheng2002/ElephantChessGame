@@ -82,6 +82,11 @@ concepts = [
     'dc::element',
     'dc::requested_registers',
     'dc::provided_block',
+    # reg, iterator容器
+    'dc::reg_container',
+    'dc::iterator_container',
+    'dc::runtime_registers',
+    'dc::runtime_iterators',
     # 可执行代码
     # 硬编码代码
     'func::compare_concepts',
@@ -92,6 +97,7 @@ concepts = [
     'func::compare_single_digit_natural_numbers',
     'func::sum',
     'func::difference',
+    'func::run_dynamic_code_object',
     # 动态代码
     'func::digit_to_natural_number',
     'func::compare_natural_numbers',
@@ -105,6 +111,10 @@ concepts = [
     'func::batch_logic_or',
     'func::max',
     'func::min',
+    # 博弈问题策略接口
+    'interface::find_winning_determining_variables_find_variable_changing_code',
+    'interface_member::winning_determining_variables',
+
     # 回合制博弈问题相关概念
     'tb_game::game',
     'tb_game::chessboard',

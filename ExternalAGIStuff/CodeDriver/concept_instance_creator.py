@@ -4,7 +4,12 @@ concept_attributes_dict = {
     cid_of['natural_number']: (cid_of['content'],),
     cid_of['xq::chessboard']: (cid_of['xq::pieces'], cid_of['xq::whose_turn']),
     cid_of['xq::piece']: (cid_of['xq::piece_owner'], cid_of['xq::piece_name'], cid_of['xq::position']),
-    cid_of['list']: (cid_of['content'],)
+    cid_of['list']: (cid_of['content'],),
+    cid_of['interface::find_winning_determining_variables_find_variable_changing_code']:
+        (cid_of['interface_member::winning_determining_variables'],),
+    cid_of['dc::runtime_registers']: (cid_of['content'],),
+    cid_of['dc::runtime_iterators']: (cid_of['content'],),
+
 }
 
 

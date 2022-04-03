@@ -3,6 +3,7 @@ from ExternalAGIStuff.CodeVisualization.StructureVisualization.translate_AGIObje
 from ExternalAGIStuff.IDs.reserved_keywords import rr
 from ExternalAGIStuff.code_to_object import code_to_object
 from ElephantChessInstance.FormattedCode.operation_func_f import operation_func_f
-result = translate_AGIObject(code_to_object(operation_func_f))
+from ElephantChessInstance.instance import elephant_chess
+result = translate_AGIObject(elephant_chess)
 print(result)
 
