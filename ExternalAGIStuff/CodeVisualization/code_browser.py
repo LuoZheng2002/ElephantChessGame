@@ -208,6 +208,17 @@ def visualize_line(line: list, indentation_count=0):
         line_str += 's.t.{' + constraints_expr + '}, provided:'
         result.append(add_indentation(line_str, indentation_count))
         result += visualize_code(provided_lines, indentation_count + 1)
+    elif head == r['call_none_return_func']:
+        code_id = line[1]
+        params = line[2]
+        line_str = cid_reverse[code_id] + '('
+        for param in params:
+            param_expr = expr_to_str(param)
+            line_str += param_expr + ', '
+        if params:
+            line_str = line_str[: -2]
+        line_str += ')'
+        result.append(add_indentation(line_str, indentation_count))
     else:
         raise AGIException('Unexpected head of line.')
     return result

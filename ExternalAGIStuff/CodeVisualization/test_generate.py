@@ -11,7 +11,7 @@ from ExternalAGIStuff.FundamentalCode.batch_code import *
 from exception import AGIException
 from ExternalAGIStuff.CodeVisualization.visualized_code import *
 try:
-    generate_code_file(end_game_benefit, '../../ElephantChessInstance/FormattedCode/end_game_benefit_f.py', 'end_game_benefit_f')
+    generate_code_file(visualized_code1, '../../generate_code.py', 'fixes')
     print('Succeeded!')
 except AGIException as e:
     e.show()

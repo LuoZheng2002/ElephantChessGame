@@ -68,15 +68,15 @@ def solve_expression(expr: list,
         return rsc_mng.input_params[to_integer(expr[1])]
     elif head == r['reg']:
         # format: [reg, index_of_reg, [expr1, expr2, ...]]
-        child_index = []
+        child_indices = []
         for i in expr[2]:
-            child_index.append(to_integer(solve_expression(i, rsc_mng, target)))
-        child_index = tuple(child_index)
+            child_indices.append(to_integer(solve_expression(i, rsc_mng, target)))
+        child_indices = tuple(child_indices)
         # if to_integer(expr[1]) == 9:
         #     print('reg9:')
         #     print(translate_AGIObject(rsc_mng.get_reg_value(to_integer(expr[1]), child_index)))
         try:
-            return rsc_mng.get_reg_value(to_integer(expr[1]), child_index)
+            return rsc_mng.get_reg_value(to_integer(expr[1]), child_indices)
         except AGIException as e:
             print(cid_reverse[process_stack[-1].code_id])
             raise e
@@ -188,7 +188,7 @@ def solve_expression(expr: list,
         raise AGIException('Unexpected word at the beginning of an expression.')
 
 
-def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
+def process_line(line, rsc_mng: ResourceManager) -> dict:
     # return value: {value_type:None/'break'/'return', value:None/None/[return value]}
     global process_stack
     if debug_on_all and debug_on['line'] and len(process_stack) == 1:
@@ -210,24 +210,24 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
         # lhs = [element's container, at/at_reverse/get_member, index or member name]
         lhs = [None, None, None]
         head_of_lhs = lhs_expr[0]
-        reg_id = None  # only for head_of_lhs == r['reg']
-        child_index = None  # only for head_of_lhs == r['reg']
+        reg_index = None  # only for head_of_lhs == r['reg']
+        child_indices = None  # only for head_of_lhs == r['reg']
         if head == r['assign_as_reference'] and head_of_lhs != r['reg']:
             raise AGIException('head_of_lhs must be reg when using assign as reference.')
         if head_of_lhs == r['reg']:  # format: [reg, index of reg, [expr1, expr2, ...]]
             # modifying register itself, so no need for the tricks above
-            reg_id = to_integer(lhs_expr[1])
+            reg_index = to_integer(lhs_expr[1])
             child_expressions = lhs_expr[2]
             # get child_index
-            child_index = []
+            child_indices = []
             for expr in child_expressions:
-                child_index.append(to_integer(solve_expression(expr, rsc_mng)))
-            child_index = tuple(child_index)
+                child_indices.append(to_integer(solve_expression(expr, rsc_mng)))
+            child_indices = tuple(child_indices)
             # assert target register hasn't been created
             # because normally we don't want an existing register to be rewritten
-            if rsc_mng.has_reg(reg_id, child_index):
+            if rsc_mng.has_reg(reg_index, child_indices):
                 raise AGIException('Try to create a register again.')
-            rsc_mng.create_reg(reg_id, scope_info, child_index)
+            rsc_mng.create_reg(reg_index, child_indices)
         elif head_of_lhs == r['at'] or head_of_lhs == r['at_reverse']:
             # at, [expr], [expr]
             target_expr = solve_expression(lhs_expr[1], rsc_mng)
@@ -255,13 +255,13 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
         # assign rhs to lhs:
         if lhs[1] is None:  # lhs[2] is None too, means that lhs[0] is register object
             if head == r['assign']:
-                rsc_mng.set_reg_value(reg_id, child_index, deepcopy(rhs))
+                rsc_mng.set_reg_value(reg_index, child_indices, deepcopy(rhs))
             else:
-                rsc_mng.set_reg_value(reg_id, child_index, rhs)
-            debug_string = 'reg' + str(reg_id)
-            if child_index:
+                rsc_mng.set_reg_value(reg_index, child_indices, rhs)
+            debug_string = 'reg' + str(reg_index)
+            if child_indices:
                 debug_string += '<'
-                for i in child_index:
+                for i in child_indices:
                     debug_string += str(i) + ','
                 debug_string = debug_string[: len(debug_string) - 1]
                 debug_string += '>'
@@ -300,14 +300,11 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
         dout('for_end_value', 'end value is' + str(end_value))
         for_lines = line[3]
         rsc_mng.create_iterator(iter_id)
-        scope_in_for = list(scope_info)
-        scope_in_for.append(iter_id)
-        scope_in_for = tuple(scope_in_for)
         is_break = False
         while rsc_mng.get_iterator_value(iter_id) < end_value:
             dout('for_loop_hint', 'for looped!')
             for for_line in for_lines:
-                return_value_in_for = process_line(for_line, rsc_mng, scope_in_for)
+                return_value_in_for = process_line(for_line, rsc_mng)
                 if return_value_in_for['value_type'] == 'return':
                     return_value = return_value_in_for
                     is_break = True
@@ -330,7 +327,7 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
             if not result:
                 break
             for while_line in while_lines:
-                return_value_in_while = process_line(while_line, rsc_mng, scope_info)
+                return_value_in_while = process_line(while_line, rsc_mng)
                 if return_value_in_while['value_type'] == 'return':
                     return_value = return_value_in_while
                     is_break = True
@@ -356,7 +353,7 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
         if result.concept_id == cid_of['True']:
             dout('if', 'if succeeded')
             for if_line in if_lines:
-                if_return_value = process_line(if_line, rsc_mng, scope_info)
+                if_return_value = process_line(if_line, rsc_mng)
                 if if_return_value['value_type'] == 'break':
                     return_value = {'value_type': 'break', 'value': None}
                     break
@@ -375,7 +372,7 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
                     executed = True
                     # execute the else_if lines
                     for else_if_line in else_if_lines:
-                        elif_return_value = process_line(else_if_line, rsc_mng, scope_info)
+                        elif_return_value = process_line(else_if_line, rsc_mng)
                         if elif_return_value['value_type'] == 'break':
                             return_value = {'value_type': 'break', 'value': None}
                             break
@@ -389,7 +386,7 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
             # execute else block
             if not executed:
                 for else_line in else_lines:
-                    else_return_value = process_line(else_line, rsc_mng, scope_info)
+                    else_return_value = process_line(else_line, rsc_mng)
                     if else_return_value['value_type'] == 'break':
                         return_value = {'value_type': 'break', 'value': None}
                         break
@@ -435,14 +432,14 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
         constraints_expr = line[2]
         provided_lines = line[3]
         for register in registers:
-            reg_id = to_integer(register)
-            if not rsc_mng.has_reg(reg_id, tuple()):
-                rsc_mng.create_reg(reg_id, tuple(), tuple())
-            str_input = input('The freaking dynamic code asks you to fill in reg' + str(reg_id) + '!\n')
+            reg_index = to_integer(register)
+            if not rsc_mng.has_reg(reg_index, tuple()):
+                rsc_mng.create_reg(reg_index, tuple())
+            str_input = input('The freaking dynamic code asks you to fill in reg' + str(reg_index) + '!\n')
             input_obj = translate_input(str_input)
-            rsc_mng.set_reg_value(reg_id, tuple(), input_obj)
+            rsc_mng.set_reg_value(reg_index, tuple(), input_obj)
         for provided_line in provided_lines:
-            return_value = process_line(provided_line, rsc_mng, scope_info)
+            return_value = process_line(provided_line, rsc_mng)
             assert return_value['value_type'] is None and return_value['value'] is None
         constraints_test = solve_expression(constraints_expr, rsc_mng)
         if type(constraints_test) != AGIObject or (
@@ -450,6 +447,14 @@ def process_line(line, rsc_mng: ResourceManager, scope_info: tuple) -> dict:
             raise AGIException('Constraints test result should be true or false.')
         if constraints_test.concept_id == cid_of['False']:
             raise AGIException('Your inputs don\'t satisfy the constraints!', trace_back=False)
+    elif head == r['call_none_return_func']:
+        # format: [call, method_id, [expr1, expr2, ...]]
+        code_id = line[1]
+        input_params = []
+        for i in line[2]:
+            input_params.append(solve_expression(i, rsc_mng))
+        result = run_code(code_id, input_params)
+        assert result is None
     else:
         raise AGIException('Unexpected word at the beginning of a line.')
     return return_value
@@ -485,7 +490,7 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
     # start processing
     while not ci.end_of_code():
         ci.get_next_line()
-        line_return_value = process_line(ci.current_line, rsc_mng, tuple())
+        line_return_value = process_line(ci.current_line, rsc_mng)
         if line_return_value['value_type'] == 'return':
             if code_id is not None:
                 dout('process', 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[
@@ -501,4 +506,4 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
         else:
             if line_return_value['value_type'] is not None:
                 raise AGIException('Unexpected value type for a return value of a line.')
-    raise AGIException('Method exits without return.')
+    return

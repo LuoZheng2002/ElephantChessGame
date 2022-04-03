@@ -10,7 +10,9 @@ from ElephantChessInstance.FormattedCode.operation_func_f import operation_func_
 from generate_code import fixes
 from exception import AGIException
 try:
-    result = run_code(None, [], fixes)
+    a = obj(1)
+    result = run_code(None, [a], fixes)
     print(to_str(result))
+    print(to_str(a))
 except AGIException as e:
     e.show()

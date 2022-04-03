@@ -174,3 +174,22 @@ def difference_func(params: list) -> AGIObject:
         return AGIObject(cid_of['Fail'], dict())
     return obj(number1 - number2)
 
+
+# params[0]: object, params[1]: member object
+def get_object_member_func(params: list) -> AGIObject:
+    target_object = params[0]
+    member_object = params[1]
+    assert type(target_object) == AGIObject and type(member_object) == AGIObject
+    assert member_object.concept_id in target_object.attributes.keys()
+    return target_object.attributes[member_object.concept_id]
+
+
+# params[0]: object, params[1]: member object, params[2]: value
+def set_object_member_func(params: list):
+    target_object = params[0]
+    member_object = params[1]
+    value = params[2]
+    assert type(target_object) == AGIObject and type(member_object) == AGIObject
+    assert member_object.concept_id in target_object.attributes.keys()
+    target_object.attributes[member_object.concept_id] = value
+

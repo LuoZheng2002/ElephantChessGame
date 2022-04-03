@@ -4,27 +4,24 @@
 # reg1: iterators
 
 run_dynamic_code_object = '''
-reg0 = 'dc::runtime_registers'
-reg1 = 'dc::runtime_iterators'
-# start processing
+reg0 = 'dc::runtime_inputs'
+for i in range(input1.size):
+    reg1<i> = 'dc::input_container'
+    reg1<i>.'dc::index' = i
+    reg1<i>.'value' = input1[i]
+    reg0.append(reg1<i>)
+reg2 = 'dc::runtime_registers'
+reg3 = 'dc::runtime_iterators'
+reg4 = 'dc::runtime_memory'
+reg4.'dc::runtime_inputs' &= reg0
+reg4.'dc::runtime_registers' &= reg2
+reg4.'dc::runtime_iterators' &= reg3
 for i in range(input0.size):
-    line_return_value = process_line(ci.current_line, tuple())
-    if line_return_value['value_type'] == 'return':
-        if code_id is not None:
-            dout('process', 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[
-                process_stack[-1].code_id] + '\'!')
-        else:
-            dout('process',
-                 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + 'Unknown' + '\'!')
-        dout('return', 'Return value is: \'' + to_str(line_return_value['value']) + '\'!\n')
-        process_stack.pop()
-        return line_return_value['value']
-    elif line_return_value['value_type'] == 'break':
-        raise AGIException('Try to break without being in a for or while loop.')
-    else:
-        if line_return_value['value_type'] is not None:
-            raise AGIException('Unexpected value type for a return value of a line.')
-raise AGIException('Method exits without return.')
+    reg5<i> = 'func::process_line'(input0[i], reg4)
+    assert reg5<i> != 'dc::signal_break'
+    if reg5<i> == 'dc::signal_return':
+        return reg5<i>.'dc::line_return_value'
+return 'None'
 '''
 
 # input0: expression object
@@ -160,121 +157,48 @@ if type(expr) != list or len(expr) == 0:
         raise AGIException('Unexpected word at the beginning of an expression.')
 '''
 
+# input0: line, input1: runtime_memory
 process_line = '''
-# return value: {value_type:None/'break'/'return', value:None/None/[return value]}
-global process_stack
-if debug_on_all and debug_on['line'] and len(process_stack) == 1:
-    visualized = visualize_line(line)
-    for i in visualized:
-        print(i)
-return_value = {'value_type': None, 'value': None}
-head = line[0]
-# print(rr[head])
-# print(line)
-if head == r['assign'] or head == r['assign_as_reference']:  # format: [assign, expr, expr]
-    lhs_expr = line[1]
-    rhs_expr = line[2]
-    # because taking an element from a container and modifying it
-    # doesn't really modify the element in the container
-    # e.g. b = a[1]; b = 1 doesn't make a[1] to be 1
-    # so we need to trace the container and the position of the element in the container
-    # so that we can do something like a[1] = 2 to modify a[1]
-    # lhs = [element's container, at/at_reverse/get_member, index or member name]
-    lhs = [None, None, None]
-    head_of_lhs = lhs_expr[0]
-    reg_id = None  # only for head_of_lhs == r['reg']
-    child_index = None  # only for head_of_lhs == r['reg']
-    if head == r['assign_as_reference'] and head_of_lhs != r['reg']:
-        raise AGIException('head_of_lhs must be reg when using assign as reference.')
-    if head_of_lhs == r['reg']:  # format: [reg, index of reg, [expr1, expr2, ...]]
-        # modifying register itself, so no need for the tricks above
-        reg_id = to_integer(lhs_expr[1])
-        child_expressions = lhs_expr[2]
-        # get child_index
-        child_index = []
-        for expr in child_expressions:
-            child_index.append(to_integer(solve_expression(expr, rsc_mng)))
-        child_index = tuple(child_index)
-        # assert target register hasn't been created
-        # because normally we don't want an existing register to be rewritten
-        if rsc_mng.has_reg(reg_id, child_index):
-            raise AGIException('Try to create a register again.')
-        rsc_mng.create_reg(reg_id, scope_info, child_index)
-    elif head_of_lhs == r['at'] or head_of_lhs == r['at_reverse']:
-        # at, [expr], [expr]
-        target_expr = solve_expression(lhs_expr[1], rsc_mng)
-        if type(target_expr) == AGIObject:
-            lhs[0] = get_agi_list(target_expr)
+if (input0 == 'dcr::assign' or input0 == 'dcr::assign_as_reference'):
+    reg0 &= 'func::solve_expression'(input0.'dc::right_value')
+    if input0.'dc::left_value' == 'dcr::reg':
+        reg1 &= 'func::solve_expression'(input0.'dc::left_value'.'dc::index')
+        reg2 &= 'list'
+        for i in range(input0.'dc::left_value'.'dc::child_indices'.size):
+            reg2[i] &= 'func::solve_expression'(input0.'dc::left_value'.'dc::child_indices'[i])
+        assert not input1.'dc::runtime_registers'.exist((target.'dc::index' == reg1 and target.'dc::child_indices' == reg2)):
+        reg3 &= 'dc::runtime_register'
+        reg3.'dc::index' &= reg1
+        reg3.'dc::child_indices' &= reg2
+        if input0 == 'dcr::assign':
+            reg3.'value' = reg0
         else:
-            assert type(target_expr) == AGIList
-            lhs[0] = target_expr
-        lhs[1] = head_of_lhs  # 'at' or 'at_reverse'
-        lhs[2] = to_integer(solve_expression(lhs_expr[2], rsc_mng))
-    elif head_of_lhs == r['get_member']:
-        # get_member, [expr], constexpr
-        target_expr = solve_expression(lhs_expr[1], rsc_mng)
-        if type(target_expr) == AGIObject:
-            lhs[0] = target_expr.attributes
+            reg3.'value' &= reg0 
+        input1.'dc::runtime_registers'.append(reg3)
+    elif input0.'dc::left_value' == 'dcr::get_member':
+        reg1 &= 'func::solve_expression'(input0.'dc::target_object')
+        reg2 &= input0.'dc::member_name'
+        'func::set_object_member'(reg1, reg2, reg0)
+    elif (input0.'dc::left_value' == 'dcr::at' or input0.'dc::left_value' == 'dcr::at_reverse'):
+        reg1 &= 'func::solve_expression'(input0.'dc::target_list')
+        reg2 &= 'func::solve_expression'(input0.'dc::index')
+        if input0.'dc::left_value' == 'dcr::at':
+            reg1[reg2] &= reg0
         else:
-            assert type(target_expr) == dict
-            lhs[0] = target_expr
-        lhs[1] = head_of_lhs
-        lhs[2] = lhs_expr[2]
-    else:
-        raise AGIException(20)
-    # solve for rhs:
-    rhs = solve_expression(rhs_expr, rsc_mng)
-    # assign rhs to lhs:
-    if lhs[1] is None:  # lhs[2] is None too, means that lhs[0] is register object
-        if head == r['assign']:
-            rsc_mng.set_reg_value(reg_id, child_index, deepcopy(rhs))
-        else:
-            rsc_mng.set_reg_value(reg_id, child_index, rhs)
-        debug_string = 'reg' + str(reg_id)
-        if child_index:
-            debug_string += '<'
-            for i in child_index:
-                debug_string += str(i) + ','
-            debug_string = debug_string[: len(debug_string) - 1]
-            debug_string += '>'
-        if type(rhs) == AGIObject:
-            debug_string += '\'s value is set to \'' + to_str(rhs) + '\''
-        else:
-            debug_string += '\'s value is set to \'an AGIList\''
-        dout('register', debug_string)
-    else:
-        # if lhs[1] == r['at'] or lhs[1] == r['at_reverse'], then lhs[0] must be an AGIList
-        # because lhs[0] is the product of calling get_agi_list when target is an AGIObject
-        if lhs[1] == r['at']:
-            if head == r['assign']:
-                lhs[0].set_forward(lhs[2], deepcopy(rhs))
-            else:
-                lhs[0].set_forward(lhs[2], rhs)
-        elif lhs[1] == r['at_reverse']:
-            if head == r['assign']:
-                lhs[0].set_reverse(lhs[2], deepcopy(rhs))
-            else:
-                lhs[0].set_reverse(lhs[2], rhs)
-        else:  # lhs[1] == r['get_member']
-            if type(lhs[0]) != AGIObject and type(lhs[0]) != dict:
-                raise AGIException('Can only call "get_member" towards an AGIObject or a dict.')
-            if head == r['assign']:
-                lhs[0][lhs[2]] = deepcopy(rhs)
-            else:
-                lhs[0][lhs[2]] = rhs
-elif head == r['return']:
-    result = solve_expression(line[1], rsc_mng)
-    return_value = {'value_type': 'return', 'value': result}
-elif head == r['for']:
-    # for, iter_id, end_value, [line1, line2, ...]
-    iter_id = to_integer(line[1])
-    end_value = to_integer(solve_expression(line[2], rsc_mng))
-    dout('for_end_value', 'end value is' + str(end_value))
-    for_lines = line[3]
-    rsc_mng.create_iterator(iter_id)
-    scope_in_for = list(scope_info)
-    scope_in_for.append(iter_id)
-    scope_in_for = tuple(scope_in_for)
+            reg1[!reg2] &= reg0
+    return 'dc::line_signal_normal'
+elif input0 == 'dcr::return':
+    reg1 &= 'dc::line_signal_return'
+    reg1.'dc::line_return_value' &= 'func::solve_expression'(input0.'dc::return_value')
+elif input0 == 'dcr::for':
+    input0.'dc::iterator_index'
+    reg1 &= 'func::solve_expression'(input0.'dc::end_value')
+    assert not input1.'runtime_iterators'.exist(target.'dc::index' == input0.'dc::iterator_index')
+    reg2 &= 'dc::iterator_container'
+    reg2.'dc::index' &= input0.'dc::iterator_index'
+    reg2.'value' &= 0
+    
+    
     is_break = False
     while rsc_mng.get_iterator_value(iter_id) < end_value:
         dout('for_loop_hint', 'for looped!')

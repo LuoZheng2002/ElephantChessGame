@@ -18,7 +18,7 @@ class AGIList:
             self.reverse = []
             self.value = []
         else:
-            self.forward = deepcopy(value)
+            self.forward = value
             self.reverse = []
             self.value = self.forward
 

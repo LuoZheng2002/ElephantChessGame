@@ -512,6 +512,25 @@ def generate_code(string_code: list) -> str:
                 current_line = get_current_line(string_code, current_line_index, indentation_count)
             assert provided_lines
             result += generate_code(provided_lines) + '\n], \n'
+        elif current_line.find('\'') == 0:
+            assert current_line[-1] == ')'
+            end_quotation_pos = current_line.find('\'', 1)
+            assert current_line[end_quotation_pos+1] == '('
+            code_name = current_line[1: end_quotation_pos]
+            assert code_name in cid_of.keys()
+            params = list()
+            current_line_copy = current_line[end_quotation_pos + 2]
+            while current_line_copy.find(', ') != -1:
+                comma_pos = current_line_copy.find(', ')
+                params.append(generate_expression(current_line_copy[:comma_pos]))
+            if current_line_copy[0] != ')':
+                params.append(generate_expression(current_line_copy[:-1]))
+            result = "[r['call_none_return_func'], cid_of['" + code_name + "'],\n[\n"
+            for param in params:
+                result += param + ',\n'
+            if params:
+                result = result[:-2]
+            result += '\n]\n]'
         elif current_line == '':
             current_line_index += 1
         else:

@@ -5,11 +5,7 @@ from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
 from ExternalAGIStuff.CodeVisualization.code_browser import letter_to_number
 from exception import AGIException
 fixes = [
-[r['assign'], [r['reg'], obj(0), []], [obj(12233344444)]], 
-[r['return'], [r['count'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_concepts'],
-[
-[r['target']],
-[r['concept_instance'], cid_of['4']]
-]
-]]]
+[r['assign_as_reference'], [r['reg'], obj(0), []], [r['input'], obj(0)]], 
+[r['append'], [r['reg'], obj(0), []], [r['concept_instance'], cid_of['1']]], 
+[r['return'], [r['reg'], obj(0), []]]
 ]

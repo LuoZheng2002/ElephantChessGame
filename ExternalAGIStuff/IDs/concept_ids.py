@@ -1,11 +1,13 @@
 concepts = [
     # 基本概念
+    'None',
     'True',
     'False',
     'Fail',
     'id',
     'name',
     'content',
+    'value',
     # 普通概念
     'list',
     'digit',
@@ -40,6 +42,7 @@ concepts = [
     'dcr::append',  #
     'dcr::remove',  #
     'dcr::request',  #
+    'dcr::call_none_return_func',  #
     # 表达式头
     'dcr::input',  #
     'dcr::reg',  #
@@ -83,10 +86,17 @@ concepts = [
     'dc::requested_registers',
     'dc::provided_block',
     # reg, iterator容器
-    'dc::reg_container',
+    'dc::input_container',
+    'dc::register_container',
     'dc::iterator_container',
+    'dc::runtime_inputs',
     'dc::runtime_registers',
     'dc::runtime_iterators',
+    'dc::runtime_memory',
+    'dc::line_signal_normal',
+    'dc::line_signal_break',
+    'dc::line_signal_return',
+    'dc::line_return_value',
     # 可执行代码
     # 硬编码代码
     'func::compare_concepts',
@@ -97,7 +107,8 @@ concepts = [
     'func::compare_single_digit_natural_numbers',
     'func::sum',
     'func::difference',
-    'func::run_dynamic_code_object',
+    'func::get_object_member',
+    'func::set_object_member',
     # 动态代码
     'func::digit_to_natural_number',
     'func::compare_natural_numbers',
@@ -111,6 +122,9 @@ concepts = [
     'func::batch_logic_or',
     'func::max',
     'func::min',
+    'func::run_dynamic_code_object',
+    'func::process_line',
+    'func::solve_expression',
     # 博弈问题策略接口
     'interface::find_winning_determining_variables_find_variable_changing_code',
     'interface_member::winning_determining_variables',
