@@ -1,8 +1,8 @@
-from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
+from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject, AGIList
 from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from exception import AGIException
 from ExternalAGIStuff.IDs.to_object import to_integer, obj
-
+from ExternalAGIStuff.CodeDriver.code_driver import get_agi_list
 
 def compare_concepts(params: list) -> AGIObject:
     if len(params) != 2:
@@ -193,3 +193,12 @@ def set_object_member_func(params: list):
     assert member_object.concept_id in target_object.attributes.keys()
     target_object.attributes[member_object.concept_id] = value
 
+
+#
+def remove_element_by_index(params: list):
+    target_list = params[0]
+    index = params[1]
+    if type(target_list) == AGIObject:
+        target_list = get_agi_list(target_list)
+    assert type(target_list) == AGIList
+    target_list.remove(to_integer(index))

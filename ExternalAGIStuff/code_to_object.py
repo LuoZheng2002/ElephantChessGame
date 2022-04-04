@@ -137,12 +137,16 @@ def pack_line(line: list) -> AGIObject:
     elif head == r['remove']:
         result = AGIObject(cid_of['dcr::remove'],
                            {cid_of['dc::target_list']: pack_expr(line[1]),
-                            cid_of['dc::element']: pack_expr(line[2])})
+                            cid_of['dc::expression_for_constraint']: pack_expr(line[2])})
     elif head == r['request']:
         result = AGIObject(cid_of['dcr::request'],
                            {cid_of['dc::requested_registers']: pack_list(line[1], 'number'),
                             cid_of['dc::expression_for_constraint']: pack_expr(line[2]),
                             cid_of['dc::provided_block']: pack_sub_block(line[3])})
+    elif head == r['call_none_return_func']:
+        result = AGIObject(cid_of['dcr::call_none_return_func'],
+                           {cid_of['dc::function_name']: line[1],
+                            cid_of['dcr::function_params']: pack_list(line[2], 'expr')})
     else:
         raise AGIException('Unexpected head.')
     return result

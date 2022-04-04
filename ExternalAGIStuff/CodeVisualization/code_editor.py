@@ -277,7 +277,7 @@ def generate_expression(string_expr: str) -> str:
     if string_expr.isdigit():
         result_str = '[obj(' + string_expr + ')]'
         return result_str
-    if string_expr == 'True' or 'False' or 'Fail':
+    if string_expr == 'True' or 'False' or 'Fail' or 'None':
         result_str = "[r['concept_instance'], cid_of['" + string_expr + "']]"
         return result_str
     return "['Unknown Expression']"

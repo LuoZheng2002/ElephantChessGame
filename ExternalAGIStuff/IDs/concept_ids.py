@@ -109,6 +109,7 @@ concepts = [
     'func::difference',
     'func::get_object_member',
     'func::set_object_member',
+    'func::remove_element_by_index',
     # 动态代码
     'func::digit_to_natural_number',
     'func::compare_natural_numbers',

@@ -9,5 +9,6 @@ hardcoded_function_linker = {
     cid_of['func::sum']: sum_func,
     cid_of['func::difference']: difference_func,
     cid_of['func::get_object_member']: get_object_member_func,
-    cid_of['func::set_object_member']: set_object_member_func
+    cid_of['func::set_object_member']: set_object_member_func,
+    cid_of['func::remove_element_by_index']: remove_element_by_index
 }
