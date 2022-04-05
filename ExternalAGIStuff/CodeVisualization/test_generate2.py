@@ -14,9 +14,9 @@ from ExternalAGIStuff.FundamentalCode.Visualized.increment import increment
 from exception import AGIException
 from visualized_code import visualized_code
 try:
-    generate_code_file(remove_one_element,
-                       '../../ExternalAGIStuff/FundamentalCode/Formatted/remove_one_element_f.py',
-                       'remove_one_element_f')
+    generate_code_file(visualized_code,
+                       '../../generate_code.py',
+                       'test')
     print('Succeeded!')
 except AGIException as e:
     e.show()

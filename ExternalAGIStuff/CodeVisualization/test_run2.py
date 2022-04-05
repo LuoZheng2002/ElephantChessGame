@@ -12,7 +12,7 @@ from ExternalAGIStuff.code_to_object import code_to_object
 from ExternalAGIStuff.CodeDriver.code_getter import get_code
 from exception import AGIException
 try:
-    result = run_code(cid_of['func::run_dynamic_code_object'], [code_to_object(get_code(cid_of['func::test'])), AGIList()])
+    result = run_code(cid_of['func::test'], [])
     print('result is: ' + to_str(result))
 except AGIException as e:
     e.show()

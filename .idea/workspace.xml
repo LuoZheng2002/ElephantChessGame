@@ -4,38 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="checkpoint, still working on run_dynamic_code_object">
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/child_indices_equal_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/increment_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/process_line_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/remove_one_element_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/run_dynamic_code_object_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/solve_expression_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/child_indices_equal.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/increment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/remove_one_element.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/is_code_dynamic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/run_hardcoded_code.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualized_code.py" afterDir="false" />
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="checkpoint, struggling with bugs and tons of call stacks">
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/process_stack.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_getter.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_getter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/runtime_memory.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/runtime_memory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate2.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_visualization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/visualized_code.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/process_line_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/process_line_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/run_dynamic_code_object_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/run_dynamic_code_object_f.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/run_dynamic_code_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/run_dynamic_code_object.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_function_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_function_ids.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/code_to_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/code_to_object.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.py" beforeDir="false" afterPath="$PROJECT_DIR$/debug.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_code.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualized_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualized_code.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +60,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate2.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run2.py" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -254,6 +240,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_run2" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Game2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\luo20\anaconda3\envs\Game2\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test_structure" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Game2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -304,6 +311,7 @@
       <item itemvalue="Python.test_generate" />
       <item itemvalue="Python.test_generate2" />
       <item itemvalue="Python.test_run" />
+      <item itemvalue="Python.test_run2" />
       <item itemvalue="Python.test_file" />
       <item itemvalue="Python.concept_ids" />
       <item itemvalue="Python.reserved_keywords" />
@@ -430,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649078540787</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="checkpoint, struggling with bugs and tons of call stacks">
+      <created>1649149736518</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1649149736518</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -461,6 +476,7 @@
     <MESSAGE value="checkpoint" />
     <MESSAGE value="checkpoint, working on run_dynamic_code_object" />
     <MESSAGE value="checkpoint, still working on run_dynamic_code_object" />
-    <option name="LAST_COMMIT_MESSAGE" value="checkpoint, still working on run_dynamic_code_object" />
+    <MESSAGE value="checkpoint, struggling with bugs and tons of call stacks" />
+    <option name="LAST_COMMIT_MESSAGE" value="checkpoint, struggling with bugs and tons of call stacks" />
   </component>
 </project>

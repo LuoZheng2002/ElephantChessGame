@@ -4,20 +4,20 @@
 # reg1: iterators
 # (
 run_dynamic_code_object = '''
-reg0 = 'dc::runtime_inputs'
+reg0 &= 'dc::runtime_inputs'
 for i in range(input1.size):
-    reg1<i> = 'dc::input_container'
-    reg1<i>.'dc::index' = i
-    reg1<i>.'value' = input1[i]
+    reg1<i> &= 'dc::input_container'
+    reg1<i>.'dc::index' &= i
+    reg1<i>.'value' &= input1[i]
     reg0.append(reg1<i>)
-reg2 = 'dc::runtime_registers'
-reg3 = 'dc::runtime_iterators'
-reg4 = 'dc::runtime_memory'
+reg2 &= 'dc::runtime_registers'
+reg3 &= 'dc::runtime_iterators'
+reg4 &= 'dc::runtime_memory'
 reg4.'dc::runtime_inputs' &= reg0
 reg4.'dc::runtime_registers' &= reg2
 reg4.'dc::runtime_iterators' &= reg3
 for j in range(input0.size):
-    reg5<j> = 'func::process_line'(input0[j], reg4)
+    reg5<j> &= 'func::process_line'(input0[j], reg4)
     assert reg5<j> != 'dc::line_signal_break'
     if reg5<j> == 'dc::line_signal_return':
         return reg5<j>.'dc::line_return_value'
@@ -92,31 +92,38 @@ assert False
 # input0: line, input1: runtime_memory
 process_line = '''
 if (input0 == 'dcr::assign' or input0 == 'dcr::assign_as_reference'):
-    reg0 &= 'func::solve_expression'(input0.'dc::right_value', input1, None)
-    if input0.'dc::left_value' == 'dcr::reg':
-        reg1 &= input0.'dc::left_value'.'dc::index'
-        reg2 &= 'list'
-        for i in range(input0.'dc::left_value'.'dc::child_indices'.size):
-            reg2[i] &= 'func::solve_expression'(input0.'dc::left_value'.'dc::child_indices'[i], input1, None)
-        assert not input1.'dc::runtime_registers'.exist((target.'dc::index' === reg1 and 'func::child_indices_equal'(target.'dc::child_indices', reg2)))
-        reg3 &= 'dc::register_container'
-        reg3.'dc::index' &= reg1
-        reg3.'dc::child_indices' &= reg2
-        if input0 == 'dcr::assign':
-            reg3.'value' = reg0
+    reg0 &= input0.'dc::left_value'
+    reg1 &= 'func::solve_expression'(input0.'dc::right_value', input1, None)
+    if reg0 == 'dcr::reg':
+        reg2 &= reg0.'dc::index'
+        reg3 &= 'list'
+        for i in range(reg0.'dc::child_indices'.size):
+            reg3[i] &= 'func::solve_expression'(reg0.'dc::child_indices'[i], input1, None)
+        if not input1.'dc::runtime_registers'.exist((target.'dc::index' === reg2 and 'func::child_indices_equal'(target.'dc::child_indices', reg3))):
+            reg4 &= 'dc::register_container'
+            reg4.'dc::index' &= reg2
+            reg4.'dc::child_indices' &= reg3
+            if input0 == 'dcr::assign':
+                reg4.'value' = reg1
+            else:
+                reg4.'value' &= reg1
+            input1.'dc::runtime_registers'.append(reg4)
         else:
-            reg3.'value' &= reg0 
-        input1.'dc::runtime_registers'.append(reg3)
-    elif input0.'dc::left_value' == 'dcr::get_member':
-        reg1 &= 'func::solve_expression'(input0.'dc::target_object', input1, None)
-        'func::set_object_member'(reg1, input0.'dc::member_name', reg0)
-    elif (input0.'dc::left_value' == 'dcr::at' or input0.'dc::left_value' == 'dcr::at_reverse'):
-        reg1 &= 'func::solve_expression'(input0.'dc::target_list', input1, None)
-        reg2 &= 'func::solve_expression'(input0.'dc::index', input1, None)
-        if input0.'dc::left_value' == 'dcr::at':
-            reg1[reg2] &= reg0
+            reg4 &= input1.'dc::runtime_registers'.find((target.'dc::index' === reg2 and 'func::child_indices_equal'(target.'dc::child_indices', reg3)))
+            if input0 == 'dcr::assign':
+                reg4.'value' = reg1
+            else:
+                reg4.'value' &= reg1
+    elif reg0 == 'dcr::get_member':
+        reg2 &= 'func::solve_expression'(reg0.'dc::target_object', input1, None)
+        'func::set_object_member'(reg2, reg0.'dc::member_name', reg1)
+    elif (reg0 == 'dcr::at' or reg0 == 'dcr::at_reverse'):
+        reg2 &= 'func::solve_expression'(reg0.'dc::target_list', input1, None)
+        reg3 &= 'func::solve_expression'(reg0.'dc::index', input1, None)
+        if input0 == 'dcr::at':
+            reg2[reg3] &= reg1
         else:
-            reg1[!reg2] &= reg0
+            reg2[!reg3] &= reg1
     else:
         assert False
     return 'dc::line_signal_normal'
@@ -169,14 +176,14 @@ if input0 == 'dcr::if':
                     if reg1<i,j> == 'dc::line_signal_break':
                         return 'dc::line_signal_break'
                     elif reg1<i,j> == 'dc::line_signal_return':
-                        return reg1<i.j>
-        reg0 &= input0.'dc::else_block'
-        for j in range(input0.'dc::else_block'.size):
-            reg1<j> &= 'func::process_line'(reg0[j], input1)
-            if reg1<j> == 'dc::line_signal_break':
+                        return reg1<i,j>
+        reg2 &= input0.'dc::else_block'
+        for k in range(input0.'dc::else_block'.size):
+            reg3<k> &= 'func::process_line'(reg2[k], input1)
+            if reg3<k> == 'dc::line_signal_break':
                 return 'dc::line_signal_break'
-            elif reg1<j> == 'dc::line_signal_return':
-                return reg1<j>
+            elif reg3<k> == 'dc::line_signal_return':
+                return reg3<k>
         return 'dc::line_signal_normal'
 if input0 == 'dcr::assert':
     assert 'func::solve_expression'(input0.'dc::assert_expression', input1, None)

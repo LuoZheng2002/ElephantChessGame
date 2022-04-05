@@ -1,6 +1,6 @@
 visualized_code = '''
-reg0 = 0
-for i in range(5):
-    'func::increment'(reg0, 1)
+reg0 = 2
+for i in range(3):
+    'func::increment'(reg0, 5)
 return reg0
 '''

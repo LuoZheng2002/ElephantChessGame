@@ -1,4 +1,5 @@
 from exception import AGIException
+from ExternalAGIStuff.CodeDriver.process_stack import process_stack
 from copy import deepcopy
 
 
@@ -36,8 +37,21 @@ class ResourceManager:
     def create_iterator(self, iter_id):
         for iterator in self.iterators:
             if iterator.id == iter_id:
-                raise AGIException('Try to create an iterator twice.')
+                return
         self.iterators.append(Iterator(iter_id))
+
+    def has_iterator(self, iter_id):
+        for iterator in self.iterators:
+            if iterator.id == iter_id:
+                return True
+        return False
+
+    def zero_iterator(self, iter_id):
+        for iterator in self.iterators:
+            if iterator.id == iter_id:
+                iterator.value = 0
+                return
+        assert False
 
     def update_iterator(self, iter_id):
         for iterator in self.iterators:

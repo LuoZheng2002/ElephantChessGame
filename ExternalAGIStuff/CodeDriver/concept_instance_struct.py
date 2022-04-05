@@ -1,7 +1,7 @@
 from copy import deepcopy
 from exception import AGIException
-
-
+from ExternalAGIStuff.CodeDriver.process_stack import process_stack
+from ExternalAGIStuff.IDs.concept_ids import cid_reverse
 class AGIObject:
     def __init__(self, concept_id: int, attributes=None):
         self.concept_id = concept_id
@@ -38,6 +38,7 @@ class AGIList:
         self.update()
 
     def set_reverse(self, index, value):
+        raise AGIException('Set Reverse!', special_str=str(cid_reverse[process_stack[-1].code_id]), special_name='code_id')
         if len(self.reverse) == index:
             self.reverse.append(value)
         elif len(self.reverse) < index:
@@ -71,7 +72,13 @@ class AGIList:
         self.update()
 
     def remove(self, index):
-        self.forward.pop(index)
+        try:
+            self.forward.pop(index)
+        except IndexError:
+            print('forward: ' + str(self.forward))
+            print('reverse: ' + str(self.reverse))
+            print('value: ' + str(self.value))
+            raise AGIException('Index Error!')
         self.update()
 
 

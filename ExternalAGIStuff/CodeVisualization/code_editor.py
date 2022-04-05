@@ -287,7 +287,7 @@ def generate_expression(string_expr: str) -> str:
         result_str = "[r['concept_instance'], cid_of['" + string_expr + "']]"
         # print('Here is a True, False, Fail or None.')
         return result_str
-    return "['Unknown Expression']"
+    raise AGIException('Unknown Expression', special_name='expr', special_str=string_expr)
 
 
 def count_indentation(line: str) -> int:

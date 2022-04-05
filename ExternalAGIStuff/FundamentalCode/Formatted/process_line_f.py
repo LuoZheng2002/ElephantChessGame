@@ -22,7 +22,8 @@ process_line_f = [
 ]
 ],
 [
-[r['assign_as_reference'], [r['reg'], obj(0), []], [r['call'], cid_of['func::solve_expression'],
+[r['assign_as_reference'], [r['reg'], obj(0), []], [r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']]], 
+[r['assign_as_reference'], [r['reg'], obj(1), []], [r['call'], cid_of['func::solve_expression'],
 [
 [r['get_member'], [r['input'], obj(0)], cid_of['dc::right_value']],
 [r['input'], obj(1)],
@@ -31,47 +32,48 @@ process_line_f = [
 ]], 
 [r['if'], [r['call'], cid_of['func::compare_concepts'],
 [
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']],
+[r['reg'], obj(0), []],
 [r['concept_instance'], cid_of['dcr::reg']]
 ]
 ],
 [
-[r['assign_as_reference'], [r['reg'], obj(1), []], [r['get_member'], [r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']], cid_of['dc::index']]], 
-[r['assign_as_reference'], [r['reg'], obj(2), []], [r['concept_instance'], cid_of['list']]], 
-[r['for'], obj(0), [r['size'], [r['get_member'], [r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']], cid_of['dc::child_indices']]],
+[r['assign_as_reference'], [r['reg'], obj(2), []], [r['get_member'], [r['reg'], obj(0), []], cid_of['dc::index']]], 
+[r['assign_as_reference'], [r['reg'], obj(3), []], [r['concept_instance'], cid_of['list']]], 
+[r['for'], obj(0), [r['size'], [r['get_member'], [r['reg'], obj(0), []], cid_of['dc::child_indices']]],
 [
-[r['assign_as_reference'], [r['at'], [r['reg'], obj(2), []], [r['iterator'], obj(0)]], [r['call'], cid_of['func::solve_expression'],
+[r['assign_as_reference'], [r['at'], [r['reg'], obj(3), []], [r['iterator'], obj(0)]], [r['call'], cid_of['func::solve_expression'],
 [
-[r['at'], [r['get_member'], [r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']], cid_of['dc::child_indices']], [r['iterator'], obj(0)]],
+[r['at'], [r['get_member'], [r['reg'], obj(0), []], cid_of['dc::child_indices']], [r['iterator'], obj(0)]],
 [r['input'], obj(1)],
 [r['concept_instance'], cid_of['None']]
 ]
 ]]
 ]
 ], 
-[r['assert'], [r['call'], cid_of['func::logic_not'], 
+[r['if'], [r['call'], cid_of['func::logic_not'], 
 [
 [r['exist'], [r['get_member'], [r['input'], obj(1)], cid_of['dc::runtime_registers']], [r['call'], cid_of['func::logic_and'],
 [
 [r['call'], cid_of['func::math_equal'],
 [
 [r['get_member'], [r['target']], cid_of['dc::index']],
-[r['reg'], obj(1), []]
+[r['reg'], obj(2), []]
 ]
 ],
 [r['call'], cid_of['func::child_indices_equal'],
 [
 [r['get_member'], [r['target']], cid_of['dc::child_indices']],
-[r['reg'], obj(2), []]
+[r['reg'], obj(3), []]
 ]
 ]
 ]
 ]]
 ]
-]], 
-[r['assign_as_reference'], [r['reg'], obj(3), []], [r['concept_instance'], cid_of['dc::register_container']]], 
-[r['assign_as_reference'], [r['get_member'], [r['reg'], obj(3), []], cid_of['dc::index']], [r['reg'], obj(1), []]], 
-[r['assign_as_reference'], [r['get_member'], [r['reg'], obj(3), []], cid_of['dc::child_indices']], [r['reg'], obj(2), []]], 
+],
+[
+[r['assign_as_reference'], [r['reg'], obj(4), []], [r['concept_instance'], cid_of['dc::register_container']]], 
+[r['assign_as_reference'], [r['get_member'], [r['reg'], obj(4), []], cid_of['dc::index']], [r['reg'], obj(2), []]], 
+[r['assign_as_reference'], [r['get_member'], [r['reg'], obj(4), []], cid_of['dc::child_indices']], [r['reg'], obj(3), []]], 
 [r['if'], [r['call'], cid_of['func::compare_concepts'],
 [
 [r['input'], obj(0)],
@@ -79,35 +81,70 @@ process_line_f = [
 ]
 ],
 [
-[r['assign'], [r['get_member'], [r['reg'], obj(3), []], cid_of['value']], [r['reg'], obj(0), []]]
+[r['assign'], [r['get_member'], [r['reg'], obj(4), []], cid_of['value']], [r['reg'], obj(1), []]]
 ],
 [],
 [
-[r['assign_as_reference'], [r['get_member'], [r['reg'], obj(3), []], cid_of['value']], ['Unknown Expression']]
+[r['assign_as_reference'], [r['get_member'], [r['reg'], obj(4), []], cid_of['value']], [r['reg'], obj(1), []]]
 ]
 ], 
-[r['append'], [r['get_member'], [r['input'], obj(1)], cid_of['dc::runtime_registers']], [r['reg'], obj(3), []]]
+[r['append'], [r['get_member'], [r['input'], obj(1)], cid_of['dc::runtime_registers']], [r['reg'], obj(4), []]]
+],
+[],
+[
+[r['assign_as_reference'], [r['reg'], obj(4), []], [r['find'], [r['get_member'], [r['input'], obj(1)], cid_of['dc::runtime_registers']], [r['call'], cid_of['func::logic_and'],
+[
+[r['call'], cid_of['func::math_equal'],
+[
+[r['get_member'], [r['target']], cid_of['dc::index']],
+[r['reg'], obj(2), []]
+]
+],
+[r['call'], cid_of['func::child_indices_equal'],
+[
+[r['get_member'], [r['target']], cid_of['dc::child_indices']],
+[r['reg'], obj(3), []]
+]
+]
+]
+]]], 
+[r['if'], [r['call'], cid_of['func::compare_concepts'],
+[
+[r['input'], obj(0)],
+[r['concept_instance'], cid_of['dcr::assign']]
+]
+],
+[
+[r['assign'], [r['get_member'], [r['reg'], obj(4), []], cid_of['value']], [r['reg'], obj(1), []]]
+],
+[],
+[
+[r['assign_as_reference'], [r['get_member'], [r['reg'], obj(4), []], cid_of['value']], [r['reg'], obj(1), []]]
+]
+]
+]
+]
 ],
 [[
 [r['call'], cid_of['func::compare_concepts'],
 [
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']],
+[r['reg'], obj(0), []],
 [r['concept_instance'], cid_of['dcr::get_member']]
 ]
 ],
 [
-[r['assign_as_reference'], [r['reg'], obj(1), []], [r['call'], cid_of['func::solve_expression'],
+[r['assign_as_reference'], [r['reg'], obj(2), []], [r['call'], cid_of['func::solve_expression'],
 [
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::target_object']],
+[r['get_member'], [r['reg'], obj(0), []], cid_of['dc::target_object']],
 [r['input'], obj(1)],
 [r['concept_instance'], cid_of['None']]
 ]
 ]], 
 [r['call_none_return_func'], cid_of['func::set_object_member'],
 [
-[r['reg'], obj(1), []],
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::member_name']],
-[r['reg'], obj(0), []]
+[r['reg'], obj(2), []],
+[r['get_member'], [r['reg'], obj(0), []], cid_of['dc::member_name']],
+[r['reg'], obj(1), []]
 ]
 ]
 ]
@@ -117,45 +154,45 @@ process_line_f = [
 [
 [r['call'], cid_of['func::compare_concepts'],
 [
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']],
+[r['reg'], obj(0), []],
 [r['concept_instance'], cid_of['dcr::at']]
 ]
 ],
 [r['call'], cid_of['func::compare_concepts'],
 [
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']],
+[r['reg'], obj(0), []],
 [r['concept_instance'], cid_of['dcr::at_reverse']]
 ]
 ]
 ]
 ],
 [
-[r['assign_as_reference'], [r['reg'], obj(1), []], [r['call'], cid_of['func::solve_expression'],
+[r['assign_as_reference'], [r['reg'], obj(2), []], [r['call'], cid_of['func::solve_expression'],
 [
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::target_list']],
+[r['get_member'], [r['reg'], obj(0), []], cid_of['dc::target_list']],
 [r['input'], obj(1)],
 [r['concept_instance'], cid_of['None']]
 ]
 ]], 
-[r['assign_as_reference'], [r['reg'], obj(2), []], [r['call'], cid_of['func::solve_expression'],
+[r['assign_as_reference'], [r['reg'], obj(3), []], [r['call'], cid_of['func::solve_expression'],
 [
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::index']],
+[r['get_member'], [r['reg'], obj(0), []], cid_of['dc::index']],
 [r['input'], obj(1)],
 [r['concept_instance'], cid_of['None']]
 ]
 ]], 
 [r['if'], [r['call'], cid_of['func::compare_concepts'],
 [
-[r['get_member'], [r['input'], obj(0)], cid_of['dc::left_value']],
+[r['input'], obj(0)],
 [r['concept_instance'], cid_of['dcr::at']]
 ]
 ],
 [
-[r['assign_as_reference'], [r['at'], [r['reg'], obj(1), []], [r['reg'], obj(2), []]], [r['reg'], obj(0), []]]
+[r['assign_as_reference'], [r['at'], [r['reg'], obj(2), []], [r['reg'], obj(3), []]], [r['reg'], obj(1), []]]
 ],
 [],
 [
-[r['assign_as_reference'], [r['at_reverse'], [r['reg'], obj(1), []], [r['reg'], obj(2), []]], [r['reg'], obj(0), []]]
+[r['assign_as_reference'], [r['at_reverse'], [r['reg'], obj(2), []], [r['reg'], obj(3), []]], [r['reg'], obj(1), []]]
 ]
 ]
 ]
@@ -419,7 +456,7 @@ process_line_f = [
 ]
 ],
 [
-[r['return'], [r['reg'], obj(1), [['Unknown Expression']]]]
+[r['return'], [r['reg'], obj(1), [[r['iterator'], obj(0)], [r['iterator'], obj(1)]]]]
 ]
 ]],
 []
@@ -432,18 +469,18 @@ process_line_f = [
 ]
 ]
 ], 
-[r['assign_as_reference'], [r['reg'], obj(0), []], [r['get_member'], [r['input'], obj(0)], cid_of['dc::else_block']]], 
-[r['for'], obj(1), [r['size'], [r['get_member'], [r['input'], obj(0)], cid_of['dc::else_block']]],
+[r['assign_as_reference'], [r['reg'], obj(2), []], [r['get_member'], [r['input'], obj(0)], cid_of['dc::else_block']]], 
+[r['for'], obj(2), [r['size'], [r['get_member'], [r['input'], obj(0)], cid_of['dc::else_block']]],
 [
-[r['assign_as_reference'], [r['reg'], obj(1), [[r['iterator'], obj(1)]]], [r['call'], cid_of['func::process_line'],
+[r['assign_as_reference'], [r['reg'], obj(3), [[r['iterator'], obj(2)]]], [r['call'], cid_of['func::process_line'],
 [
-[r['at'], [r['reg'], obj(0), []], [r['iterator'], obj(1)]],
+[r['at'], [r['reg'], obj(2), []], [r['iterator'], obj(2)]],
 [r['input'], obj(1)]
 ]
 ]], 
 [r['if'], [r['call'], cid_of['func::compare_concepts'],
 [
-[r['reg'], obj(1), [[r['iterator'], obj(1)]]],
+[r['reg'], obj(3), [[r['iterator'], obj(2)]]],
 [r['concept_instance'], cid_of['dc::line_signal_break']]
 ]
 ],
@@ -453,12 +490,12 @@ process_line_f = [
 [[
 [r['call'], cid_of['func::compare_concepts'],
 [
-[r['reg'], obj(1), [[r['iterator'], obj(1)]]],
+[r['reg'], obj(3), [[r['iterator'], obj(2)]]],
 [r['concept_instance'], cid_of['dc::line_signal_return']]
 ]
 ],
 [
-[r['return'], [r['reg'], obj(1), [[r['iterator'], obj(1)]]]]
+[r['return'], [r['reg'], obj(3), [[r['iterator'], obj(2)]]]]
 ]
 ]],
 []

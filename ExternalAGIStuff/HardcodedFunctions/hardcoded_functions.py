@@ -203,6 +203,8 @@ def remove_element_by_index(params: list):
     if type(target_list) == AGIObject:
         target_list = get_agi_list(target_list)
     assert type(target_list) == AGIList
+    if target_list.size() == 0:
+        raise AGIException('empty list', special_name='index', special_str=str(to_integer(index)))
     target_list.remove(to_integer(index))
 
 

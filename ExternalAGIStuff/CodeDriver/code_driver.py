@@ -13,7 +13,7 @@ from debug import dout, debug_on, debug_on_all
 from ExternalAGIStuff.HardcodedFunctions.run_hardcoded_code import run_hardcoded_code
 from ExternalAGIStuff.HardcodedFunctions.is_code_dynamic import is_code_dynamic
 from ExternalAGIStuff.CodeVisualization.StructureVisualization.translate_AGIObject import translate_AGIObject
-process_stack = []
+from ExternalAGIStuff.CodeDriver.process_stack import process_stack
 
 
 class Process:
@@ -42,9 +42,6 @@ class CodeIterator:
 
     def end_of_code(self) -> bool:
         return self.next_line_index >= self.line_count
-
-
-
 
 
 def solve_expression(expr: list,
@@ -127,6 +124,10 @@ def solve_expression(expr: list,
             return obj('Fail')
         member_name = expr[2]
         if type(target_expr) == AGIObject:
+            if member_name not in target_expr.attributes.keys():
+                print(cid_reverse[target_expr.concept_id])
+                print(cid_reverse[member_name])
+                assert False
             return target_expr.attributes[member_name]
         else:
             assert type(target_expr) == dict
@@ -186,7 +187,7 @@ def solve_expression(expr: list,
 def process_line(line, rsc_mng: ResourceManager) -> dict:
     # return value: {value_type:None/'break'/'return', value:None/None/[return value]}
     global process_stack
-    if debug_on_all and debug_on['line']:
+    if debug_on_all and debug_on['line'] and len(process_stack) == 2:
         visualized = visualize_line(line)
         for i in visualized:
             print(i)
@@ -291,11 +292,19 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
         end_value = to_integer(solve_expression(line[2], rsc_mng))
         dout('for_end_value', 'end value is' + str(end_value))
         for_lines = line[3]
-        rsc_mng.create_iterator(iter_id)
+        if not rsc_mng.has_iterator(iter_id):
+            rsc_mng.create_iterator(iter_id)
+        else:
+            rsc_mng.zero_iterator(iter_id)
+            print('iterator' + str(iter_id) + ' zeroed!')
         is_break = False
         while rsc_mng.get_iterator_value(iter_id) < end_value:
             loop_count = 0
             dout('for_loop_hint', 'for looped!')
+            if process_stack[-1].stack_count == 0:
+                dout('iterator_value',
+                     'Iterator' + str(iter_id) + '\'s value now is:' + str(rsc_mng.get_iterator_value(iter_id)))
+
             for for_line in for_lines:
                 return_value_in_for = process_line(for_line, rsc_mng)
                 if return_value_in_for['value_type'] == 'return':
@@ -307,8 +316,8 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
                     break
             if is_break:
                 break
-            dout('iterator_value', 'Iterator value now is:' + str(rsc_mng.get_iterator_value(iter_id)))
             rsc_mng.update_iterator(iter_id)
+            # print('iterator' + str(iter_id) + ' updated!')
             loop_count += 1
             if loop_count == 100:
                 raise AGIException('While loop does not stop.')
@@ -400,7 +409,7 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
     elif head == r['append']:
         # append, array, element
         target_expr = solve_expression(line[1], rsc_mng)
-        element = deepcopy(solve_expression(line[2], rsc_mng))
+        element = solve_expression(line[2], rsc_mng)
         if type(target_expr) == AGIList:
             target_expr.append(element)
         elif type(target_expr) == AGIObject:
@@ -505,12 +514,13 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
         line_return_value = process_line(ci.current_line, rsc_mng)
         if line_return_value['value_type'] == 'return':
             if code_id is not None:
-                dout('process', 'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[
-                    process_stack[-1].code_id] + '\'!')
+                dout('process',
+                     'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[
+                         process_stack[-1].code_id] + '\'!')
             else:
                 dout('process',
                      'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + 'Unknown' + '\'!')
-            # dout('return', 'Return value is: \'' + to_str(line_return_value['value']) + '\'!\n')
+            dout('return', 'Return value is: \'' + to_str(line_return_value['value']) + '\'!\n')
             process_stack.pop()
             return line_return_value['value']
         elif line_return_value['value_type'] == 'break':
@@ -521,4 +531,13 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
         loop_count += 1
         if loop_count == 100:
             raise AGIException('While loop does not stop.')
+    if code_id is not None:
+        dout('process',
+             'Exit process without return (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + cid_reverse[
+                 process_stack[-1].code_id] + '\'!')
+    else:
+        dout('process',
+             'Exit process without return (stack count = ' + str(
+                 process_stack[-1].stack_count) + '): \'' + 'Unknown' + '\'!')
+    process_stack.pop()
     return
