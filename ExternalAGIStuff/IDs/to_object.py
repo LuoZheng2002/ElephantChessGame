@@ -56,7 +56,7 @@ def to_integer(natural_number: AGIObject) -> int:
 
 def to_str(thing: AGIObject):
     if thing.concept_id == cid_of['natural_number']:
-        if thing.attributes[cid_of['content']] is None:
+        if thing.attributes[cid_of['content']] is None or not thing.attributes[cid_of['content']].get_list():
             return 'empty_natural_number'
         return str(to_integer(thing))
     return cid_reverse[thing.concept_id]

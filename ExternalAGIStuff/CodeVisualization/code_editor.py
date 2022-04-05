@@ -93,6 +93,10 @@ def generate_expression(string_expr: str) -> str:
             assert False
         result_str = "[r['call'], cid_of['" + func_name + "'],\n[\n" + left_expr + ',\n' + right_expr + '\n]\n]'
         return result_str
+    if string_expr.find('not ') == 0:
+        target_expr = generate_expression(string_expr[4:])
+        result_str = "[r['call'], cid_of['func::logic_not'], \n[\n" + target_expr + '\n]\n]'
+        return result_str
     if find_middle(string_expr, ' == ', 0) != -1 \
             or find_middle(string_expr, ' === ', 0) != -1 \
             or find_middle(string_expr, ' > ', 0) != -1 \
@@ -177,10 +181,6 @@ def generate_expression(string_expr: str) -> str:
         constraints_expr = generate_expression(string_expr[dot_pos + 7: -1])
         result_str = "[r['count'], " + target_expr + ', ' + constraints_expr + ']'
         return result_str
-    if string_expr.find('not ') == 0:
-        target_expr = generate_expression(string_expr[4:])
-        result_str = "[r['call'], cid_of['func::logic_not'], \n[\n" + target_expr + '\n]\n]'
-        return result_str
     if string_expr.find('input') == 0 and string_expr[5:].isdigit():
         return "[r['input'], obj(" + string_expr[5:] + ')]'
     if string_expr.find('\'') == 0 and string_expr.find('\'', 1) != len(string_expr) - 1 \
@@ -197,17 +197,20 @@ def generate_expression(string_expr: str) -> str:
             comma_pos = string_expr_copy.find(', ')
             params.append(generate_expression(string_expr_copy[:comma_pos]))
             string_expr_copy = string_expr_copy[comma_pos + 2:]
-        params.append(generate_expression(string_expr_copy[:-1]))
+        if string_expr_copy[0] != ')':
+            params.append(generate_expression(string_expr_copy[:-1]))
         result_str = "[r['call'], cid_of['" + function_name + "'],\n[\n"
         for param in params:
             result_str += param + ',\n'
-        result_str = result_str[:-2] + '\n]\n]'
+        if params:
+            result_str = result_str[:-2]
+        result_str += '\n]\n]'
         return result_str
     if string_expr[-1] == ']':
         open_bracket_pos = string_expr.find('[')
         if string_expr[open_bracket_pos + 1] == '!':
             is_reverse = True
-            index = string_expr[open_bracket_pos + 2: -1]
+            index = generate_expression(string_expr[open_bracket_pos + 2: -1])
         else:
             is_reverse = False
             index = generate_expression(string_expr[open_bracket_pos + 1: -1])
@@ -217,7 +220,7 @@ def generate_expression(string_expr: str) -> str:
         else:
             result_str = "[r['at'], " + target_expr + ', ' + index + ']'
         return result_str
-    if string_expr.find('\'') == 0 and string_expr.find('\'', 1) == len(string_expr) - 1:
+    if string_expr.find('\'') == 0 and string_expr.find('\'', 1) == len(string_expr) - 1 and string_expr.find('.') == -1:
         assert string_expr[1:-1] in cid_of.keys()
         result_str = "[r['concept_instance'], cid_of['" + string_expr[1:-1] + "']]"
         return result_str
@@ -225,14 +228,17 @@ def generate_expression(string_expr: str) -> str:
         target_expr = generate_expression(string_expr[:-5])
         result_str = "[r['size'], " + target_expr + ']'
         return result_str
-    if find_middle(string_expr, '.\'', 0) != -1 and find_middle(string_expr, '.\'', 0) == rightest_naked_dot(string_expr):
+    if find_middle(string_expr, '.\'', 0) != -1 and string_expr[rightest_naked_dot(string_expr) + 1] == "'":
         # print(string_expr)
         assert string_expr[-1] == '\''
-        dot_pos = find_middle(string_expr, '.\'', 0)
+        dot_pos = rightest_naked_dot(string_expr)
         # print(string_expr[:dot_pos])
         # print(string_expr[dot_pos + 2:-1])
         target_expr = generate_expression(string_expr[:dot_pos])
         member = string_expr[dot_pos + 2:-1]
+        if member not in cid_of.keys():
+            print('Member is: \'' + member + "'")
+            assert False
         if member not in cid_of.keys():
             print(member)
             assert False
@@ -277,8 +283,9 @@ def generate_expression(string_expr: str) -> str:
     if string_expr.isdigit():
         result_str = '[obj(' + string_expr + ')]'
         return result_str
-    if string_expr == 'True' or 'False' or 'Fail' or 'None':
+    if string_expr == 'True' or string_expr == 'False' or string_expr == 'Fail' or string_expr == 'None':
         result_str = "[r['concept_instance'], cid_of['" + string_expr + "']]"
+        # print('Here is a True, False, Fail or None.')
         return result_str
     return "['Unknown Expression']"
 
@@ -312,13 +319,14 @@ from exception import AGIException
     result += func_name + ' = '
     result += generate_code(slice_code(string_list_code))
     file.write(result)
-    print('Succeeded!')
     file.close()
 
 
 def generate_code(string_code: list) -> str:
     current_line_index = 0
     result = '[\n'
+    if not string_code:
+        raise AGIException('You forgot to indent!')
     current_line_copy = string_code[current_line_index]
     indentation_count = 0
     while current_line_copy.find('    ') == 0:
@@ -519,18 +527,21 @@ def generate_code(string_code: list) -> str:
             code_name = current_line[1: end_quotation_pos]
             assert code_name in cid_of.keys()
             params = list()
-            current_line_copy = current_line[end_quotation_pos + 2]
+            current_line_copy = current_line[end_quotation_pos + 2:]
             while current_line_copy.find(', ') != -1:
                 comma_pos = current_line_copy.find(', ')
                 params.append(generate_expression(current_line_copy[:comma_pos]))
+                current_line_copy = current_line_copy[comma_pos+2:]
             if current_line_copy[0] != ')':
                 params.append(generate_expression(current_line_copy[:-1]))
-            result = "[r['call_none_return_func'], cid_of['" + code_name + "'],\n[\n"
+            current_line_code = "[r['call_none_return_func'], cid_of['" + code_name + "'],\n[\n"
             for param in params:
-                result += param + ',\n'
+                current_line_code += param + ',\n'
             if params:
-                result = result[:-2]
-            result += '\n]\n]'
+                current_line_code = current_line_code[:-2]
+            current_line_code += '\n]\n]'
+            result += current_line_code + ', \n'
+            current_line_index += 1
         elif current_line == '':
             current_line_index += 1
         else:

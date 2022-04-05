@@ -1,5 +1,5 @@
 from exception import AGIException
-from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject, AGIList
+from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject, AGIList, get_agi_list
 from copy import deepcopy
 from ExternalAGIStuff.CodeDriver.runtime_memory import ResourceManager
 from ExternalAGIStuff.IDs.reserved_keywords import r, rr
@@ -10,6 +10,8 @@ from ExternalAGIStuff.IDs.to_object import obj, to_integer, to_str, translate_in
 from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from ExternalAGIStuff.CodeVisualization.code_browser import visualize_line
 from debug import dout, debug_on, debug_on_all
+from ExternalAGIStuff.HardcodedFunctions.run_hardcoded_code import run_hardcoded_code
+from ExternalAGIStuff.HardcodedFunctions.is_code_dynamic import is_code_dynamic
 from ExternalAGIStuff.CodeVisualization.StructureVisualization.translate_AGIObject import translate_AGIObject
 process_stack = []
 
@@ -42,16 +44,7 @@ class CodeIterator:
         return self.next_line_index >= self.line_count
 
 
-def get_agi_list(agi_object: AGIObject) -> AGIList:
-    if len(agi_object.attributes) != 1:
-        raise AGIException('Trying to get list from AGIObject but AGIObject has more than one attribute',
-                           special_name='Concept id', special_str=str(agi_object.concept_id))
-    for i in agi_object.attributes.keys():
-        if agi_object.attributes[i] is None:
-            agi_object.attributes[i] = AGIList()
-        elif type(agi_object.attributes[i]) != AGIList:
-            raise AGIException('Target type is not AGIList', special_name='type', special_str=str(type(i)))
-        return agi_object.attributes[i]
+
 
 
 def solve_expression(expr: list,
@@ -102,7 +95,9 @@ def solve_expression(expr: list,
         if type(result) == AGIObject:
             size = get_agi_list(result).size()
         else:
-            assert type(result) == AGIList
+            if type(result) != AGIList:
+                print(type(result))
+                assert False
             size = result.size()
         dout('size', 'Size is ' + str(size))
         return obj(size)
@@ -191,7 +186,7 @@ def solve_expression(expr: list,
 def process_line(line, rsc_mng: ResourceManager) -> dict:
     # return value: {value_type:None/'break'/'return', value:None/None/[return value]}
     global process_stack
-    if debug_on_all and debug_on['line'] and len(process_stack) == 1:
+    if debug_on_all and debug_on['line']:
         visualized = visualize_line(line)
         for i in visualized:
             print(i)
@@ -212,8 +207,6 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
         head_of_lhs = lhs_expr[0]
         reg_index = None  # only for head_of_lhs == r['reg']
         child_indices = None  # only for head_of_lhs == r['reg']
-        if head == r['assign_as_reference'] and head_of_lhs != r['reg']:
-            raise AGIException('head_of_lhs must be reg when using assign as reference.')
         if head_of_lhs == r['reg']:  # format: [reg, index of reg, [expr1, expr2, ...]]
             # modifying register itself, so no need for the tricks above
             reg_index = to_integer(lhs_expr[1])
@@ -225,9 +218,8 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
             child_indices = tuple(child_indices)
             # assert target register hasn't been created
             # because normally we don't want an existing register to be rewritten
-            if rsc_mng.has_reg(reg_index, child_indices):
-                raise AGIException('Try to create a register again.')
-            rsc_mng.create_reg(reg_index, child_indices)
+            if not rsc_mng.has_reg(reg_index, child_indices):
+                rsc_mng.create_reg(reg_index, child_indices)
         elif head_of_lhs == r['at'] or head_of_lhs == r['at_reverse']:
             # at, [expr], [expr]
             target_expr = solve_expression(lhs_expr[1], rsc_mng)
@@ -302,6 +294,7 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
         rsc_mng.create_iterator(iter_id)
         is_break = False
         while rsc_mng.get_iterator_value(iter_id) < end_value:
+            loop_count = 0
             dout('for_loop_hint', 'for looped!')
             for for_line in for_lines:
                 return_value_in_for = process_line(for_line, rsc_mng)
@@ -316,15 +309,19 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
                 break
             dout('iterator_value', 'Iterator value now is:' + str(rsc_mng.get_iterator_value(iter_id)))
             rsc_mng.update_iterator(iter_id)
+            loop_count += 1
+            if loop_count == 100:
+                raise AGIException('While loop does not stop.')
     elif head == r['while']:
         # format: [while, statement, [line1, line2, line3, ...]]
         statement = line[1]
         while_lines = line[2]
         is_break = False
         while True:
+            loop_count = 0
             result = solve_expression(statement, rsc_mng)
-            assert type(result) == bool
-            if not result:
+            assert type(result) == AGIObject
+            if result.concept_id == cid_of['False'] or result.concept_id == cid_of['Fail']:
                 break
             for while_line in while_lines:
                 return_value_in_while = process_line(while_line, rsc_mng)
@@ -337,6 +334,9 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
                     break
             if is_break:
                 break
+            loop_count += 1
+            if loop_count == 100:
+                raise AGIException('While loop does not stop.')
     elif head == r['break']:
         return_value = {'value_type': 'break', 'value': None}
     elif head == r['if']:
@@ -414,6 +414,7 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
             target_expr = get_agi_list(target_expr)
         go_on = True
         while go_on:
+            loop_count = 0
             found = False
             for i in range(target_expr.size()):
                 result = solve_expression(constraints_expr, rsc_mng, target_expr.get_element(i))
@@ -426,6 +427,9 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
                     break
             if not found:
                 go_on = False
+            loop_count += 1
+            if loop_count == 100:
+                raise AGIException('While loop does not stop.')
     elif head == r['request']:
         # request [obj(1), obj(2)], constraints_expr lines
         registers = line[1]
@@ -467,6 +471,10 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
         except AGIException as e:
             print([cid_reverse[i.concept_id] for i in input_params])
             raise e
+    if code_id == cid_of['func::run_hardcoded_code']:
+        return run_hardcoded_code(input_params)
+    if code_id == cid_of['func::is_code_dynamic']:
+        return is_code_dynamic(input_params)
     # local resource manager creation
     global process_stack
     process_stack.append(Process(code_id, input_params))
@@ -478,7 +486,10 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
         debug_string = '\nEnter process (stack count = ' + str(process_stack[-1].stack_count) + '): ' + '\'' + \
                        'Unknown' + '\'!\n' + 'Input params are:\n'
     for param in input_params:
-        debug_string += '\'' + to_str(param) + '\' '
+        if type(param) == AGIList:
+            debug_string += "'AGIList'"
+        else:
+            debug_string += '\'' + to_str(param) + '\' '
     dout('process', debug_string)
     rsc_mng = ResourceManager(input_params)
     if code is None:
@@ -489,6 +500,7 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
     ci = CodeIterator(method_code)
     # start processing
     while not ci.end_of_code():
+        loop_count = 0
         ci.get_next_line()
         line_return_value = process_line(ci.current_line, rsc_mng)
         if line_return_value['value_type'] == 'return':
@@ -498,7 +510,7 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
             else:
                 dout('process',
                      'Exit process (stack count = ' + str(process_stack[-1].stack_count) + '): \'' + 'Unknown' + '\'!')
-            dout('return', 'Return value is: \'' + to_str(line_return_value['value']) + '\'!\n')
+            # dout('return', 'Return value is: \'' + to_str(line_return_value['value']) + '\'!\n')
             process_stack.pop()
             return line_return_value['value']
         elif line_return_value['value_type'] == 'break':
@@ -506,4 +518,7 @@ def run_code(code_id, input_params: list, code=None) -> AGIObject or None:
         else:
             if line_return_value['value_type'] is not None:
                 raise AGIException('Unexpected value type for a return value of a line.')
+        loop_count += 1
+        if loop_count == 100:
+            raise AGIException('While loop does not stop.')
     return

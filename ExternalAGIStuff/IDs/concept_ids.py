@@ -110,6 +110,10 @@ concepts = [
     'func::get_object_member',
     'func::set_object_member',
     'func::remove_element_by_index',
+    'func::get_input_object',
+    'func::is_code_dynamic',
+    'func::run_hardcoded_code',
+    'func::get_dynamic_code_object',
     # 动态代码
     'func::digit_to_natural_number',
     'func::compare_natural_numbers',
@@ -126,6 +130,10 @@ concepts = [
     'func::run_dynamic_code_object',
     'func::process_line',
     'func::solve_expression',
+    'func::child_indices_equal',
+    'func::remove_one_element',
+    'func::increment',
+    'func::test',
     # 博弈问题策略接口
     'interface::find_winning_determining_variables_find_variable_changing_code',
     'interface_member::winning_determining_variables',

@@ -1,11 +1,11 @@
-debug_on_all = False
+debug_on_all = True
 debug_on = {
     'if': False,
     'for_loop_hint': False,
     'iterator_value': False,
     'for_end_value': False,
     'size': False,
-    'process': False,
+    'process': True,
     'return': False,
     'register': False,
     'line': True,

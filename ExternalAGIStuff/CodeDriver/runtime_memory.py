@@ -80,3 +80,5 @@ class ResourceManager:
                 return register
         raise AGIException('Can\'t find target register.')
 """
+
+

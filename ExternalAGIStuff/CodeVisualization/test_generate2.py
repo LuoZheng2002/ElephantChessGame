@@ -9,11 +9,14 @@ from ElephantChessInstance.VisualizedCode.end_game_func import end_game_func
 from ElephantChessInstance.VisualizedCode.end_game_benefit import end_game_benefit
 from ExternalAGIStuff.FundamentalCode.batch_code import *
 from ExternalAGIStuff.FundamentalCode.Visualized.run_dynamic_code_object import *
+from ExternalAGIStuff.FundamentalCode.Visualized.remove_one_element import remove_one_element
+from ExternalAGIStuff.FundamentalCode.Visualized.increment import increment
 from exception import AGIException
+from visualized_code import visualized_code
 try:
-    generate_code_file(process_line,
-                       '../../ExternalAGIStuff/FundamentalCode/Formatted/process_line_f.py',
-                       'process_line_f')
+    generate_code_file(remove_one_element,
+                       '../../ExternalAGIStuff/FundamentalCode/Formatted/remove_one_element_f.py',
+                       'remove_one_element_f')
     print('Succeeded!')
 except AGIException as e:
     e.show()

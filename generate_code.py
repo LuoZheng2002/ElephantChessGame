@@ -4,8 +4,17 @@ from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
 from ExternalAGIStuff.CodeVisualization.code_browser import letter_to_number
 from exception import AGIException
-fixes = [
-[r['assign_as_reference'], [r['reg'], obj(0), []], [r['input'], obj(0)]], 
-[r['append'], [r['reg'], obj(0), []], [r['concept_instance'], cid_of['1']]], 
+test = [
+[r['assign'], [r['reg'], obj(0), []], [obj(0)]], 
+[r['for'], obj(0), [obj(5)],
+[
+[r['call_none_return_func'], cid_of['func::increment'],
+[
+[r['reg'], obj(0), []],
+[obj(1)]
+]
+]
+]
+], 
 [r['return'], [r['reg'], obj(0), []]]
 ]

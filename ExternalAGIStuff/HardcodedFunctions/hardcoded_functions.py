@@ -1,8 +1,10 @@
-from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject, AGIList
+from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject, AGIList, get_agi_list
 from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from exception import AGIException
 from ExternalAGIStuff.IDs.to_object import to_integer, obj
-from ExternalAGIStuff.CodeDriver.code_driver import get_agi_list
+from ExternalAGIStuff.CodeDriver.code_getter import code_dict, get_code
+from ExternalAGIStuff.code_to_object import code_to_object
+
 
 def compare_concepts(params: list) -> AGIObject:
     if len(params) != 2:
@@ -202,3 +204,16 @@ def remove_element_by_index(params: list):
         target_list = get_agi_list(target_list)
     assert type(target_list) == AGIList
     target_list.remove(to_integer(index))
+
+
+def get_input_object(params: list):
+    input_object = obj(input('Dynamic code simulator asks you to input one param.\n'))
+    return input_object
+
+
+
+def get_dynamic_code_object(params: list):
+    assert type(params[0]) == AGIObject
+    code_id = params[0].concept_id
+    assert code_id in code_dict.keys()
+    return code_to_object(get_code(code_id))

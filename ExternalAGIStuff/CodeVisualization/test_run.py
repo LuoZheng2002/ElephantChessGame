@@ -7,12 +7,12 @@ from ExternalAGIStuff.CodeVisualization.formatted_code import *
 from ElephantChessInstance.instance import xq_chessboard
 from ExternalAGIStuff.FundamentalCode.batch_code import *
 from ElephantChessInstance.FormattedCode.operation_func_f import operation_func_f
-from generate_code import fixes
+from ExternalAGIStuff.FundamentalCode.Formatted.increment_f import increment_f
+from ExternalAGIStuff.code_to_object import code_to_object
+from ExternalAGIStuff.CodeDriver.code_getter import get_code
 from exception import AGIException
 try:
-    a = obj(1)
-    result = run_code(None, [a], fixes)
+    result = run_code(cid_of['func::run_dynamic_code_object'], [code_to_object(get_code(cid_of['func::test'])), AGIList()])
     print(to_str(result))
-    print(to_str(a))
 except AGIException as e:
     e.show()

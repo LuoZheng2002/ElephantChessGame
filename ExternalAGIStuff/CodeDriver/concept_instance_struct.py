@@ -73,3 +73,15 @@ class AGIList:
     def remove(self, index):
         self.forward.pop(index)
         self.update()
+
+
+def get_agi_list(agi_object: AGIObject) -> AGIList:
+    if len(agi_object.attributes) != 1:
+        raise AGIException('Trying to get list from AGIObject but AGIObject has more than one attribute',
+                           special_name='Concept id', special_str=str(agi_object.concept_id))
+    for i in agi_object.attributes.keys():
+        if agi_object.attributes[i] is None:
+            agi_object.attributes[i] = AGIList()
+        elif type(agi_object.attributes[i]) != AGIList:
+            raise AGIException('Target type is not AGIList', special_name='type', special_str=str(type(i)))
+        return agi_object.attributes[i]

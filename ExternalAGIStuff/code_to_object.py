@@ -5,7 +5,6 @@ from ExternalAGIStuff.CodeDriver.runtime_memory import ResourceManager
 from ExternalAGIStuff.IDs.reserved_keywords import r, rr
 from ExternalAGIStuff.CodeDriver.concept_instance_creator import create_concept_instance
 from ExternalAGIStuff.CodeDriver.code_getter import get_code
-from ExternalAGIStuff.HardcodedFunctions.hardcoded_function_ids import hardcoded_function_linker
 from ExternalAGIStuff.IDs.to_object import obj, to_integer, to_str, translate_input
 from ExternalAGIStuff.IDs.concept_ids import cid_of, cid_reverse
 from ExternalAGIStuff.CodeVisualization.code_browser import visualize_line
@@ -145,8 +144,8 @@ def pack_line(line: list) -> AGIObject:
                             cid_of['dc::provided_block']: pack_sub_block(line[3])})
     elif head == r['call_none_return_func']:
         result = AGIObject(cid_of['dcr::call_none_return_func'],
-                           {cid_of['dc::function_name']: line[1],
-                            cid_of['dcr::function_params']: pack_list(line[2], 'expr')})
+                           {cid_of['dc::function_name']: AGIObject(line[1]),
+                            cid_of['dc::function_params']: pack_list(line[2], 'expr')})
     else:
         raise AGIException('Unexpected head.')
     return result

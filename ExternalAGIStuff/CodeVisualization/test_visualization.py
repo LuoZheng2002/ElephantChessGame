@@ -11,7 +11,7 @@ from ElephantChessInstance.FormattedCode.end_game_func_f import end_game_func_f
 from ElephantChessInstance.FormattedCode.end_game_benefit_f import end_game_benefit_f
 from generate_code import fixes
 try:
-    code_result = visualize_code(end_game_benefit_f)
+    code_result = visualize_code(fixes)
     for i in code_result:
         print(i)
 except AGIException as e:
