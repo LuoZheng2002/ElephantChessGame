@@ -4,23 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="checkpoint, struggling with bugs and tons of call stacks">
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/process_stack.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run2.py" afterDir="false" />
+    <list default="true" id="cf61334e-28eb-4ab4-9358-b58c17b55e4c" name="Changes" comment="checkpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/code_driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_creator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/concept_instance_struct.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/runtime_memory.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeDriver/runtime_memory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/code_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate2.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/CodeVisualization/test_generate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/process_line_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/process_line_f.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/run_dynamic_code_object_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/run_dynamic_code_object_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/solve_expression_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Formatted/solve_expression_f.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/run_dynamic_code_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/FundamentalCode/Visualized/run_dynamic_code_object.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_function_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_function_ids.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/HardcodedFunctions/hardcoded_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/concept_ids.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExternalAGIStuff/IDs/to_object.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.py" beforeDir="false" afterPath="$PROJECT_DIR$/debug.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_code.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_python.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_python.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/visualized_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualized_code.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -445,7 +446,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649149736518</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="checkpoint">
+      <created>1649176361886</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1649176361886</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -473,10 +481,10 @@
     <MESSAGE value="Che, Ma, Xiang completed" />
     <MESSAGE value="All completed!" />
     <MESSAGE value="code to object done" />
-    <MESSAGE value="checkpoint" />
     <MESSAGE value="checkpoint, working on run_dynamic_code_object" />
     <MESSAGE value="checkpoint, still working on run_dynamic_code_object" />
     <MESSAGE value="checkpoint, struggling with bugs and tons of call stacks" />
-    <option name="LAST_COMMIT_MESSAGE" value="checkpoint, struggling with bugs and tons of call stacks" />
+    <MESSAGE value="checkpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="checkpoint" />
   </component>
 </project>

@@ -2,7 +2,7 @@ debug_on_all = True
 debug_on = {
     'if': False,
     'for_loop_hint': False,
-    'iterator_value': True,
+    'iterator_value': False,
     'for_end_value': False,
     'size': False,
     'process': False,

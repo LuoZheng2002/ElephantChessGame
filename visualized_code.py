@@ -1,6 +1,5 @@
 visualized_code = '''
-reg0 = 2
-for i in range(3):
-    'func::increment'(reg0, 5)
-return reg0
+request reg2, reg3, s.t.{reg4 === 5}, provided:
+    reg4 = (reg2 + reg3)
+return (reg4 + reg2)
 '''

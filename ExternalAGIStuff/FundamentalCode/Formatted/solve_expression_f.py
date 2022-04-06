@@ -177,7 +177,11 @@ solve_expression_f = [
 ]
 ],
 [
-[r['return'], [r['get_member'], [r['input'], obj(0)], cid_of['dc::concept_name']]]
+[r['return'], [r['call'], cid_of['func::create_concept_instance'],
+[
+[r['get_member'], [r['input'], obj(0)], cid_of['dc::concept_name']]
+]
+]]
 ],
 [],
 []

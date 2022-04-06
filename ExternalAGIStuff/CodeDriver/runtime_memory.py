@@ -84,6 +84,8 @@ class ResourceManager:
         for register in self.registers:
             if register.index == index and register.child_indices == child_indices:
                 return register.value
+        print(index)
+        print(child_indices)
         raise AGIException('Can\'t find target register.')
 
 

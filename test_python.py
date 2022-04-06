@@ -4,11 +4,7 @@ from ExternalAGIStuff.IDs.reserved_keywords import rr
 from ExternalAGIStuff.code_to_object import code_to_object
 from ElephantChessInstance.FormattedCode.operation_func_f import operation_func_f
 from ElephantChessInstance.instance import elephant_chess
-
-
-def a():
-    return
-
-
-b = a()
-print(b)
+from ExternalAGIStuff.CodeDriver.concept_instance_creator import create_concept_instance
+from ExternalAGIStuff.IDs.concept_ids import cid_of
+a = create_concept_instance(cid_of['list'])
+print(a.attributes)

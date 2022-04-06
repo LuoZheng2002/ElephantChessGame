@@ -13,4 +13,5 @@ hardcoded_function_linker = {
     cid_of['func::remove_element_by_index']: remove_element_by_index,
     cid_of['func::get_input_object']: get_input_object,
     cid_of['func::get_dynamic_code_object']: get_dynamic_code_object,
+    cid_of['func::create_concept_instance']: create_concept_instance_func,
 }

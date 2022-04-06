@@ -21,7 +21,6 @@ concept_attributes_dict = {
 
 
 def create_concept_instance(concept_id) -> AGIObject:
-    global concept_attributes_dict
     if concept_id not in concept_attributes_dict.keys():
         return AGIObject(concept_id, dict())
     else:

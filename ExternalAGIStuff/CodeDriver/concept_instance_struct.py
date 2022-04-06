@@ -84,8 +84,12 @@ class AGIList:
 
 def get_agi_list(agi_object: AGIObject) -> AGIList:
     if len(agi_object.attributes) != 1:
+        attributes = []
+        for i in agi_object.attributes.keys():
+            attributes.append(cid_reverse[i])
+        print(attributes)
         raise AGIException('Trying to get list from AGIObject but AGIObject has more than one attribute',
-                           special_name='Concept id', special_str=str(agi_object.concept_id))
+                           special_name='Concept id', special_str=cid_reverse[agi_object.concept_id])
     for i in agi_object.attributes.keys():
         if agi_object.attributes[i] is None:
             agi_object.attributes[i] = AGIList()

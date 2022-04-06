@@ -80,7 +80,10 @@ def solve_expression(expr: list,
         for i in expr[2]:
             input_params.append(solve_expression(i, rsc_mng, target))
         result = run_code(code_id, input_params)
-        assert type(result) == AGIObject
+        """if not type(result) == AGIObject:
+            print(type(result))
+            print(cid_reverse[code_id])
+            assert False"""
         return result
     elif head == r['concept_instance']:
         # concept_type, type_id
@@ -296,7 +299,7 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
             rsc_mng.create_iterator(iter_id)
         else:
             rsc_mng.zero_iterator(iter_id)
-            print('iterator' + str(iter_id) + ' zeroed!')
+            # print('iterator' + str(iter_id) + ' zeroed!')
         is_break = False
         while rsc_mng.get_iterator_value(iter_id) < end_value:
             loop_count = 0

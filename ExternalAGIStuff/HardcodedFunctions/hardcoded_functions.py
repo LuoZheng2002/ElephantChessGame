@@ -4,7 +4,7 @@ from exception import AGIException
 from ExternalAGIStuff.IDs.to_object import to_integer, obj
 from ExternalAGIStuff.CodeDriver.code_getter import code_dict, get_code
 from ExternalAGIStuff.code_to_object import code_to_object
-
+from ExternalAGIStuff.CodeDriver.concept_instance_creator import concept_attributes_dict
 
 def compare_concepts(params: list) -> AGIObject:
     if len(params) != 2:
@@ -209,7 +209,7 @@ def remove_element_by_index(params: list):
 
 
 def get_input_object(params: list):
-    input_object = obj(input('Dynamic code simulator asks you to input one param.\n'))
+    input_object = obj(int(input('Dynamic code simulator asks you to input one param.\n')))
     return input_object
 
 
@@ -219,3 +219,15 @@ def get_dynamic_code_object(params: list):
     code_id = params[0].concept_id
     assert code_id in code_dict.keys()
     return code_to_object(get_code(code_id))
+
+
+def create_concept_instance_func(params: list):
+    assert type(params[0]) == AGIObject
+    concept_id = params[0].concept_id
+    if concept_id not in concept_attributes_dict.keys():
+        return AGIObject(concept_id, dict())
+    else:
+        attributes = dict()
+        for i in concept_attributes_dict[concept_id]:
+            attributes.update({i: None})
+        return AGIObject(concept_id, attributes)

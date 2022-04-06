@@ -114,6 +114,7 @@ concepts = [
     'func::is_code_dynamic',
     'func::run_hardcoded_code',
     'func::get_dynamic_code_object',
+    'func::create_concept_instance',
     # 动态代码
     'func::digit_to_natural_number',
     'func::compare_natural_numbers',

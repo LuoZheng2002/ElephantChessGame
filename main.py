@@ -11,6 +11,8 @@ from ElephantChessInstance.FormattedCode.who_is_next_func_f import who_is_next_f
 from ElephantChessInstance.FormattedCode.end_game_func_f import end_game_func_f
 from ElephantChessInstance.FormattedCode.end_game_benefit_f import end_game_benefit_f
 from ElephantChessInstance.chessboard_browser import print_chessboard
+from ExternalAGIStuff.CodeDriver.code_getter import get_code
+from ExternalAGIStuff.code_to_object import code_to_object
 from copy import deepcopy
 from exception import AGIException
 try:
@@ -23,7 +25,7 @@ try:
             print('Now it\'s red team\'s turn to go!')
         elif whose_turn.concept_id == cid_of['xq::black_team']:
             print('Now it\'s black team\'s turn to go!')
-        current_chessboard = run_code(None, [current_chessboard, whose_turn], operation_func_f)
+        current_chessboard = run_code(cid_of['func::run_dynamic_code_object'], [code_to_object(operation_func_f), AGIList([current_chessboard, whose_turn])])
         end_game = run_code(None, [current_chessboard], end_game_func_f)
         if end_game.concept_id == cid_of['True']:
             print_chessboard(current_chessboard)

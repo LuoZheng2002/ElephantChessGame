@@ -51,7 +51,7 @@ if input0 == 'dcr::call':
         return 'func::run_dynamic_code_object'('func::get_dynamic_code_object'(reg0), reg2)
     return 'func::run_hardcoded_code'(reg0, reg2)
 if input0 == 'dcr::concept_instance':
-    return input0.'dc::concept_name'
+    return 'func::create_concept_instance'(input0.'dc::concept_name')
 if input0 == 'dcr::size':
     reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, None)
     return reg0.size
@@ -120,10 +120,12 @@ if (input0 == 'dcr::assign' or input0 == 'dcr::assign_as_reference'):
     elif (reg0 == 'dcr::at' or reg0 == 'dcr::at_reverse'):
         reg2 &= 'func::solve_expression'(reg0.'dc::target_list', input1, None)
         reg3 &= 'func::solve_expression'(reg0.'dc::index', input1, None)
-        if input0 == 'dcr::at':
+        if reg0 == 'dcr::at':
             reg2[reg3] &= reg1
-        else:
+        elif reg0 == 'dcr::at_reverse':
             reg2[!reg3] &= reg1
+        else:
+            assert False
     else:
         assert False
     return 'dc::line_signal_normal'
@@ -133,11 +135,14 @@ if input0 == 'dcr::return':
     return reg0
 if input0 == 'dcr::for':
     reg0 &= 'func::solve_expression'(input0.'dc::end_value', input1, None)
-    assert not input1.'dc::runtime_iterators'.exist(target.'dc::index' === input0.'dc::iterator_index')
-    reg1 &= 'dc::iterator_container'
-    reg1.'dc::index' &= input0.'dc::iterator_index'
-    reg1.'value' &= 0
-    input1.'dc::runtime_iterators'.append(reg1)
+    if not input1.'dc::runtime_iterators'.exist(target.'dc::index' === input0.'dc::iterator_index'):
+        reg1 &= 'dc::iterator_container'
+        reg1.'dc::index' &= input0.'dc::iterator_index'
+        reg1.'value' &= 0
+        input1.'dc::runtime_iterators'.append(reg1)
+    else:
+        reg1 &= input1.'dc::runtime_iterators'.find(target.'dc::index' === input0.'dc::iterator_index')
+        reg1.'value' &= 0
     for i in range(reg0):
         for j in range(input0.'dc::for_block'.size):
             reg2<i,j> &= 'func::process_line'(input0.'dc::for_block'[j], input1)

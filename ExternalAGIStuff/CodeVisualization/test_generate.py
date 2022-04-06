@@ -11,9 +11,9 @@ from ExternalAGIStuff.FundamentalCode.batch_code import *
 from ExternalAGIStuff.FundamentalCode.Visualized.run_dynamic_code_object import *
 from exception import AGIException
 try:
-    generate_code_file(process_line,
-                       '../../ExternalAGIStuff/FundamentalCode/Formatted/process_line_f.py',
-                       'process_line_f')
+    generate_code_file(solve_expression,
+                       '../../ExternalAGIStuff/FundamentalCode/Formatted/solve_expression_f.py',
+                       'solve_expression_f')
     print('Succeeded!')
 except AGIException as e:
     e.show()
