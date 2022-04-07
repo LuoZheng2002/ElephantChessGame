@@ -5,27 +5,12 @@ from ExternalAGIStuff.CodeDriver.concept_instance_struct import AGIObject
 from ExternalAGIStuff.CodeVisualization.code_browser import letter_to_number
 from exception import AGIException
 test = [
-[r['request'],
-[obj(2), obj(3)],
-[r['call'], cid_of['func::math_equal'],
+[r['assign'], [r['reg'], obj(0), []], [obj(523)]], 
+[r['assign'], [r['reg'], obj(1), []], [r['find'], [r['reg'], obj(0), []], [r['call'], cid_of['func::compare_concepts'],
 [
-[r['reg'], obj(4), []],
-[obj(5)]
+[r['target']],
+[r['concept_instance'], cid_of['5']]
 ]
-],
-[
-[r['assign'], [r['reg'], obj(4), []], [r['call'], cid_of['func::sum'],
-[
-[r['reg'], obj(2), []],
-[r['reg'], obj(3), []]
-]
-]]
-]
-], 
-[r['return'], [r['call'], cid_of['func::sum'],
-[
-[r['reg'], obj(4), []],
-[r['reg'], obj(2), []]
-]
-]]
+]]], 
+[r['return'], [r['reg'], obj(1), []]]
 ]

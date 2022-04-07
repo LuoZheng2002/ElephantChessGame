@@ -55,7 +55,7 @@ solve_expression_f = [
 [
 [r['at'], [r['get_member'], [r['input'], obj(0)], cid_of['dc::child_indices']], [r['iterator'], obj(0)]],
 [r['input'], obj(1)],
-[r['concept_instance'], cid_of['None']]
+[r['input'], obj(2)]
 ]
 ]]
 ]
@@ -135,7 +135,7 @@ solve_expression_f = [
 [
 [r['at'], [r['reg'], obj(1), []], [r['iterator'], obj(0)]],
 [r['input'], obj(1)],
-[r['concept_instance'], cid_of['None']]
+[r['input'], obj(2)]
 ]
 ]]
 ]
@@ -197,7 +197,7 @@ solve_expression_f = [
 [
 [r['get_member'], [r['input'], obj(0)], cid_of['dc::target_list']],
 [r['input'], obj(1)],
-[r['concept_instance'], cid_of['None']]
+[r['input'], obj(2)]
 ]
 ]], 
 [r['return'], [r['size'], [r['reg'], obj(0), []]]]
@@ -226,14 +226,14 @@ solve_expression_f = [
 [
 [r['get_member'], [r['input'], obj(0)], cid_of['dc::target_list']],
 [r['input'], obj(1)],
-[r['concept_instance'], cid_of['None']]
+[r['input'], obj(2)]
 ]
 ]], 
 [r['assign_as_reference'], [r['reg'], obj(1), []], [r['call'], cid_of['func::solve_expression'],
 [
 [r['get_member'], [r['input'], obj(0)], cid_of['dc::index']],
 [r['input'], obj(1)],
-[r['concept_instance'], cid_of['None']]
+[r['input'], obj(2)]
 ]
 ]], 
 [r['if'], [r['call'], cid_of['func::compare_concepts'],
@@ -264,7 +264,7 @@ solve_expression_f = [
 [
 [r['get_member'], [r['input'], obj(0)], cid_of['dc::target_object']],
 [r['input'], obj(1)],
-[r['concept_instance'], cid_of['None']]
+[r['input'], obj(2)]
 ]
 ]], 
 [r['return'], [r['call'], cid_of['func::get_object_member'],
@@ -319,7 +319,7 @@ solve_expression_f = [
 [
 [r['get_member'], [r['input'], obj(0)], cid_of['dc::target_list']],
 [r['input'], obj(1)],
-[r['concept_instance'], cid_of['None']]
+[r['input'], obj(2)]
 ]
 ]], 
 [r['for'], obj(0), [r['size'], [r['reg'], obj(0), []]],
@@ -381,7 +381,7 @@ solve_expression_f = [
 [
 [r['get_member'], [r['input'], obj(0)], cid_of['dc::target_list']],
 [r['input'], obj(1)],
-[r['concept_instance'], cid_of['None']]
+[r['input'], obj(2)]
 ]
 ]], 
 [r['assign_as_reference'], [r['reg'], obj(1), []], [obj(0)]], 

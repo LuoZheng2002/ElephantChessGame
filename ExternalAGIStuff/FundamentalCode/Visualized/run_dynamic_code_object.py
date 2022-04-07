@@ -35,7 +35,7 @@ if input0 == 'dcr::reg':
     reg0 &= input0.'dc::index'
     reg1 &= 'list'
     for i in range(input0.'dc::child_indices'.size):
-        reg1[i] &= 'func::solve_expression'(input0.'dc::child_indices'[i], input1, None)
+        reg1[i] &= 'func::solve_expression'(input0.'dc::child_indices'[i], input1, input2)
     assert input1.'dc::runtime_registers'.exist((target.'dc::index' === reg0 and 'func::child_indices_equal'(target.'dc::child_indices', reg1)))
     return input1.'dc::runtime_registers'.find((target.'dc::index' === reg0 and 'func::child_indices_equal'(target.'dc::child_indices', reg1))).'value'
 if input0 == 'dcr::iterator':
@@ -46,29 +46,29 @@ if input0 == 'dcr::call':
     reg1 &= input0.'dc::function_params'
     reg2 &= 'list'
     for i in range(reg1.size):
-        reg2.append('func::solve_expression'(reg1[i], input1, None))
+        reg2.append('func::solve_expression'(reg1[i], input1, input2))
     if 'func::is_code_dynamic'(reg0):
         return 'func::run_dynamic_code_object'('func::get_dynamic_code_object'(reg0), reg2)
     return 'func::run_hardcoded_code'(reg0, reg2)
 if input0 == 'dcr::concept_instance':
     return 'func::create_concept_instance'(input0.'dc::concept_name')
 if input0 == 'dcr::size':
-    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, None)
+    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, input2)
     return reg0.size
 if (input0 == 'dcr::at' or input0 == 'dcr::at_reverse'):
-    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, None)
-    reg1 &= 'func::solve_expression'(input0.'dc::index', input1, None)
+    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, input2)
+    reg1 &= 'func::solve_expression'(input0.'dc::index', input1, input2)
     if input0 == 'dcr::at':
         return reg0[reg1]
     return reg0[!reg1]
 if input0 == 'dcr::get_member':
-    reg0 &= 'func::solve_expression'(input0.'dc::target_object', input1, None)
+    reg0 &= 'func::solve_expression'(input0.'dc::target_object', input1, input2)
     return 'func::get_object_member'(reg0, input0.'dc::member_name')
 if input0 == 'dcr::target':
     assert input2 != None
     return input2
 if (input0 == 'dcr::find' or input0 == 'dcr::exist'):
-    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, None)
+    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, input2)
     for i in range(reg0.size):
         if 'func::solve_expression'(input0.'dc::expression_for_constraint', input1, reg0[i]):
             if input0 == 'dcr::find':
@@ -80,7 +80,7 @@ if (input0 == 'dcr::find' or input0 == 'dcr::exist'):
     else:
         return False
 if input0 == 'dcr::count':
-    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, None)
+    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, input2)
     reg1 &= 0
     for i in range(reg0.size):
         if 'func::solve_expression'(input0.'dc::expression_for_constraint', input1, reg0[i]):

@@ -38,7 +38,6 @@ class AGIList:
         self.update()
 
     def set_reverse(self, index, value):
-        raise AGIException('Set Reverse!', special_str=str(cid_reverse[process_stack[-1].code_id]), special_name='code_id')
         if len(self.reverse) == index:
             self.reverse.append(value)
         elif len(self.reverse) < index:
@@ -51,7 +50,14 @@ class AGIList:
         self.update()
 
     def get_element(self, index) -> any:
-        return self.value[index]
+        try:
+            return self.value[index]
+        except IndexError:
+            print('index: ' + str(index))
+            print('value: ' + str(self.value))
+            print('forward: ' + str(self.forward))
+            print('reverse: ' + str(self.reverse))
+            raise AGIException('index error!', special_name='code_id', special_str=cid_reverse[process_stack[-1].code_id])
 
     def get_element_reverse(self, index) -> any:
         if len(self.value) - index - 1 < 0:

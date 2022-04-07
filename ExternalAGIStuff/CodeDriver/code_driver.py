@@ -23,6 +23,7 @@ class Process:
         self.code_id = code_id
         self.input_params = input_params
         self.stack_count = Process.next_stack_count
+        self.line = 0
         Process.next_stack_count += 1
 
     def __del__(self):
@@ -189,8 +190,8 @@ def solve_expression(expr: list,
 
 def process_line(line, rsc_mng: ResourceManager) -> dict:
     # return value: {value_type:None/'break'/'return', value:None/None/[return value]}
-    global process_stack
-    if debug_on_all and debug_on['line'] and len(process_stack) == 2:
+    process_stack[-1].line += 1
+    if debug_on_all and debug_on['line']:
         visualized = visualize_line(line)
         for i in visualized:
             print(i)
@@ -301,7 +302,9 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
             rsc_mng.zero_iterator(iter_id)
             # print('iterator' + str(iter_id) + ' zeroed!')
         is_break = False
-        while rsc_mng.get_iterator_value(iter_id) < end_value:
+        while True:
+            if end_value == 0:
+                break
             loop_count = 0
             dout('for_loop_hint', 'for looped!')
             if process_stack[-1].stack_count == 0:
@@ -320,10 +323,13 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
             if is_break:
                 break
             rsc_mng.update_iterator(iter_id)
+            if rsc_mng.get_iterator_value(iter_id) == end_value:
+                break
             # print('iterator' + str(iter_id) + ' updated!')
             loop_count += 1
             if loop_count == 100:
                 raise AGIException('While loop does not stop.')
+            process_stack[-1].line -= len(for_lines)
     elif head == r['while']:
         # format: [while, statement, [line1, line2, line3, ...]]
         statement = line[1]
@@ -408,7 +414,7 @@ def process_line(line, rsc_mng: ResourceManager) -> dict:
     elif head == r['assert']:
         target_expr = line[1]
         if solve_expression(target_expr, rsc_mng).concept_id == cid_of['False']:
-            raise AGIException('Assertion Failed in Dynamic Code!')
+            raise AGIException('Assertion Failed in Dynamic Code!', special_name='code_id',special_str=cid_reverse[process_stack[-1].code_id])
     elif head == r['append']:
         # append, array, element
         target_expr = solve_expression(line[1], rsc_mng)
